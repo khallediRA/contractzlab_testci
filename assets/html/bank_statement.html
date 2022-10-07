@@ -1,0 +1,188 @@
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+    <title>relevee</title>
+</head>
+
+<body>
+    <style>
+        section.heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+        }
+        section.heading h3{
+            font-family: 'Quicksand', arial, serif;
+        }
+        body {
+            margin: auto;
+            max-width: 1140px;
+            font-family: 'Quicksand', arial, serif;
+        }
+
+        .table-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .dates-container {
+            display: flex;
+            align-items: center;
+        }
+
+        table {
+            width: 100%;
+            margin-top: 2rem;
+            border-collapse: collapse;
+        }
+        table th{
+            text-align: left;
+            background-color: #ebeef8;
+            padding-left: 10px;
+            color: #717fa4;
+        }
+        table td{
+            height: 2rem;
+            padding-left: 10px;
+        }
+        table th:first-child{
+            border-top-left-radius: 11px;
+            border-bottom-left-radius: 11px;
+        }
+        table th:last-child{
+            border-top-right-radius: 11px;
+            border-bottom-right-radius: 11px;
+        }
+        table thead{
+            height: 3rem;
+        }
+        .society-informations h1 {
+            font-size: 18px;
+            color: #4f7ae4;
+            margin-bottom: 0;
+            font-family: 'Quicksand', arial, serif;
+        }
+
+        .society-informations p {
+            font-size: 14px;
+            color: #717fa4;
+            margin-top: 0;
+            font-family: 'Quicksand', arial, serif;
+        }
+
+        .society-informations h2 {
+            font-size: 20px;
+            color: black;
+            margin-bottom: 0;
+            margin-top: 2rem;
+            font-family: 'Quicksand', arial, serif;
+        }
+        .dates-container p, .dates-container label{
+            margin-right: 7px;
+        }
+        .dates-container p{
+            color: #717fa4;
+        }
+        .dates-container label{
+            color: black;
+        }
+        .old-balance-container p{
+            color: #717fa4;
+            margin-bottom: 0;
+        }
+
+        .table-footer{
+            width: 25%;
+            margin-left: auto;
+            margin-top: 3rem;
+        }
+        .commission{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .commission label{
+            color: black;
+            font-size: 14px;
+            font-weight: 700;
+        }
+        div.new-balance-container{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 11px;
+            width: 30%;
+            margin-left: auto;
+            background-color: #ebeef8;
+            margin-top: 1rem;
+            padding: 0 1rem;
+        }
+    </style>
+    <section class="heading">
+        <img src="https://jban.fr/assets/images/LOGO_JBAN-2.png" alt="logo">
+        <h3>PAGE 1/1</h3>
+    </section>
+    <section class="society-informations">
+        <h1>Relevé d'opérations</h1>
+        <p>Compte professionnel en euros</p>
+        <h2 class="society-name"><%=accountHolderName%></h2>
+        <p><%=accountHolderAddress.split(',')[0]%></br><%=accountHolderAddress.split(',')[1]%></p>
+    </section>
+    <section class="statement-table">
+        <div class="table-heading">
+            <div class="dates-container">
+                <p>Du</p>
+                <label><%= start %></label>
+                <p>au</p>
+                <label><%= end %></label>
+            </div>
+            <div class="old-balance-container">
+                <p>Ancien solde</p>
+                <label><%= oldBalance %></label>
+            </div>
+        </div>
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Opération</th>
+                    <th>Crédit (euro)</th>
+                    <th>Débit (euro)</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% for(var i = 0; i < transactions.length; i++) { %>
+                    <tr>
+                        <td data-column="Date"><%=transactions[i].date%></td>
+                        <td data-column="Type"><%=transactions[i].type%></td>
+                        <td data-column="Opération"><%=transactions[i].label%></td>
+                        <td data-column="Crédit (euro)"><%=transactions[i].credit%></td>
+                        <td data-column="Débit (euro)"><%=transactions[i].debit%></td>
+                    </tr>
+                <% } %>
+            </tbody>
+        </table>
+        <div class="table-footer">
+            <div class="commission">
+                <label>Commissions</label>
+                <label><%=commisions%></label>
+            </div>
+            <div class="commission">
+                <label>Total</label>
+                <label>0.00</label>
+            </div>
+        </div>
+        <div class="new-balance-container">
+            <p>Nouveau solde</p>
+            <p><%=newBalance%></p>
+        </div>
+    </section>
+</body>
