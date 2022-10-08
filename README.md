@@ -1,6 +1,6 @@
 # Kishi-NodeJS
 
-Kishi-NodeJS is a backend server template and framework that is MySQL Database centred.
+Kishi-NodeJS is a backend server template and framework based on MySQL Databases.
 
 ## models
 
