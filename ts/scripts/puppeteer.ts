@@ -15,34 +15,15 @@ process
 
 let browser: Browser
 (async () => {
-  // fs.writeFileSync(`docs/pup.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
+  fs.writeFileSync(`docs/pup.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
   browser = await puppeteer.launch()
-
   const queries = [
-    ["PARIS (75019)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75019)", "Cardiologue"],
-    ["PARIS (75018)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75018)", "Cardiologue"],
-    ["PARIS (75014)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75014)", "Cardiologue"],
-    ["PARIS (75013)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75013)", "Cardiologue"],
-    ["PARIS (75012)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75012)", "Cardiologue"],
-    ["PARIS (75011)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75011)", "Cardiologue"],
-    ["PARIS (75010)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75010)", "Cardiologue"],
-    ["PARIS (75009)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75009)", "Cardiologue"],
-    ["PARIS (75004)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75004)", "Cardiologue"],
-    ["PARIS (75003)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75003)", "Cardiologue"],
-    ["PARIS (75002)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75002)", "Cardiologue"],
-    ["PARIS (75001)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75001)", "Cardiologue"],
+    ["PARIS (75016)", "Généraliste (Médecin généraliste)"],
+    ["PARIS (75016)", "Cardiologue"],
+    ["PARIS (75016)", "Diabétologue (Endocrinologue-diabétologue)"],
+    ["BOULOGNE (85)", "Généraliste (Médecin généraliste)"],
+    ["BOULOGNE (85)", "Cardiologue"],
+    ["BOULOGNE (85)", "Diabétologue (Endocrinologue-diabétologue)"],
   ]
   for (const [_address, _profession] of queries) {
     fs.writeFileSync(`docs/pup-${_address}-${_profession}.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
@@ -94,7 +75,7 @@ let browser: Browser
       await QueueLib.Wait(1000)
       const items = await page.$$('[class="item-professionnel-inner"]')
       console.log(`${_address}-${_profession}-${counter}:${items.length}`);
-      if (items.length == 0 && counter > 1) {
+      if (items.length == 0) {
         await page.goBack()
         console.log("goBack");
         await page.waitForNetworkIdle()
