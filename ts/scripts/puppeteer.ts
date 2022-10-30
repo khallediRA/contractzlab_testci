@@ -15,15 +15,18 @@ process
 
 let browser: Browser
 (async () => {
-  fs.writeFileSync(`docs/pup.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
+  // fs.writeFileSync(`docs/pup.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
   browser = await puppeteer.launch()
+
   const queries = [
-    ["PARIS (75016)", "Généraliste (Médecin généraliste)"],
-    ["PARIS (75016)", "Cardiologue"],
-    ["PARIS (75016)", "Diabétologue (Endocrinologue-diabétologue)"],
-    ["BOULOGNE (85)", "Généraliste (Médecin généraliste)"],
-    ["BOULOGNE (85)", "Cardiologue"],
-    ["BOULOGNE (85)", "Diabétologue (Endocrinologue-diabétologue)"],
+    ["92100", "Généraliste (Médecin généraliste)"],
+    ["92100", "Cardiologue"],
+    ["92130", "Généraliste (Médecin généraliste)"],
+    ["92130", "Cardiologue"],
+    ["92200", "Généraliste (Médecin généraliste)"],
+    ["92200", "Cardiologue"],
+    ["92300", "Généraliste (Médecin généraliste)"],
+    ["92300", "Cardiologue"],
   ]
   for (const [_address, _profession] of queries) {
     fs.writeFileSync(`docs/pup-${_address}-${_profession}.csv`, `profession:firstName:lastName:phoneNumber:address:hours:sector\n`)
@@ -75,7 +78,7 @@ let browser: Browser
       await QueueLib.Wait(1000)
       const items = await page.$$('[class="item-professionnel-inner"]')
       console.log(`${_address}-${_profession}-${counter}:${items.length}`);
-      if (items.length == 0) {
+      if (items.length == 0 && counter > 1) {
         await page.goBack()
         console.log("goBack");
         await page.waitForNetworkIdle()
