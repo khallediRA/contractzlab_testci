@@ -37,7 +37,6 @@ export class KishiModel extends Model {
     models: string[];
   };
   static crudOptions: CrudOptions = {}
-  static parentAssociationName?: string;
   static initialHooks: Partial<ModelHooks<KishiModel, Attributes<KishiModel>>> = {};
   static schemas: Record<string, string[]> = {};
   static initialAttributes: KishiModelAttributes = {};
@@ -397,7 +396,7 @@ export class KishiModel extends Model {
       attribute = attribute as KishiModelAttributeColumnOptions
       initDataType(this, attributeName, attribute)
       this.initialAttributes[attributeName] = attribute;
-      (attribute.type as KishiDataType)?.Init?.(this,attribute);
+      (attribute.type as KishiDataType)?.Init?.(this, attribute);
     }
     this.init(this.initialAttributes, {
       sequelize,
@@ -1486,11 +1485,15 @@ export class KishiModel extends Model {
       return result as KishiModel
     }
     values = values || {};
-    if (this.parentOptions) {
-      const { descriminator } = this.parentOptions
-      if (values[descriminator]) {
-        values[values[descriminator]] = values[values[descriminator]] || {}
-      }
+    if (this.ParentModel?.parentOptions) {
+      const { descriminator } = this.ParentModel.parentOptions
+      values[this.ParentModel.name] = values[this.ParentModel.name] || {}
+      values[this.ParentModel.name][descriminator] = this.name
+    }
+    for (const InterfaceModel of this.InterfaceModels || []) {
+      const { descriminator = "" } = InterfaceModel.interfaceOptions || {}
+      values[InterfaceModel.name] = values[InterfaceModel.name] || {}
+      values[InterfaceModel.name][descriminator] = this.name
     }
     const associations = this.finalAssociations;
     for (const name in associations) {
@@ -1508,11 +1511,6 @@ export class KishiModel extends Model {
     }
     const created = await this.create(values, options)
     try {
-      for (const InterfaceModel of this.InterfaceModels || []) {
-        const { descriminator = "" } = InterfaceModel.interfaceOptions || {}
-        values[InterfaceModel.name] = values[InterfaceModel.name] || {}
-        values[InterfaceModel.name][descriminator] = this.name
-      }
       for (const name in associations) {
         let association = associations[name]
         if (!values[name]) continue

@@ -142,10 +142,8 @@ export let config = {
   register: [],
   frontEndName: process.env.CLIENT_NAME || "",
   frontEndUrl: process.env.CLIENT_URL || "",
-  passwordSecret: process.env.AUTH_PASSWORD_SECRET || "",
   token_ip: process.env.DEV_MODE ? false : true,
   token_expiresIn: 7 * 24 * 60 * 60,
-  passwordSecret_ignore: process.env.DEV_MODE ? true : false,
 };
 config.S3.urlPrefix = `https://${config.S3.BUCKET}.s3.${config.S3.REGION}.amazonaws.com/`
 config.server.publicUrl = `${config.server.protocol}${config.server.ip}:${config.server.port}`

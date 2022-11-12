@@ -4,7 +4,7 @@
   "description": "",
   "main": "js/server.js",
   "scripts": {
-    "stripe-listen":"stripe listen --forward-to localhost:4000/webhook/stripe",
+    "stripe-listen": "stripe listen --forward-to localhost:4000/webhook/stripe",
     "setup": "npm install && npm install --global sequelize-auto-migrations-vk sequelize-cli typescript",
     "setup-migrations": "sequelize init --models-path .\\js\\models",
     "build": "tsc --build",
@@ -12,8 +12,7 @@
     "runmigration": "npm run build && runmigration --models-path .\\js\\models",
     "generate-interfaces": "node js/scripts/generateInterfaces.js",
     "generate-vapid-keys": "npx web-push generate-vapid-keys",
-    "start": "npm run runmigration && node --max-old-space-size=8192 js/server.js",
-    "dev": "tsc --build && node js/server.js --max-old-space-size=8192",
+    "start": "tsc --build && node js/server.js --max-old-space-size=8192",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "nodemonConfig": {

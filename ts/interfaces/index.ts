@@ -10,3 +10,4 @@ export * from "./IModelC";
 export * from "./IModelD";
 export * from "./IInterfaceA";
 export * from "./IParentA";
+export * from "./IStripeChargeRecord";
