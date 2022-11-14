@@ -4,7 +4,7 @@ export interface INotification_User {
 	seenDate?: Date;
 	createdAt?: Date;
 	updatedAt?: Date;
-	UserId?: number;
+	UserId?: string;
 	NotificationId?: number;
 
 }

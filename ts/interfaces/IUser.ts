@@ -4,7 +4,7 @@ import { INotification_User } from "./INotification_User";
 import { IEvent } from "./IEvent";
 import { IEvent_User } from "./IEvent_User";
 export interface IUser {
-	id?: number;
+	id?: string;
 	activated?: boolean;
 	passwordChangedDate?: Date;
 	logoutDate?: Date;
@@ -21,7 +21,7 @@ export interface IUser {
 	createdAt?: Date;
 	updatedAt?: Date;
 	Admin?: Omit<IAdmin, "User">;
-	AdminId?: number;
+	AdminId?: string;
 	notifications?: (Omit<INotification, "users" | "usersId"> & { Notification_User?: INotification_User })[];
 	notificationsId?: (number)[];
 	Event_as_users?: (Omit<IEvent, "users" | "usersId"> & { Event_User?: IEvent_User })[];

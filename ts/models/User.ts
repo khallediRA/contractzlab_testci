@@ -19,9 +19,9 @@ export class User extends KishiModel {
   }
   static initialAttributes: KishiModelAttributes = {
     id: {
-      type: KishiDataTypes.INTEGER,
+      type: KishiDataTypes.UUID,
       primaryKey: true,
-      autoIncrement: true,
+      defaultValue: KishiDataTypes.UUIDV4,
     },
     activated: {
       type: KishiDataTypes.BOOLEAN,

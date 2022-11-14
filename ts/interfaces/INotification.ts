@@ -10,7 +10,7 @@ export interface INotification {
 	createdAt?: Date;
 	updatedAt?: Date;
 	users?: (Omit<IUser, "notifications" | "notificationsId"> & { Notification_User?: INotification_User })[];
-	usersId?: (number)[];
+	usersId?: (string)[];
 
 }
 export const keysofINotification: (keyof INotification)[] = ["id", "type", "message", "ressourceName", "ressourceId", "triggeredBy", "createdAt", "updatedAt", "users", "usersId"]

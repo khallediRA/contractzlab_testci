@@ -11,7 +11,7 @@ export interface IEvent {
 	createdAt?: Date;
 	updatedAt?: Date;
 	users?: (Omit<IUser, "Event_as_users" | "Event_as_usersId"> & { Event_User?: IEvent_User })[];
-	usersId?: (number)[];
+	usersId?: (string)[];
 
 }
 export const keysofIEvent: (keyof IEvent)[] = ["id", "title", "flag", "startDate", "endDate", "allDay", "description", "createdAt", "updatedAt", "users", "usersId"]

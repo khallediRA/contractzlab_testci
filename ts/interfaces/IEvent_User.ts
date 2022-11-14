@@ -4,7 +4,7 @@ export interface IEvent_User {
 	createdAt?: Date;
 	updatedAt?: Date;
 	EventId?: number;
-	UserId?: number;
+	UserId?: string;
 
 }
 export const keysofIEvent_User: (keyof IEvent_User)[] = ["id", "createdAt", "updatedAt", "EventId", "UserId"]
