@@ -8,8 +8,9 @@ import { KishiModel } from "../sequelize";
 
 import { User } from "../models";
 import { IUser } from "../interfaces";
+import { FindOptions } from "sequelize";
 
-const { auth: { tokenSecret, passwordSecret, lockIp, tokenExpiration } } = config;
+const { auth: { tokenSecret, passwordSecret, lockIp, tokenExpiration, signUpTypes } } = config;
 
 type TokenDecode = { ip: string, userId: any, date: Date }
 function decodePasswordFront(password: string) {
@@ -69,11 +70,17 @@ export class UserAuthService {
 	static signUp: RequestHandler = async (req, res, next) => {
 		try {
 			const data = req.body;
-			const user = await User.Create(data) as User
-			if (!user) throw { message: "SignUp Failed", status: 400 };
+			const type = req.query["type"] as string
+			if (!signUpTypes.includes(type))
+				throw `Unvalid signUpType ${type}`
+			const Model = User.sequelize?.models[type] as typeof KishiModel
+			const createdInstance = await Model.Create(data) as KishiModel
+			if (!createdInstance) throw { message: "SignUp Failed", status: 400 };
+			const instance = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("pure", true)) as KishiModel
+			const user = instance.get("User") as User
 			let token = UserAuthService.generateToken(user, req)
-			const view = user.toView()
-			res.status(200).send({ token: token, user: view });
+			const view = instance.toView()
+			res.status(200).send({ token: token, user: view, row: instance });
 		} catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
 	};
 	static verifyUser: RequestHandler = async (req, res, next) => {
@@ -99,6 +106,11 @@ export class UserAuthService {
 		} catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
 	};
 	static Init(models: { [name: string]: typeof KishiModel }, router: Router) {
+		for (const signUpType of signUpTypes) {
+			const Model = models[signUpType]
+			if (!(Model?.ParentModel == User))
+				throw `Unvalid signUpType ${signUpType}`
+		}
 		router.post("/auth/signIn", this.signIn)
 		router.post("/auth/signUp", this.signUp)
 		router.get("/auth/", this.verifyUser)

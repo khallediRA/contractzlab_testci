@@ -6,7 +6,7 @@ process
   .on('unhandledRejection', (reason, p) => {
     console.error(reason, 'Unhandled Rejection at Promise', p);
     console.error(new Error().stack);
-    
+
   })
   .on('uncaughtException', err => {
     console.error(err, 'Uncaught Exception thrown');
@@ -16,6 +16,7 @@ export let config = {
   logPath: process.env.LOG_PATH || "logs",
   uploadPath: process.env.UPLOAD_PATH || "uploads",
   auth: {
+    signUpTypes: [] as string[],
     tokenSecret: process.env.AUTH_TOKEN_SECRET || "AUTH_Secret",
     passwordSecret: process.env.AUTH_PASSWORD_SECRET || "",
     lockIp: process.env.AUTH_lOCK_IP ? true : false,
