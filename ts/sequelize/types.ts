@@ -341,8 +341,7 @@ export function isRealizer(association: FinalAssociation) {
   return association.type == "belongsTo" && association.realizer == true
 }
 export function isPCIR(association: FinalAssociation) {
-  return association.type == "belongsTo" && (association.parent || association.realizer)
-    || (association.type == "hasOne" && (association.otherAssociation?.realizer || association.otherAssociation?.parent))
+  return isParent(association) || isChild(association)|| isInterface(association)|| isRealizer(association)
 
 }
 export function isPI(association: FinalAssociation) {
