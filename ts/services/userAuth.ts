@@ -75,7 +75,8 @@ export class UserAuthService {
 			if (!signUpTypes.includes(type))
 				throw `Unvalid signUpType ${type}`
 			const Model = User.sequelize?.models[type] as typeof KishiModel
-			const createdInstance = await Model.Create(data) as KishiModel
+			const createData = Model.fromView(data)
+			const createdInstance = await Model.Create(createData) as KishiModel
 			if (!createdInstance) throw { message: "SignUp Failed", status: 400 };
 			const row = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("nested", true)) as KishiModel
 			const user = (row as any).User as User
