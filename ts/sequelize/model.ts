@@ -1150,49 +1150,6 @@ export class KishiModel extends Model {
   static get interfaceName(): string {
     return "I" + this.name
   }
-  static GetInterfaceFields(): [string, string][] {
-    let out: [string, string][] = []
-    const attribtues = this.getAttributes();
-    // const queryGenerator = this.sequelize?.getQueryInterface().queryGenerator as any
-    for (const attributeName in attribtues) {
-      const attribute = attribtues[attributeName];
-      const type = attribute.type
-      let attTypeStr: string = "";
-      const ts_typeStr = (attribute as any as KishiDataType).ts_typeStr
-      if (ts_typeStr) {
-        attTypeStr = ts_typeStr
-      } else {
-        const key = type.constructor.name as string
-        switch (key as keyof typeof DataTypes) {
-          case "CITEXT":
-          case "STRING":
-          case "TEXT":
-          case "UUID":
-          case "UUIDV1":
-          case "UUIDV4":
-            attTypeStr = "string"; break;
-          case "INET":
-          case "INTEGER":
-          case "TINYINT":
-            attTypeStr = "number"; break;
-          case "BOOLEAN":
-            attTypeStr = "boolean"; break;
-          case "DATE":
-          case "DATEONLY":
-            attTypeStr = "Date"; break;
-          case "ENUM":
-            attTypeStr = ((type as any).values as string[]).map(value => `'${value}'`).join(" | "); break;
-          default:
-            attTypeStr = "any"
-            console.warn(`${this.name}.${attributeName}`);
-            console.warn(type);
-            break;
-        }
-      }
-      out.push([attributeName, attTypeStr])
-    }
-    return out
-  }
 
   toView(stack: string[] = []): any {
     return this.Model.toView(this, stack)

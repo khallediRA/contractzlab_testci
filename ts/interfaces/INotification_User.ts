@@ -8,4 +8,3 @@ export interface INotification_User {
 	NotificationId?: number;
 
 }
-export const keysofINotification_User: (keyof INotification_User)[] = ["id", "seenDate", "createdAt", "updatedAt", "UserId", "NotificationId"]

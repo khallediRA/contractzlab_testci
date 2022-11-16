@@ -10,4 +10,3 @@ export interface IParentA {
 	ModelAId?: string;
 
 }
-export const keysofIParentA: (keyof IParentA)[] = ["id", "geoPoint", "data", "ParentAType", "createdAt", "updatedAt", "ModelA", "ModelAId"]

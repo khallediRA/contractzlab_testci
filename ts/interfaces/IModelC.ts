@@ -8,4 +8,3 @@ export interface IModelC {
 	InterfaceAId?: string;
 
 }
-export const keysofIModelC: (keyof IModelC)[] = ["id", "data", "createdAt", "updatedAt", "InterfaceA", "InterfaceAId"]

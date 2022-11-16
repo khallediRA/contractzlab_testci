@@ -7,4 +7,3 @@ export interface IModelD {
 	updatedAt?: Date;
 
 }
-export const keysofIModelD: (keyof IModelD)[] = ["id", "name", "text", "file", "createdAt", "updatedAt"]

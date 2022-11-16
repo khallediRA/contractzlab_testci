@@ -11,4 +11,3 @@ export interface IModelB {
 	ModelA_as_modelsB?: Omit<IModelA, "modelsB" | "modelsBId">;
 
 }
-export const keysofIModelB: (keyof IModelB)[] = ["id", "data", "createdAt", "updatedAt", "modelAId", "InterfaceA", "InterfaceAId", "ModelA_as_modelsB"]

@@ -1,6 +1,6 @@
 import { IUser } from "./IUser";
 import { IEvent_User } from "./IEvent_User";
-export interface IEvent {
+export type IEvent = {
 	id?: number;
 	title?: string;
 	flag?: 'Custom';
@@ -14,3 +14,4 @@ export interface IEvent {
 	usersId?: (string)[];
 
 }
+export const keysofIEvent: (keyof IEvent)[] = ["id", "title", "flag", "startDate", "endDate", "allDay", "description", "createdAt", "updatedAt", "users", "usersId"]

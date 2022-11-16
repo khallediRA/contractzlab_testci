@@ -1,7 +1,7 @@
 import { IModelB } from "./IModelB";
 import { IInterfaceA } from "./IInterfaceA";
 import { IParentA } from "./IParentA";
-export interface IModelA {
+export type IModelA = Omit<IInterfaceA, "ModelA" | "ModelB" | "ModelC" | "ModelAId" | "ModelBId" | "ModelCId"> & Omit<IParentA, "ModelA" | "ModelAId"> & {
 	id?: string;
 	days?: ('Fri' | 'Mon' | 'Satur' | 'Sun' | 'Thurs' | 'Tues' | 'Wendes')[];
 	geoPoint?: [number,number];
@@ -15,8 +15,6 @@ export interface IModelA {
 	updatedAt?: Date;
 	modelsB?: (Omit<IModelB, "ModelA_as_modelsB" | "ModelA_as_modelsBId">)[];
 	modelsBId?: (string)[];
-	InterfaceA?: Omit<IInterfaceA, "ModelA" | "ModelB" | "ModelC" | "ModelAId" | "ModelBId" | "ModelCId">;
-	InterfaceAId?: string;
-	ParentA?: Omit<IParentA, "ModelA" | "ModelAId">;
 
 }
+export const keysofIModelA: (keyof IModelA)[] = ["id", "days", "geoPoint", "geoPolygon", "hashedPass", "profilePhoto", "documents", "s3File", "data", "createdAt", "updatedAt", "modelsB", "modelsBId"]

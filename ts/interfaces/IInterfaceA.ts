@@ -13,4 +13,3 @@ export interface IInterfaceA {
 	ModelC?: Omit<IModelC, "InterfaceA" | "InterfaceAId">;
 
 }
-export const keysofIInterfaceA: (keyof IInterfaceA)[] = ["id", "geoPoint", "data", "InterfaceAType", "createdAt", "updatedAt", "ModelA", "ModelB", "ModelC"]

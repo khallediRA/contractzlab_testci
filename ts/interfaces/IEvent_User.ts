@@ -7,4 +7,3 @@ export interface IEvent_User {
 	UserId?: string;
 
 }
-export const keysofIEvent_User: (keyof IEvent_User)[] = ["id", "createdAt", "updatedAt", "EventId", "UserId"]

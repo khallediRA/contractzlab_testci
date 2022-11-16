@@ -7,4 +7,3 @@ export interface IStripeChargeRecord {
 	updatedAt?: Date;
 
 }
-export const keysofIStripeChargeRecord: (keyof IStripeChargeRecord)[] = ["id", "status", "amount", "description", "createdAt", "updatedAt"]
