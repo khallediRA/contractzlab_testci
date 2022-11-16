@@ -70,8 +70,8 @@ export class UserAuthService {
 	};
 	static signUp: RequestHandler = async (req, res, next) => {
 		try {
-			const data = req.body;
-			const type = req.query["type"] as string
+			const data = req.body as IUser;
+			const type = data.UserType as string
 			if (!signUpTypes.includes(type))
 				throw `Unvalid signUpType ${type}`
 			const Model = User.sequelize?.models[type] as typeof KishiModel
