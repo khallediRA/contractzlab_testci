@@ -4,11 +4,12 @@ import jwt from "jsonwebtoken"
 import CryptoJS from "crypto-js";
 import { Router, Request, RequestHandler } from "express";
 
-import { KishiModel } from "../sequelize";
+import { CrudOptions, KishiModel } from "../sequelize";
 
 import { User } from "../models";
 import { IUser } from "../interfaces";
 import { FindOptions } from "sequelize";
+import { Middleware } from "../utils/middleware";
 
 const { auth: { tokenSecret, passwordSecret, lockIp, tokenExpiration, signUpTypes } } = config;
 
@@ -79,7 +80,7 @@ export class UserAuthService {
 			const row = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("nested", true)) as KishiModel
 			const user = (row as any).User as User
 			let token = UserAuthService.generateToken(user, req)
-			res.status(200).send({ token: token, user: user.toView(), row: row.toView() });
+			res.status(200).send({ token: token, user: row.toView() });
 		} catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
 	};
 	static verifyUser: RequestHandler = async (req, res, next) => {
