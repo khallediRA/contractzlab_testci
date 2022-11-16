@@ -22,7 +22,7 @@ import { KArray } from "../utils/array";
 import { AbstractFile } from "../utils/file";
 import { pathConcat, pathHead } from "../utils/string";
 import { KishiDataTypes } from "./DataTypes";
-import { AttributeBinder, initDataType, KishiAssociation, typesOfKishiAssociationOptions, KishiBelongsTo, KishiBelongsToMany, KishiBelongsToManyOptions, KishiBelongsToOptions, KishiDataType, KishiHasMany, KishiHasManyOptions, KishiHasOne, KishiHasOneOptions, KishiModelAttributeColumnOptions, KishiModelAttributes, KishiModelOptions, KOp, SplitAssociationPoint, CrudOptions, CrudOption } from "./types";
+import { AttributeBinder, initDataType, KishiAssociation, typesOfKishiAssociationOptions, KishiBelongsTo, KishiBelongsToMany, KishiBelongsToManyOptions, KishiBelongsToOptions, KishiDataType, KishiHasMany, KishiHasManyOptions, KishiHasOne, KishiHasOneOptions, KishiModelAttributeColumnOptions, KishiModelAttributes, KishiModelOptions, KOp, SplitAssociationPoint, CrudOptions, CrudOption, FinalAssociation, isPCIR, isPI } from "./types";
 
 export class KishiModel extends Model {
   protected static parentOptions?: {
@@ -41,7 +41,7 @@ export class KishiModel extends Model {
   static schemas: Record<string, string[]> = {};
   static initialAttributes: KishiModelAttributes = {};
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {};
-  static finalAssociations: { [key: string]: KishiBelongsTo | KishiBelongsToMany | KishiHasMany | KishiHasOne } = {};
+  static finalAssociations: { [key: string]: FinalAssociation } = {};
   static binders?: AttributeBinder[]
 
   static initialOptions: KishiModelOptions = {};
@@ -150,7 +150,7 @@ export class KishiModel extends Model {
       where = { [KOp("or")]: where }
     return where
   }
-  static GenerateOtherAssociation(association: KishiBelongsTo | KishiBelongsToMany | KishiHasMany | KishiHasOne, otherAssociationName: string) {
+  static GenerateOtherAssociation(association: FinalAssociation, otherAssociationName: string) {
     const { Target, sourceKey, targetKey, foreignName } = association
     if (otherAssociationName in Target.finalAssociations) {
       throw `${this.name}.${association.as}:otherAssociationName(${otherAssociationName}) already exist in Target`
@@ -179,7 +179,6 @@ export class KishiModel extends Model {
       case "hasOne":
       case "hasMany":
         let belongsTo: KishiBelongsTo = {
-          parent: false,
           type: "belongsTo",
           as: otherAssociationName,
           actionMap: { Create: null, Update: null, Link: null },
@@ -259,6 +258,15 @@ export class KishiModel extends Model {
             where = { ...where, ...throughWhere }
           }
         }
+      }
+    }
+    for (const key in this.finalAssociations) {
+      const association = this.finalAssociations[key]
+      if (!isPI(association)) continue
+      const associationPrefix = prefix ? `${prefix}.${key}` : key
+      const associationWhere=association.Target.FlattenWhere(whereOptions,associationPrefix)
+      if (associationWhere) {
+        where = { ...where, ...associationWhere }
       }
     }
     where = Object.keys(where).length > 0 ? where : undefined
@@ -561,7 +569,7 @@ export class KishiModel extends Model {
           onDelete: "CASCADE",
           Target: Target,
           target: Target.name,
-          parent: false,
+          realizer: true,
           foreignKeyConstraint: false,
           foreignKey: {
             name: "id",
@@ -650,12 +658,11 @@ export class KishiModel extends Model {
       options.actionMap = options.actionMap || {}
       options.schemaMap = options.schemaMap || {}
       options.foreignName = (options.foreignKey as ForeignKeyOptions)?.name || (options.foreignKey as string);
-      let final: KishiBelongsTo | KishiBelongsToMany | KishiHasMany | KishiHasOne | null = null
+      let final: FinalAssociation | null = null
       switch (options.type) {
         case "belongsTo":
           options.idName = options.foreignName
           defaults(options, {
-            parent: false,
           })
           defaults(options.actionMap, { Create: "Set", Update: null, Link: "Set" });
           defaults(options.schemaMap, { full: "pure", nested: "id" });
@@ -1229,7 +1236,10 @@ export class KishiModel extends Model {
             associatedView[idx][Through.name] = Through.toView(_associated[idx].get(Through.name) as KishiModel, stack);
           }
         }
-        view[associationName] = associatedView;
+        if (isPCIR(association))
+          view = { ...view, ...associatedView }
+        else
+          view[associationName] = associatedView;
         stack.pop();
       }
       if (this.AfterView) view = this.AfterView(row, view);
@@ -1297,7 +1307,9 @@ export class KishiModel extends Model {
       for (const associationName in associations) {
         const association = associations[associationName];
         if (!association) continue;
-        const associatedView = view[associationName] as any | any[];
+        let associatedView = view[associationName] as any | any[];
+        if (isPCIR(association))
+          associatedView = view as any
         if (associatedView === undefined) continue;
         const track = this.ValidateStack(association, stack);
         if (!track) continue;

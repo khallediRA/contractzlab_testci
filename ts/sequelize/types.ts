@@ -1,4 +1,4 @@
-import { AbstractDataType, AssociationOptions, DataType, Dialect, ForeignKeyOptions, ModelAttributeColumnOptions, ModelOptions, Op, Optional, WhereAttributeHash, WhereOptions } from "sequelize";
+import { AbstractDataType, Association, AssociationOptions, DataType, Dialect, ForeignKeyOptions, ModelAttributeColumnOptions, ModelOptions, Op, Optional, WhereAttributeHash, WhereOptions } from "sequelize";
 import { IUser } from "../interfaces";
 import { KFunction } from "../utils/function";
 import { KishiModel } from "./model";
@@ -242,7 +242,8 @@ export interface KishiBelongsToOptions extends KishiAssociationOptions {
 }
 export interface KishiBelongsTo extends KishiAssociation {
   type: "belongsTo";
-  parent: boolean;
+  parent?: boolean;
+  realizer?: boolean;
   otherAssociation?: KishiHasMany | KishiHasOne;
   actionMap: {
     Create?: "Create" | "Update" | null;
@@ -325,7 +326,29 @@ export type SplitAssociationPoint = {
   pathToTarget: string,
 }
 export type typesOfKishiAssociationOptions = KishiBelongsToOptions | KishiBelongsToManyOptions | KishiHasManyOptions | KishiHasOneOptions
+export type FinalAssociation = KishiBelongsTo | KishiBelongsToMany | KishiHasMany | KishiHasOne
 
+export function isParent(association: FinalAssociation) {
+  return association.type == "belongsTo" && association.parent == true
+}
+export function isChild(association: FinalAssociation) {
+  return association.type == "hasOne" && association.otherAssociation?.parent == true
+}
+export function isInterface(association: FinalAssociation) {
+  return association.type == "hasOne" && association.otherAssociation?.realizer == true
+}
+export function isRealizer(association: FinalAssociation) {
+  return association.type == "belongsTo" && association.realizer == true
+}
+export function isPCIR(association: FinalAssociation) {
+  return association.type == "belongsTo" && (association.parent || association.realizer)
+    || (association.type == "hasOne" && (association.otherAssociation?.realizer || association.otherAssociation?.parent))
+
+}
+export function isPI(association: FinalAssociation) {
+  return isParent(association) || isInterface(association)
+
+}
 export type CrudResponse = boolean | WhereAttributeHash
 export type CrudOption = CrudResponse | ((user?: IUser) => Async<CrudResponse>)
 export interface CrudOptions {

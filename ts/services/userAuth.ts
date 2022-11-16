@@ -76,11 +76,10 @@ export class UserAuthService {
 			const Model = User.sequelize?.models[type] as typeof KishiModel
 			const createdInstance = await Model.Create(data) as KishiModel
 			if (!createdInstance) throw { message: "SignUp Failed", status: 400 };
-			const instance = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("pure", true)) as KishiModel
-			const user = instance.get("User") as User
+			const row = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("nested", true)) as KishiModel
+			const user = (row as any).User as User
 			let token = UserAuthService.generateToken(user, req)
-			const view = instance.toView()
-			res.status(200).send({ token: token, user: view, row: instance });
+			res.status(200).send({ token: token, user: user.toView(), row: row.toView() });
 		} catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
 	};
 	static verifyUser: RequestHandler = async (req, res, next) => {
