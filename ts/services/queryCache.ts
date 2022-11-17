@@ -38,12 +38,36 @@ export class QueryCacheService {
 			//Implement Cache
 			(model as any).__findAll = (model as any)._findAll.bind(model);
 			(model as any)._findAll = _findAll.bind(model);
-			model.afterCreate(() => { logger.warn(model.name, "afterCreate"); CacheLib.ClearCacheByTag(model.name) })
-			model.afterUpdate(() => { logger.warn(model.name, "afterUpdate"); CacheLib.ClearCacheByTag(model.name) })
-			model.afterDestroy(() => { logger.warn(model.name, "afterDestroy"); CacheLib.ClearCacheByTag(model.name) })
-			model.afterBulkCreate(() => { logger.warn(model.name, "afterBulkCreate"); CacheLib.ClearCacheByTag(model.name) })
-			model.afterBulkUpdate(() => { logger.warn(model.name, "afterBulkUpdate"); CacheLib.ClearCacheByTag(model.name) })
-			model.afterBulkDestroy(() => { logger.warn(model.name, "afterBulkDestroy"); CacheLib.ClearCacheByTag(model.name) })
+			model.afterCreate((row, options) => {
+				logger.warn(model.name, "afterCreate");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
+			model.afterUpdate((row, options) => {
+				logger.warn(model.name, "afterUpdate");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
+			model.afterDestroy((row, options) => {
+				logger.warn(model.name, "afterDestroy");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
+			model.afterBulkCreate((rows, options) => {
+				logger.warn(model.name, "afterBulkCreate");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
+			model.afterBulkUpdate((options) => {
+				logger.warn(model.name, "afterBulkUpdate");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
+			model.afterBulkDestroy((options) => {
+				logger.warn(model.name, "afterBulkDestroy");
+				options.transaction?.afterCommit(() => CacheLib.ClearCacheByTag(model.name))
+				CacheLib.ClearCacheByTag(model.name)
+			})
 		}
 	}
 }
