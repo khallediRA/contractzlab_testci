@@ -16,7 +16,7 @@ export type IUser = {
 	placeOfBirth?: string;
 	password?: string;
 	fullName?: string;
-	UserType?: 'Admin';
+	UserType?: 'Admin' | 'Client';
 	createdAt?: Date;
 	updatedAt?: Date;
 	notifications?: (Omit<INotification, "users" | "usersId"> & { Notification_User?: INotification_User })[];

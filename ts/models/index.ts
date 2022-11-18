@@ -31,6 +31,7 @@ export const sequelize = new Sequelize(name, user, password, {
 
 import { User } from "./User";
 import { Admin } from "./users";
+import { Client } from "./users";
 import { Notification, Notification_User } from "./Notification";
 import { Event, Event_User } from "./Event";
 //test
@@ -47,6 +48,7 @@ export var models: {
 } = {
   User,
   Admin,
+  Client,
   Notification, Notification_User,
   Event, Event_User,
   ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord,

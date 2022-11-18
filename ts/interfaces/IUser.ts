@@ -1,4 +1,5 @@
 import { IAdmin } from "./IAdmin";
+import { IClient } from "./IClient";
 import { INotification } from "./INotification";
 import { INotification_User } from "./INotification_User";
 import { IEvent } from "./IEvent";
@@ -17,11 +18,13 @@ export interface IUser {
 	placeOfBirth?: string;
 	password?: string;
 	fullName?: string;
-	UserType?: 'Admin';
+	UserType?: 'Admin' | 'Client';
 	createdAt?: Date;
 	updatedAt?: Date;
 	Admin?: Omit<IAdmin, "User">;
 	AdminId?: string;
+	Client?: Omit<IClient, "User">;
+	ClientId?: string;
 	notifications?: (Omit<INotification, "users" | "usersId"> & { Notification_User?: INotification_User })[];
 	notificationsId?: (number)[];
 	Event_as_users?: (Omit<IEvent, "users" | "usersId"> & { Event_User?: IEvent_User })[];

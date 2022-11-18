@@ -16,7 +16,7 @@ export let config = {
   logPath: process.env.LOG_PATH || "logs",
   uploadPath: process.env.UPLOAD_PATH || "uploads",
   auth: {
-    signUpTypes: [] as string[],
+    signUpTypes: ["Client"] as string[],
     tokenSecret: process.env.AUTH_TOKEN_SECRET || "AUTH_Secret",
     passwordSecret: process.env.AUTH_PASSWORD_SECRET || "",
     lockIp: process.env.AUTH_lOCK_IP ? true : false,

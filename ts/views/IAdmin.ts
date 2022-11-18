@@ -1,5 +1,5 @@
 import { IUser } from "./IUser";
-export type IAdmin = Omit<IUser, "Admin" | "AdminId"> & {
+export type IAdmin = Omit<IUser, "Admin" | "Client" | "AdminId" | "ClientId"> & {
 	id?: string;
 	createdAt?: Date;
 	updatedAt?: Date;

@@ -1,5 +1,6 @@
 export * from "./IUser";
 export * from "./IAdmin";
+export * from "./IClient";
 export * from "./INotification";
 export * from "./INotification_User";
 export * from "./IEvent";
@@ -13,6 +14,7 @@ export * from "./IParentA";
 export * from "./IStripeChargeRecord";
 export * from "./IUser";
 export * from "./IAdmin";
+export * from "./IClient";
 export * from "./INotification";
 export * from "./INotification_User";
 export * from "./IEvent";
