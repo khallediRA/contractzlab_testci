@@ -15,7 +15,12 @@ export class QueryCacheService {
 	static Init(models: { [name: string]: typeof KishiModel }, router: Router) {
 		async function _findAll(this: typeof KishiModel, options?: FindOptions | undefined): Promise<KishiModel[] | KishiModel | null> {
 			options = options || {}
-			const cacheKey = this.name + ":" + JSON.stringify(options)
+			let cacheObject: any = cloneDeep(options)
+			if (options.transaction) {
+				cacheObject.transactionId = (options.transaction as any).id
+				delete cacheObject.transaction
+			}
+			const cacheKey = this.name + ":" + JSON.stringify(cacheObject)
 			const cache = await CacheLib.GetOrPromise(cacheKey, { timeout: 60 })
 			if ((cache as CachePayLoad)?.data) {
 				logger.log("data from cache", cacheKey)

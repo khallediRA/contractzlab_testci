@@ -79,9 +79,41 @@ export class User extends KishiModel {
       },
       through: "Notification_User",
     },
+    followers: {
+      type: "belongsToMany",
+      target: "User",
+      schemaMap: {
+        "nested": null,
+        "full": "pure",
+      },
+      actionMap: {
+        "Link": "Add",
+      },
+      otherKey: "followerId",
+      through: "UserUserFollow",
+    },
   };
   static initialHooks: Partial<ModelHooks<User, any>> = {
     afterSync: async (options) => {
     },
+  }
+}
+export class UserUserFollow extends KishiModel {
+  static crudOptions: CrudOptions = {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+  }
+  static initialAttributes: KishiModelAttributes = {
+    id: {
+      type: KishiDataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+  };
+  static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    afterSync: async (options) => {
+    }
   }
 }

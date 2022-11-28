@@ -29,7 +29,7 @@ export const sequelize = new Sequelize(name, user, password, {
 
 //Initilize models
 
-import { User } from "./User";
+import { User, UserUserFollow } from "./User";
 import { Admin } from "./users";
 import { Client } from "./users";
 import { Notification, Notification_User } from "./Notification";
@@ -46,7 +46,7 @@ export { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord
 export var models: {
   [name: string]: typeof KishiModel;
 } = {
-  User,
+  User, UserUserFollow,
   Admin,
   Client,
   Notification, Notification_User,

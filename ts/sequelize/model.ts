@@ -198,7 +198,7 @@ export class KishiModel extends Model {
         association.otherAssociation = belongsTo
         break;
       case "belongsToMany":
-        const { Through, throughSourceKey, throughTargetKey } = association
+        const { Through, throughSourceKey, otherKey } = association
         let belongsToMany: KishiBelongsToMany = {
           type: "belongsToMany",
           as: otherAssociationName,
@@ -210,8 +210,8 @@ export class KishiModel extends Model {
           targetKey: sourceKey,
           Target: this,
           target: this.name,
-          throughSourceKey: throughTargetKey,
-          throughTargetKey: throughSourceKey,
+          throughSourceKey: otherKey,
+          otherKey: throughSourceKey,
           Through,
           through: Through.name as string,
           otherAssociation: association,
@@ -264,7 +264,7 @@ export class KishiModel extends Model {
       const association = this.finalAssociations[key]
       if (!isPI(association)) continue
       const associationPrefix = prefix ? `${prefix}.${key}` : key
-      const associationWhere=association.Target.FlattenWhere(whereOptions,associationPrefix)
+      const associationWhere = association.Target.FlattenWhere(whereOptions, associationPrefix)
       if (associationWhere) {
         where = { ...where, ...associationWhere }
       }
@@ -708,7 +708,7 @@ export class KishiModel extends Model {
           final = {
             ...options,
             throughSourceKey: foreignKey,
-            throughTargetKey: otherKey,
+            otherKey: otherKey,
           } as KishiBelongsToMany
           final.sourceKey = "id"
           final.targetKey = "id"
@@ -874,9 +874,11 @@ export class KishiModel extends Model {
           }) as KishiBelongsTo | undefined;
           break;
         case "belongsToMany":
-          association.otherAssociation = (Object.values(Target.finalAssociations)).find((_association) => {
-            if (_association.type != "belongsToMany") return false;
-            return _association.Target == this && _association.Through.name == (association as KishiBelongsToMany).Through.name;
+          association.otherAssociation = (Object.values(Target.finalAssociations)).find((other) => {
+            let me = association as KishiBelongsToMany
+            if (other.type != "belongsToMany") return false;
+            return other.Target == this && other.Through.name == me.Through.name
+              && me.throughSourceKey == other.otherKey && me.otherKey == other.throughSourceKey
           }) as KishiBelongsToMany | undefined;
           break;
         default:
@@ -1265,6 +1267,7 @@ export class KishiModel extends Model {
         const association = associations[associationName];
         if (!association) continue;
         let associatedView = view[associationName] as any | any[];
+        data[association.idName] = view[association.idName]
         if (isPCIR(association))
           associatedView = view as any
         if (associatedView === undefined) continue;
@@ -1319,7 +1322,7 @@ export class KishiModel extends Model {
         for (const data_ of data) {
           throughData.push({
             [association.throughSourceKey]: this.id,
-            [association.throughTargetKey]: data_["id"],
+            [association.otherKey]: data_["id"],
             ...(data_[association.Through.name] || {})
           })
           fields.push(...Object.keys(data_[association.Through.name] || {}))
@@ -1364,7 +1367,7 @@ export class KishiModel extends Model {
           transaction: options?.transaction,
           where: {
             [association.throughSourceKey]: this.id,
-            [association.throughTargetKey]: ids,
+            [association.otherKey]: ids,
           },
         })
         return this
@@ -1495,7 +1498,7 @@ export class KishiModel extends Model {
             }
             break;
           case "belongsToMany":
-            const { Through, throughSourceKey, throughTargetKey } = association
+            const { Through, throughSourceKey, otherKey } = association
             for (let data of datas) {
               if (!(data instanceof Object)) {
                 data = { "id": data }
@@ -1503,7 +1506,7 @@ export class KishiModel extends Model {
 
               let throughData: any = {}
               throughData[throughSourceKey] = created.id
-              throughData[throughTargetKey] = data.id
+              throughData[otherKey] = data.id
               if (data[Through.name])
                 defaults(throughData, data[Through.name])
               await Through.Create(throughData, options)

@@ -1,4 +1,5 @@
 export * from "./IUser";
+export * from "./IUserUserFollow";
 export * from "./IAdmin";
 export * from "./IClient";
 export * from "./INotification";

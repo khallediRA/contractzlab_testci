@@ -313,7 +313,7 @@ export interface KishiBelongsToMany extends KishiAssociation {
   through?: string;
   Through: typeof KishiModel;
   throughSourceKey: string;
-  throughTargetKey: string;
+  otherKey: string;
   actionMap: {
     Create?: "Create" | "Update" | null;
     Update?: "Update" | "Upsert" | "UpsertRemove" | null;

@@ -1,3 +1,4 @@
+import { IUserUserFollow } from "./IUserUserFollow";
 import { INotification } from "./INotification";
 import { INotification_User } from "./INotification_User";
 import { IEvent } from "./IEvent";
@@ -21,8 +22,12 @@ export type IUser = {
 	updatedAt?: Date;
 	notifications?: (Omit<INotification, "users" | "usersId"> & { Notification_User?: INotification_User })[];
 	notificationsId?: (number)[];
+	followers?: (Omit<IUser, "User_as_followers" | "User_as_followersId"> & { UserUserFollow?: IUserUserFollow })[];
+	followersId?: (string)[];
+	User_as_followers?: (Omit<IUser, "followers" | "followersId"> & { UserUserFollow?: IUserUserFollow })[];
+	User_as_followersId?: (string)[];
 	Event_as_users?: (Omit<IEvent, "users" | "usersId"> & { Event_User?: IEvent_User })[];
 	Event_as_usersId?: (number)[];
 
 }
-export const keysofIUser: (keyof IUser)[] = ["id", "activated", "passwordChangedDate", "logoutDate", "username", "email", "phoneNumber", "firstName", "lastName", "dateOfBirth", "placeOfBirth", "password", "fullName", "UserType", "createdAt", "updatedAt", "notifications", "notificationsId", "Event_as_users", "Event_as_usersId"]
+export const keysofIUser: (keyof IUser)[] = ["id", "activated", "passwordChangedDate", "logoutDate", "username", "email", "phoneNumber", "firstName", "lastName", "dateOfBirth", "placeOfBirth", "password", "fullName", "UserType", "createdAt", "updatedAt", "notifications", "notificationsId", "followers", "followersId", "User_as_followers", "User_as_followersId", "Event_as_users", "Event_as_usersId"]
