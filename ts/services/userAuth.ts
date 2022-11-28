@@ -13,7 +13,7 @@ import { Middleware } from "../utils/middleware";
 
 const { auth: { tokenSecret, passwordSecret, lockIp, tokenExpiration, signUpTypes } } = config;
 
-type TokenDecode = { ip: string, userId: any, date: Date }
+type TokenDecode = { id: any, date: number, type: IUser["UserType"], ip?: string, }
 function decodePasswordFront(password: string) {
 	if (!passwordSecret) return password;
 	const obj = JSON.parse(CryptoJS.AES.decrypt(password, passwordSecret).toString(CryptoJS.enc.Utf8));
@@ -24,29 +24,33 @@ export class UserAuthService {
 		if (!token) throw { message: `Token Not Found`, status: 401 }
 		const decoded = jwt.verify(token, tokenSecret) as jwt.JwtPayload
 		if (!decoded) throw { message: `Unvalid Token`, status: 401 }
-		const { ip, userId, date } = decoded as any
-		return { ip, userId, date: new Date(date) }
+		const { ip, id, date, type } = decoded as any
+		return { ip, id, date, type }
 	}
-	static generateToken(user: User, req: Request) {
-		const ip = req.header('x-forwarded-for') || req.ip;
-		let token = jwt.sign({ userId: user.id, date: new Date(), ip } as TokenDecode, tokenSecret, { expiresIn: tokenExpiration });
+	static generateToken(user: IUser, req: Request) {
+		let payload: TokenDecode = { id: user.id, date: Date.now(), type: user.UserType }
+		if (lockIp) {
+			const ip = req.header('x-forwarded-for') || req.ip;
+			payload.ip = ip
+		}
+		let token = jwt.sign(payload, tokenSecret, { expiresIn: tokenExpiration });
 		return token
 	}
 	static async verifyToken(req: Request): Promise<User> {
 		const reqIp = req.header('x-forwarded-for') || req.ip;
 		const token = req.headers["user-token"] as string
 		const decoded = this.decodeToken(token)
-		const { ip, userId, date } = decoded
-		const user = await User.findByPk(userId)
+		const { ip, id, date } = decoded
+		const user = await User.findByPk(id)
 		if (!user) throw { message: `User Not Found`, status: 401 }
 		const { activated, passwordChangedDate, logoutDate } = user as IUser
 		if (activated == false) {
 			throw { message: `User Not Activated`, status: 401 }
 		}
-		if (passwordChangedDate && date < passwordChangedDate) {
+		if (passwordChangedDate && date < passwordChangedDate.getTime()) {
 			throw { message: `User Password Changed`, status: 401 }
 		}
-		if (logoutDate && date < logoutDate) {
+		if (logoutDate && date < logoutDate.getTime()) {
 			throw { message: `User LogedOut`, status: 401 }
 		}
 		if (lockIp && reqIp != ip) {
