@@ -4,6 +4,7 @@ import { config } from "../config";
 
 import NodeGeocoder from 'node-geocoder'
 import { FileLogger } from "../utils/fileLogger";
+import { isArray } from "lodash";
 const { googleMap } = config
 const logger = new FileLogger("geocoder")
 
@@ -23,9 +24,9 @@ const geocoders = [
   geocoder2,
   geocoder3
 ]
-export async function geocode(queries: string[]): Promise<Record<string, NodeGeocoder.Entry>> {
+export async function geocode(queries: string[] | string): Promise<Record<string, NodeGeocoder.Entry>> {
   let successMap: Record<string, NodeGeocoder.Entry> = {}
-  let failed = queries
+  let failed = isArray(queries) ? queries : [queries]
   for (const geocoder of geocoders) {
     let _failed = []
     try {
