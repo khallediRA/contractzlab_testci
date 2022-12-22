@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+import { config } from "./../config";
 
 const fs = require('fs');
 const moment = require('moment');
@@ -15,7 +16,7 @@ if (true) {
     //Args
     const inputFile = "en.json";
     const destinationCodes = ["ar"];
-    const apiKey = "AIzaSyBEPF9rdowvqRgyV45LrfXknVm8kmXv--w";
+    const apiKey = config.googleMap.API_KEY;
 
     const apiUrl = _.template('https://www.googleapis.com/language/translate/v2?key=<%= apiKey %>&q=<%= value %>&source=en&target=<%= languageKey %>');
 
