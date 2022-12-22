@@ -1,4 +1,4 @@
-import { cloneDeep, defaults } from "lodash";
+import { cloneDeep, defaults, sum } from "lodash";
 import {
   Model,
   Sequelize,
@@ -67,23 +67,23 @@ export class KishiModel extends Model {
         let whereList = []
         for (const modelName of models) {
           const Model = this.models[modelName]
-          let crudOption = Model.crudOptions[key] || true
+          let crudOption = Model.crudOptions[key] || false
           let crudResponse
           if (typeof crudOption == "function") {
             crudResponse = await crudOption(user)
           } else {
             crudResponse = crudOption
           }
-          if (typeof crudOption == "boolean") {
+          if (typeof crudResponse == "boolean") {
             if (crudResponse == true)
               whereList.push(this.FlattenWhere({ [descriminator]: modelName }))
           } else {
             whereList.push(this.FlattenWhere({ [modelName]: crudResponse }))
           }
-          if (whereList.length == 0) return false
-          if (whereList.length == 1) return whereList[0]
-          return { [KOp("or")]: whereList }
         }
+        if (whereList.length == 0) return false
+        if (whereList.length == 1) return whereList[0]
+        return { [KOp("or")]: whereList }
       }
     }
   }
@@ -356,12 +356,6 @@ export class KishiModel extends Model {
   static Init(sequelize: Sequelize, models: Record<string, typeof KishiModel>): void {
     this.PreInit?.(sequelize, models)
     console.log(`${this.name}.Init`);
-    defaults(this.crudOptions, {
-      "create": true,
-      "read": this.GetDefaultCrud("read"),
-      "update": this.GetDefaultCrud("update"),
-      "delete": this.GetDefaultCrud("delete"),
-    })
     this.finalAssociations = {}
     const childModels = Array.from(Object.values(models).filter(model => model.ParentModel == this), model => model.name)
     if (childModels.length > 0) {
@@ -460,13 +454,18 @@ export class KishiModel extends Model {
       delete _options.group
       const { where } = _options
       if (where) {
-        // const paths = this.WhereOptionsToPaths(where)
-        // console.log("count where", paths);
+        const paths = this.WhereOptionsToPaths(where)
+        console.log("count where", paths);
         const { attributes, include } = this.WhereOptionsToFindOptions(where)
         _options.attributes = attributes
         _options.include = include
+        _options.group = "id"
       }
-      return await (this as any)._count(_options)
+      const count=await (this as any)._count(_options)
+      if(Array.isArray(count)){
+        return sum(KArray.get(count,"count"))
+      }
+      return count
     }
     (this as any).count = count.bind(this);
 
@@ -770,6 +769,12 @@ export class KishiModel extends Model {
     return rows
   }
   public static PostAssociate() {
+    defaults(this.crudOptions, {
+      "create": true,
+      "read": this.GetDefaultCrud("read"),
+      "update": this.GetDefaultCrud("update"),
+      "delete": this.GetDefaultCrud("delete"),
+    })
     const OnDeleteForeignKeys = Object.keys(this.rawAttributes).filter(name =>
       this.rawAttributes[name].references && ["cascade", "no action", "set null"].includes(this.rawAttributes[name]?.onDelete?.toLowerCase() || "")
     )
@@ -935,7 +940,7 @@ export class KishiModel extends Model {
             const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
             return attribute.toView != false;
           });
-        // if (schema == "pure") return paths;
+      // if (schema == "pure") return paths;
       default:
         break;
     }
@@ -1691,5 +1696,3 @@ export class KishiModel extends Model {
     return [upserted, newRecord]
   }
 }
-
-

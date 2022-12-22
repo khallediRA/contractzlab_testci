@@ -1,11 +1,11 @@
 import { config } from "../config";
 
-import { FindOptions } from "sequelize/types";
+import { FindOptions, WhereAttributeHash } from "sequelize/types";
 import { Router, RequestHandler } from "express";
 import bodyParser from "body-parser";
 import _ from "lodash";
 
-import { CrudOptions, CrudResponse, KishiDataType, KishiModel } from "../sequelize";
+import { CrudOptions, CrudResponse, KOp, KishiDataType, KishiModel } from "../sequelize";
 import { flatToDeep } from "../utils/object";
 import { KArray } from "../utils/array";
 import { Middleware, MiddlewareChain, MiddlewareRequest } from "../utils/middleware";
@@ -48,6 +48,7 @@ export class ModelRouter {
     }
 
     let parseFindOptions: Middleware = async (req, res) => {
+      const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
       const schema: string = (req.query["schema"] || "pure") as string
       let findOptions: FindOptions = Model.SchemaToFindOptions(schema, true)
       const page: string = req.query["page"] as string;
@@ -70,6 +71,9 @@ export class ModelRouter {
         const deepWhere = flatToDeep(where)
         let whereData = Model.FlattenWhere(deepWhere)
         findOptions.where = whereData
+      }
+      if (crudResponse != true) {
+        findOptions.where = findOptions.where ? { [KOp("and")]: [findOptions.where, crudResponse] } : crudResponse
       }
       const group = req.query["group"] as string
       if (group) {
