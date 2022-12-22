@@ -9,8 +9,8 @@ export class User extends KishiModel {
     const parts = display.split(" ")
     return {
       [KOp("or")]: {
-        firstName: { [KOp("or")]: parts.map(value => { return { [KOp("substring")]: value } }) },
-        lastName: { [KOp("or")]: parts.map(value => { return { [KOp("substring")]: value } }) },
+        firstName: { [KOp("or")]: parts.map(value => { return { [KOp("iLike")]: `%${value}%` } }) },
+        lastName: { [KOp("or")]: parts.map(value => { return { [KOp("iLike")]: `%${value}%` } }) },
       }
     }
   }
@@ -52,6 +52,7 @@ export class User extends KishiModel {
     lastName: KishiDataTypes.STRING(50),
     dateOfBirth: KishiDataTypes.DATEONLY,
     placeOfBirth: KishiDataTypes.STRING(128),
+    profilePhoto: { type: new KishiDataTypes.FILE() },
     password: {
       type: new KishiDataTypes.HASH(6),
       allowNull: false,

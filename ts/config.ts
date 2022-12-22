@@ -13,8 +13,8 @@ process
     process.exit(1);
   });
 export let config = {
-  logPath: process.env.LOG_PATH || "logs",
-  uploadPath: process.env.UPLOAD_PATH || "uploads",
+  logPath: "logs",
+  uploadPath: "uploads",
   auth: {
     signUpTypes: ["Client"] as string[],
     tokenSecret: process.env.AUTH_TOKEN_SECRET || "AUTH_Secret",

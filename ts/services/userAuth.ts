@@ -61,15 +61,18 @@ export class UserAuthService {
 	static signIn: RequestHandler = async (req, res, next) => {
 		try {
 			const { email, password } = req.body;
-			const user = await User.findOne({ ...User.PathsToFindOptions(["*"]), where: { email } });
+			const user = await User.findOne({ ...User.PathsToFindOptions(["id", "email", "password", "UserType", "activated",]), where: { email } });
 			if (!user) throw { message: "Authentication Failed", status: 401 };
 			const decryptedPassword = decodePasswordFront(password);
+			console.log(decryptedPassword);
 			let passwordIsValid = user.comapre("password", decryptedPassword)
 			if (!passwordIsValid) throw { message: "Authentication Failed", status: 401 };
 			if (!(user as any).activated) throw { message: "User Not Active", status: 401 };
-			let token = UserAuthService.generateToken(user, req)
-			const view = user.toView()
-			res.status(200).send({ token: token, user: view });
+			const Model = User.sequelize?.models[(user as any).UserType] as typeof KishiModel
+			const row = await Model.findByPk(user.id, Model.SchemaToFindOptions("nested", true)) as KishiModel
+			const token = UserAuthService.generateToken(user, req)
+			const view = row.toView()
+			res.status(200).send({ token, user: view });
 		} catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
 	};
 	static signUp: RequestHandler = async (req, res, next) => {
@@ -79,7 +82,10 @@ export class UserAuthService {
 			if (!signUpTypes.includes(type))
 				throw `Unvalid signUpType ${type}`
 			const Model = User.sequelize?.models[type] as typeof KishiModel
-			const createData = Model.fromView(data)
+			let createData = Model.fromView(data)
+			const decryptedPassword = decodePasswordFront(req.body.password);
+			createData.password = decryptedPassword
+			console.log(createData.password.length);
 			const createdInstance = await Model.Create(createData) as KishiModel
 			if (!createdInstance) throw { message: "SignUp Failed", status: 400 };
 			const row = await Model.findByPk(createdInstance.id, Model.SchemaToFindOptions("nested", true)) as KishiModel

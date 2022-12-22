@@ -12,7 +12,7 @@ export class Notification extends KishiModel {
     "delete": false,
   }
   static WhereFromDisplay(display: string) {
-    return { message: { [KOp("substring")]: display } }
+    return { message: { [KOp("iLike")]: `%${display}%` } }
   }
   get display() {
     return this.get("message") as string

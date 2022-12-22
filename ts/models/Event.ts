@@ -11,7 +11,7 @@ export class Event extends KishiModel {
   }
   static eventTypes = ["Custom"]
   static WhereFromDisplay(display: string) {
-    return { title: { [KOp("substring")]: display } }
+    return { title: { [KOp("iLike")]: `%${display}%` } }
   }
   get display() {
     return this.get("title") as string

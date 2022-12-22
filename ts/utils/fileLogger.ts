@@ -1,8 +1,8 @@
 
 import { config } from "../config";
+import fs from 'fs';
 const { logPath } = config
 
-import fs from 'fs';
 export class FileLogger {
   key: string
   filepath: string

@@ -20,12 +20,11 @@ import { RedisService } from "./services/redis";
 import { UserAuthService } from "./services/userAuth";
 import { YouSignService } from "./services/youSign";
 import { ZoomService } from "./services/zoom";
+import { OSMRouter } from "./routers/osm";
 
 
 const { uploadPath } = config;
 
-fs.mkdirSync(uploadPath, { recursive: true });
-fs.mkdirSync("tmp", { recursive: true });
 export let router = express.Router();
 export let app = express().use(router);
 export const dbSync = sequelize.sync()
@@ -58,6 +57,7 @@ for (const name in models) {
   router.use(`/${name}`, modelRouter.Route())
 }
 router.use(`/utils`, UtilsRouter.Route())
+router.use("/osm",OSMRouter.Route())
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)

@@ -151,7 +151,8 @@ export class ModelRouter {
       let findByDisplay: Middleware = async (req, res) => {
         const display: string = req.query["display"] as string
         const findOptions: FindOptions = req.middleData.findOptions
-        findOptions.where = Model.WhereFromDisplay?.(display)
+        if (display)
+          findOptions.where = Model.WhereFromDisplay?.(display)
         const rows = await Model.findAll(findOptions)
         return { rows: Model.toView(rows) }
       }
@@ -176,7 +177,16 @@ export class ModelRouter {
       const crudResponse: CrudResponse = (req as any).crudResponse
       //
       let data = Model.fromView(req.body?.data) as any
-      const created = await Model.Create(data)
+      let created: KishiModel | null = null
+      if (Model.parentOptions) {
+        const type = data[Model.parentOptions.descriminator] as string
+        if (!Model.parentOptions.models.includes(type))
+          throw `Unvalid Child Type ${type}`
+        const ChildModel = Model.models[type]
+        created = await ChildModel.Create(data) as KishiModel
+      } else {
+        created = await Model.Create(data) as KishiModel
+      }
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
       const row = await Model.findByPk(created.id, findOptions)

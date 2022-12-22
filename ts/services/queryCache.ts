@@ -22,7 +22,7 @@ export class QueryCacheService {
 			}
 			const cacheKey = this.name + ":" + JSON.stringify(cacheObject)
 			const cache = await CacheLib.GetOrPromise(cacheKey, { timeout: 60 })
-			if ((cache as CachePayLoad)?.data) {
+			if ("data" in (cache as CachePayLoad)) {
 				logger.log("data from cache", cacheKey)
 				return cloneDeep((cache as CachePayLoad).data) as KishiModel[] | KishiModel | null
 			}

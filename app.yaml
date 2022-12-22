@@ -1,0 +1,13 @@
+runtime: nodejs16
+env: standard
+
+# The entry point for the application
+entrypoint: npm start
+
+# The directory where the application is located
+service: default
+
+# The ports that the application listens on
+handlers:
+- url: /.*
+  script: auto

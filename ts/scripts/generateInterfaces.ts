@@ -121,6 +121,14 @@ function generateView(path: string) {
 			const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
 			return (attribute.fromView != false) || (attribute.toView != false)
 		})
+		if (Model.WhereFromDisplay)
+			fields.push(["display", "string"])
+		if (Model.ParentModel) {
+			fields.push([Model.ParentModel.parentOptions?.descriminator || "", `'${Model.name}'`])
+		}
+		for (const InterfaceModel of Model.InterfaceModels || []) {
+			fields.push([InterfaceModel.interfaceOptions?.descriminator || "", `'${Model.name}'`])
+		}
 		let piModels: string[] = []
 		const associations = Model.finalAssociations;
 		for (const associationName in associations) {

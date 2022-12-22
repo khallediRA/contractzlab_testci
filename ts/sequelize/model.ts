@@ -25,14 +25,14 @@ import { KishiDataTypes } from "./DataTypes";
 import { AttributeBinder, initDataType, KishiAssociation, typesOfKishiAssociationOptions, KishiBelongsTo, KishiBelongsToMany, KishiBelongsToManyOptions, KishiBelongsToOptions, KishiDataType, KishiHasMany, KishiHasManyOptions, KishiHasOne, KishiHasOneOptions, KishiModelAttributeColumnOptions, KishiModelAttributes, KishiModelOptions, KOp, SplitAssociationPoint, CrudOptions, CrudOption, FinalAssociation, isPCIR, isPI } from "./types";
 
 export class KishiModel extends Model {
-  protected static parentOptions?: {
+  static parentOptions?: {
     descriminator: string;
     models: string[];
     allowNull?: boolean;
   };
   static ParentModel?: typeof KishiModel;
   static InterfaceModels?: (typeof KishiModel)[];
-  protected static interfaceOptions?: {
+  static interfaceOptions?: {
     descriminator: string;
     models: string[];
   };
@@ -935,7 +935,7 @@ export class KishiModel extends Model {
             const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
             return attribute.toView != false;
           });
-        if (schema == "pure") return paths;
+        // if (schema == "pure") return paths;
       default:
         break;
     }
@@ -1163,6 +1163,8 @@ export class KishiModel extends Model {
     const attribtues = this.getAttributes();
     for (const row of _rows) {
       let view: { [key: string]: any } = {};
+      if (row.display)
+        view.display = row.display
       for (const attributeName in attribtues) {
         const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
         if (!attribute) continue;

@@ -39,7 +39,7 @@ Provides File storage support that are integrated in DataTypes, we can use S3Fil
 
 Provides interfaces for models to index rows
 
-### elasticsearch 
+### notifications 
 
 Provides interfaces to create notifications based on Create/Update actions
 
