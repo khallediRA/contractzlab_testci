@@ -17,6 +17,7 @@ export interface IUser {
 	lastName?: string;
 	dateOfBirth?: Date;
 	placeOfBirth?: string;
+	profilePhoto?: { key: string, url: string };
 	password?: string;
 	fullName?: string;
 	UserType?: 'Admin' | 'Client';

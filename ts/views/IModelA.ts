@@ -13,8 +13,10 @@ export type IModelA = Omit<IInterfaceA, "ModelA" | "ModelB" | "ModelC" | "ModelA
 	data?: object;
 	createdAt?: Date;
 	updatedAt?: Date;
+	ParentAType?: 'ModelA';
+	InterfaceAType?: 'ModelA';
 	modelsB?: (Omit<IModelB, "ModelA_as_modelsB" | "ModelA_as_modelsBId">)[];
 	modelsBId?: (string)[];
 
 }
-export const keysofIModelA: (keyof IModelA)[] = ["id", "days", "geoPoint", "geoPolygon", "hashedPass", "profilePhoto", "documents", "s3File", "data", "createdAt", "updatedAt", "modelsB", "modelsBId"]
+export const keysofIModelA: (keyof IModelA)[] = ["id", "days", "geoPoint", "geoPolygon", "hashedPass", "profilePhoto", "documents", "s3File", "data", "createdAt", "updatedAt", "ParentAType", "InterfaceAType", "modelsB", "modelsBId"]

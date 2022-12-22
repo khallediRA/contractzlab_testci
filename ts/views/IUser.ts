@@ -15,11 +15,13 @@ export type IUser = {
 	lastName?: string;
 	dateOfBirth?: Date;
 	placeOfBirth?: string;
+	profilePhoto?: { key: string, url: string };
 	password?: string;
 	fullName?: string;
 	UserType?: 'Admin' | 'Client';
 	createdAt?: Date;
 	updatedAt?: Date;
+	display?: string;
 	notifications?: (Omit<INotification, "users" | "usersId"> & { Notification_User?: INotification_User })[];
 	notificationsId?: (number)[];
 	followers?: (Omit<IUser, "User_as_followers" | "User_as_followersId"> & { UserUserFollow?: IUserUserFollow })[];
@@ -30,4 +32,4 @@ export type IUser = {
 	Event_as_usersId?: (number)[];
 
 }
-export const keysofIUser: (keyof IUser)[] = ["id", "activated", "passwordChangedDate", "logoutDate", "username", "email", "phoneNumber", "firstName", "lastName", "dateOfBirth", "placeOfBirth", "password", "fullName", "UserType", "createdAt", "updatedAt", "notifications", "notificationsId", "followers", "followersId", "User_as_followers", "User_as_followersId", "Event_as_users", "Event_as_usersId"]
+export const keysofIUser: (keyof IUser)[] = ["id", "activated", "passwordChangedDate", "logoutDate", "username", "email", "phoneNumber", "firstName", "lastName", "dateOfBirth", "placeOfBirth", "profilePhoto", "password", "fullName", "UserType", "createdAt", "updatedAt", "display", "notifications", "notificationsId", "followers", "followersId", "User_as_followers", "User_as_followersId", "Event_as_users", "Event_as_usersId"]

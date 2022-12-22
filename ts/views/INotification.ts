@@ -9,8 +9,9 @@ export type INotification = {
 	triggeredBy?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
+	display?: string;
 	users?: (Omit<IUser, "notifications" | "notificationsId"> & { Notification_User?: INotification_User })[];
 	usersId?: (string)[];
 
 }
-export const keysofINotification: (keyof INotification)[] = ["id", "type", "message", "ressourceName", "ressourceId", "triggeredBy", "createdAt", "updatedAt", "users", "usersId"]
+export const keysofINotification: (keyof INotification)[] = ["id", "type", "message", "ressourceName", "ressourceId", "triggeredBy", "createdAt", "updatedAt", "display", "users", "usersId"]

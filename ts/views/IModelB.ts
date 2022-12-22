@@ -6,7 +6,8 @@ export type IModelB = Omit<IInterfaceA, "ModelB" | "ModelA" | "ModelC" | "ModelB
 	createdAt?: Date;
 	updatedAt?: Date;
 	modelAId?: string;
+	InterfaceAType?: 'ModelB';
 	ModelA_as_modelsB?: Omit<IModelA, "modelsB" | "modelsBId">;
 
 }
-export const keysofIModelB: (keyof IModelB)[] = ["id", "data", "createdAt", "updatedAt", "modelAId", "ModelA_as_modelsB"]
+export const keysofIModelB: (keyof IModelB)[] = ["id", "data", "createdAt", "updatedAt", "modelAId", "InterfaceAType", "ModelA_as_modelsB"]

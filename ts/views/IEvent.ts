@@ -10,8 +10,9 @@ export type IEvent = {
 	description?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
+	display?: string;
 	users?: (Omit<IUser, "Event_as_users" | "Event_as_usersId"> & { Event_User?: IEvent_User })[];
 	usersId?: (string)[];
 
 }
-export const keysofIEvent: (keyof IEvent)[] = ["id", "title", "flag", "startDate", "endDate", "allDay", "description", "createdAt", "updatedAt", "users", "usersId"]
+export const keysofIEvent: (keyof IEvent)[] = ["id", "title", "flag", "startDate", "endDate", "allDay", "description", "createdAt", "updatedAt", "display", "users", "usersId"]
