@@ -29,6 +29,7 @@ export const sequelize = new Sequelize(name, user, password, {
 
 //Initilize models
 
+import { ExternalToken } from "./ExternalToken";
 import { User, UserUserFollow } from "./User";
 import { Admin } from "./users";
 import { Client } from "./users";
@@ -38,14 +39,16 @@ import { Event, Event_User } from "./Event";
 import { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
 export { User } from "./User";
+export { ExternalToken } from "./ExternalToken";
 export { Admin } from "./users";
 export { Notification, Notification_User } from "./Notification";
 export { Event, Event_User } from "./Event";
 export { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
-export var models: {
+export const models: {
   [name: string]: typeof KishiModel;
 } = {
+  ExternalToken,
   User, UserUserFollow,
   Admin,
   Client,

@@ -1,3 +1,4 @@
+export * from "./IExternalToken";
 export * from "./IUser";
 export * from "./IUserUserFollow";
 export * from "./IAdmin";

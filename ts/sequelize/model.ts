@@ -452,19 +452,18 @@ export class KishiModel extends Model {
       delete _options.include
       delete _options.attributes
       delete _options.group
+      delete _options.order
+      delete _options.limit
+      delete _options.offset
       const { where } = _options
-      if (where) {
-        const paths = this.WhereOptionsToPaths(where)
+      const paths = this.WhereOptionsToPaths(where).filter(path => path.includes("."))
+      if (paths.length > 0) {
         console.log("count where", paths);
-        const { attributes, include } = this.WhereOptionsToFindOptions(where)
+        const { attributes, include } = this.PathsToFindOptions(paths)
         _options.attributes = attributes
         _options.include = include
-        _options.group = "id"
       }
-      const count=await (this as any)._count(_options)
-      if(Array.isArray(count)){
-        return sum(KArray.get(count,"count"))
-      }
+      const count = await (this as any)._count(_options)
       return count
     }
     (this as any).count = count.bind(this);

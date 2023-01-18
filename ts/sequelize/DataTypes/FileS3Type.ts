@@ -25,6 +25,7 @@ export class FileS3Type implements KishiDataType {
   }
   Init(Model: typeof KishiModel,attribute: KishiModelAttributeColumnOptions): void {
     const { attributeName, length } = this
+    attribute.fromView = false
     attribute.get = function get() {
       const dataValue = this.getDataValue(attributeName)
       if (!dataValue) return dataValue

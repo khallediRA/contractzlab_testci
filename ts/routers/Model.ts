@@ -10,7 +10,7 @@ import { flatToDeep } from "../utils/object";
 import { KArray } from "../utils/array";
 import { Middleware, MiddlewareChain, MiddlewareRequest } from "../utils/middleware";
 import { UserAuthService } from "../services/userAuth";
-import { User } from "../models";
+import { User,ExternalToken } from "../models";
 import { IUser } from "../interfaces";
 
 export let router = Router();

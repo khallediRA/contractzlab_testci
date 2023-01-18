@@ -27,10 +27,11 @@ export class FilesType implements KishiDataType {
     this.length = length
     return this;
   }
-  Init(Model: typeof KishiModel,attribute: KishiModelAttributeColumnOptions): void {
+  Init(Model: typeof KishiModel, attribute: KishiModelAttributeColumnOptions): void {
     const { modelName, attributeName, length } = this
     //create directory
     fs.mkdirSync(`${uploadPath}/${modelName}_${attributeName}`, { recursive: true })
+    attribute.fromView = false
     attribute.get = function get() {
       const rawValue = this.getDataValue(attributeName)
       if (rawValue === undefined) return rawValue

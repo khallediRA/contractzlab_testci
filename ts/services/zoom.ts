@@ -9,7 +9,6 @@ import { FileLogger } from "../utils/fileLogger";
 
 const logger = new FileLogger("zoom")
 
-
 const { zoom: { sdkKey, sdkSecret, accountId, clientId, clientSecret } } = config
 let projectToken: string = ""
 const oauthEP = new URL("https://zoom.us/oauth/token")
@@ -23,15 +22,15 @@ export class ZoomService {
   static async GenerateProjectToken() {
     try {
       if (projectToken) return
-      console.log("oauthEP", oauthEP.href);
-      console.log("authorization", authorization);
+      logger.log("oauthEP", oauthEP.href);
+      logger.log("authorization", authorization);
       const response = await axios.post(oauthEP.href, {}, {
         headers: {
           "Authorization": `Basic ${authorization}`
         }
       });
       const { status, data: { access_token, expires_in, scope } } = response
-      // console.log({ access_token, expires_in, scope });
+      // logger.log({ access_token, expires_in, scope });
       projectToken = access_token
       setTimeout(() => {
         projectToken = ""
@@ -47,7 +46,7 @@ export class ZoomService {
         "Authorization": `Bearer  ${projectToken}`
       }
     })
-    // console.log(response.data);
+    // logger.log(response.data);
     return response.data
   }
   static Init(models: { [name: string]: typeof KishiModel }, router: Router) {

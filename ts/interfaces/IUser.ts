@@ -1,3 +1,4 @@
+import { IExternalToken } from "./IExternalToken";
 import { IUserUserFollow } from "./IUserUserFollow";
 import { IAdmin } from "./IAdmin";
 import { IClient } from "./IClient";
@@ -31,6 +32,8 @@ export interface IUser {
 	notificationsId?: (number)[];
 	followers?: (Omit<IUser, "User_as_followers" | "User_as_followersId"> & { UserUserFollow?: IUserUserFollow })[];
 	followersId?: (string)[];
+	ExternalToken_as_user?: (Omit<IExternalToken, "user" | "userId">)[];
+	ExternalToken_as_userId?: (string)[];
 	User_as_followers?: (Omit<IUser, "followers" | "followersId"> & { UserUserFollow?: IUserUserFollow })[];
 	User_as_followersId?: (string)[];
 	Event_as_users?: (Omit<IEvent, "users" | "usersId"> & { Event_User?: IEvent_User })[];

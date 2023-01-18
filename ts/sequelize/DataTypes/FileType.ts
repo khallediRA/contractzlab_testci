@@ -5,6 +5,7 @@ import fs from "fs"
 import { AbstractFile, FileLib } from "../../utils/file";
 import { randomUUID } from "crypto";
 import Path from "path";
+import axios from "axios";
 const { uploadPath, server: { publicUrl } } = config;
 
 export class FileType implements KishiDataType {
@@ -24,20 +25,26 @@ export class FileType implements KishiDataType {
     this.length = length
     return this;
   }
-  Init(Model: typeof KishiModel,attribute: KishiModelAttributeColumnOptions): void {
+  Init(Model: typeof KishiModel, attribute: KishiModelAttributeColumnOptions): void {
     const { modelName, attributeName, length } = this
     //create directory
     fs.mkdirSync(`${uploadPath}/${modelName}_${attributeName}`, { recursive: true })
+    attribute.fromView = ((value: { key: string, url: string }) => value?.url) as any
     attribute.get = function get() {
-      const dataValue = this.getDataValue(attributeName)
+      const dataValue = this.getDataValue(attributeName) as string
       if (!dataValue) return dataValue
+      if (dataValue.startsWith("url://"))
+        return { key: dataValue, url: dataValue.slice(6) }
       return {
         key: dataValue,
         url: `${publicUrl}/${modelName}_${attributeName}/${dataValue}`,
       }
     }
-    attribute.set = function set(file: AbstractFile) {
+    attribute.set = function set(file: AbstractFile | string) {
       if (!file) return
+      if (typeof file == "string") {
+        return this.setDataValue(attributeName, `url://${file}`)
+      }
       file.name = `${randomUUID()}-${file.name.replace(/[^a-zA-Z0-9-_\.]/g, '')}`
       if (file.name.length > length) {
         const ext = Path.extname(file.name)
@@ -54,6 +61,14 @@ export class FileType implements KishiDataType {
   }
   Hook(Model: typeof KishiModel): void {
     const { modelName, attributeName, length } = this
+    Model.beforeCreate(async (instance, options) => {
+      const dataValue = instance.getDataValue(attributeName) as string
+      if (dataValue?.startsWith("url://")) {
+        const response = await axios.get(dataValue.slice(6), { responseType: "arraybuffer" })
+        const blob = response.data as Blob
+        instance.set(attributeName, { name: response.headers["content-type"].replace("/", "."), data: blob })
+      }
+    })
     Model.afterCreate(async (instance, options) => {
       if (instance.get(attributeName) && instance.files[attributeName]) {
         const file = instance.files[attributeName] as AbstractFile
@@ -64,6 +79,12 @@ export class FileType implements KishiDataType {
       }
     })
     Model.beforeUpdate(async (instance, options) => {
+      const dataValue = instance.getDataValue(attributeName) as string
+      if (dataValue?.startsWith("url://")) {
+        const response = await axios.get(dataValue.slice(6), { responseType: "arraybuffer" })
+        const blob = response.data as Blob
+        instance.set(attributeName, { name: response.headers["content-type"].replace("/", "."), data: blob })
+      }
       if (instance.files[attributeName]) {
         //updated file with the same name
         const file = instance.files[attributeName] as AbstractFile

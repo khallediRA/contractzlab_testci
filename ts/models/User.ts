@@ -52,7 +52,7 @@ export class User extends KishiModel {
     lastName: KishiDataTypes.STRING(50),
     dateOfBirth: KishiDataTypes.DATEONLY,
     placeOfBirth: KishiDataTypes.STRING(128),
-    profilePhoto: { type: new KishiDataTypes.FILE() },
+    profilePhoto: new KishiDataTypes.FILE(128),
     password: {
       type: new KishiDataTypes.HASH(6),
       allowNull: false,
