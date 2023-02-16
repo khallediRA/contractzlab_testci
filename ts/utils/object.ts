@@ -75,12 +75,13 @@ export function getDeepValue(object: any, path = ""): any {
 }
 export function setDeepValue(object: any, path = "", value: any): void {
   const [head, restPath] = pathHead(path)
+  const key = !isNaN(Number(head)) && Array.isArray(object) ? Number(head) : head
   if (restPath) {
-    if (!(head in object))
-      object[head] = {}
-    return setDeepValue(object[head], restPath, value)
+    if (!(key in object))
+      object[key] = {}
+    return setDeepValue(object[key], restPath, value)
   }
-  return object[head] = value
+  return object[key] = value
 }
 export function reduce(object: any, bans = ["", null, [], {}, undefined]): any {
   var target: any = {}

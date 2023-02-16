@@ -6,11 +6,11 @@ import bodyParser from "body-parser";
 import _ from "lodash";
 
 import { CrudOptions, CrudResponse, KOp, KishiDataType, KishiModel } from "../sequelize";
-import { flatToDeep } from "../utils/object";
+import { flatToDeep, setDeepValue } from "../utils/object";
 import { KArray } from "../utils/array";
 import { Middleware, MiddlewareChain, MiddlewareRequest } from "../utils/middleware";
 import { UserAuthService } from "../services/userAuth";
-import { User,ExternalToken } from "../models";
+import { User, ExternalToken } from "../models";
 import { IUser } from "../interfaces";
 
 export let router = Router();
@@ -81,6 +81,18 @@ export class ModelRouter {
       }
       req.middleData.findOptions = findOptions
       return findOptions
+    }
+    let parseReqData: Middleware = async (req, res) => {
+      let reqData = req.body.data
+      if (req.body.isJSON)
+        reqData = JSON.parse(reqData)
+      if (req.files) {
+        for (const key in req.files) {
+          setDeepValue(reqData, key, req.files[key])
+        }
+      }
+      req.middleData.reqData = reqData
+      return reqData
     }
     let findById: Middleware = async (req, res) => {
       const findOptions: FindOptions = req.middleData.findOptions
@@ -163,11 +175,11 @@ export class ModelRouter {
       router.get("/byDisplay", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findByDisplay))
     }
     router.get("/", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findById))
+    router.post("/one", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findOneWhere))
     router.get("/all", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findAll))
     router.post("/all", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findAll))
     router.get("/count", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, count))
     router.post("/count", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, count))
-    router.post("/one", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findOneWhere))
     for (const attributeName in Model.rawAttributes) {
       const fileType = Model.rawAttributes[attributeName].type as KishiDataType
       if (fileType?.isFile) {
@@ -177,10 +189,7 @@ export class ModelRouter {
     }
 
     let create: Middleware = async (req, res) => {
-      const user: User | null = (req as any).user
-      const crudResponse: CrudResponse = (req as any).crudResponse
-      //
-      let data = Model.fromView(req.body?.data) as any
+      let data = Model.fromView(req.middleData.reqData) as any
       let created: KishiModel | null = null
       if (Model.parentOptions) {
         const type = data[Model.parentOptions.descriminator] as string
@@ -200,10 +209,11 @@ export class ModelRouter {
     }
     let update: Middleware = async (req, res) => {
       const id: string = req.query["id"] as string
-      const toUpdate = await Model.findByPk(id)
+      const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
+      const toUpdate = crudResponse != true ? await Model.findOne({ where: { [KOp("and")]: [{ id }, crudResponse] } }) : await Model.findByPk(id)
       if (!toUpdate)
         throw { message: `Instance Not Found` }
-      let data = Model.fromView(req.body?.data) as any
+      let data = Model.fromView(req.middleData.reqData) as any
       await toUpdate.Update(data)
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
@@ -213,7 +223,7 @@ export class ModelRouter {
       return { row: row.toView() }
     }
     let upsert: Middleware = async (req, res) => {
-      let data = Model.fromView(req.body?.data) as any
+      let data = Model.fromView(req.middleData.reqData) as any
       const [upserted, newRecord] = await Model.Upsert(data)
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
@@ -225,17 +235,17 @@ export class ModelRouter {
 
     let destroy: Middleware = async (req, res) => {
       const id: string = req.query["id"] as string
-      const toDestroy = await Model.findByPk(id)
+      const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
+      const toDestroy = crudResponse != true ? await Model.findOne({ where: { [KOp("and")]: [{ id }, crudResponse] } }) : await Model.findByPk(id)
       if (!toDestroy)
         throw { message: `Instance Not Found` }
       await toDestroy.destroy()
       return { deleted: true }
     }
-    router.put("/", MiddlewareChain(verifyUser, verifyCrud("create"), create))
-    router.patch("/", MiddlewareChain(verifyUser, verifyCrud("update"), update))
+    router.post("/", MiddlewareChain(verifyUser, verifyCrud("create"), parseReqData, create))
+    router.patch("/", MiddlewareChain(verifyUser, verifyCrud("update"), parseReqData, update))
+    router.put("/", MiddlewareChain(verifyUser, verifyCrud("update"), parseReqData, upsert))
     router.delete("/", MiddlewareChain(verifyUser, verifyCrud("delete"), destroy))
-
-    router.post("/Upsert", MiddlewareChain(verifyUser, verifyCrud("update"), upsert))
 
     return router;
   }
