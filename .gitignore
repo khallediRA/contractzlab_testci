@@ -5,7 +5,6 @@ interfaces/*.ts
 ts/views/*.ts
 old.md
 public
-package-lock.json
 uploads
 logs
 tmp

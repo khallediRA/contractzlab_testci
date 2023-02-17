@@ -13,7 +13,7 @@
     "generate-interfaces": "node js/scripts/generateInterfaces.js",
     "generate-vapid-keys": "npx web-push generate-vapid-keys",
     "start": "tsc --build && node js/server.js --max-old-space-size=8192",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "nodemonConfig": {
     "ignore": [

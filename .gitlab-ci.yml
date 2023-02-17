@@ -1,0 +1,38 @@
+image: node:16
+
+cache:
+  paths:
+  - node_modules/
+
+before_script:
+  - node -v
+  - npm install
+
+stages:
+  - build
+  - test
+  - deploy
+
+build:
+  stage: build
+  script:
+    - npm install
+    - npm run build
+
+test:
+  stage: test
+  script:
+    - npm run test
+
+deploy:
+  image: google/cloud-sdk:latest
+  script:
+    # Step 2: Connect to the Kubernetes cluster
+    - gcloud container clusters get-credentials CLUSTER_NAME --zone ZONE --project PROJECT_ID
+
+    # Step 3: Deploy the Kubernetes deployment and service
+    - kubectl apply -f deployment.yaml
+    - kubectl apply -f service.yaml
+
+  only:
+    - main
