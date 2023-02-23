@@ -19,7 +19,7 @@ export class QueryCacheService {
 			if (options.transaction) {
 				return await (this as any).cache_findAll(options) as KishiModel[] | KishiModel | null
 			}
-			const cacheKey = this.name + ":" + JSON.stringify(cacheObject)
+			const cacheKey = this.name + ".findAll:" + JSON.stringify(cacheObject)
 			const cache = await CacheLib.GetOrPromise(cacheKey, { timeout: 60 })
 			if ("data" in (cache as CachePayLoad)) {
 				logger.log("data from cache", cacheKey)
@@ -43,7 +43,7 @@ export class QueryCacheService {
 			if (options.transaction) {
 				return await (this as any).cache_count(options) as number | GroupedCountResultItem[]
 			}
-			const cacheKey = this.name + ":" + JSON.stringify(cacheObject)
+			const cacheKey = this.name + ".count:" + JSON.stringify(cacheObject)
 			const cache = await CacheLib.GetOrPromise(cacheKey, { timeout: 60 })
 			if ("data" in (cache as CachePayLoad)) {
 				return cloneDeep((cache as CachePayLoad).data) as number | GroupedCountResultItem[]

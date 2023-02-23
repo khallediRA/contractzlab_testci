@@ -939,7 +939,7 @@ export class KishiModel extends Model {
             const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
             return attribute.toView != false;
           });
-      // if (schema == "pure") return paths;
+        if (schema == "pure") return paths;
       default:
         break;
     }
@@ -1173,7 +1173,7 @@ export class KishiModel extends Model {
         const attribute = attribtues[attributeName] as KishiModelAttributeColumnOptions;
         if (!attribute) continue;
         if (attribute.type.constructor.name != "VIRTUAL") {
-          if (!(attributeName in (row as any)?.dataValues)) continue;
+          if (!(attributeName in ((row as any)?.dataValues || {}))) continue;
         }
         const { toView } = attribute;
         if (toView == false) continue;
