@@ -1,7 +1,7 @@
 import { IUser } from "./IUser";
 export interface IExternalToken {
 	id?: number;
-	UserType?: 'Admin' | 'Client';
+	UserType?: 'Admin' | 'Client' | 'Moderator';
 	token?: string;
 	ip?: string;
 	expiresAt?: Date;

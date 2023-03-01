@@ -30,31 +30,43 @@ export const sequelize = new Sequelize(name, user, password, {
 //Initilize models
 
 import { ExternalToken } from "./ExternalToken";
-import { User, UserUserFollow } from "./User";
+import { User } from "./User";
 import { Admin } from "./users";
 import { Client } from "./users";
+import { Moderator } from "./users";
 import { Notification, Notification_User } from "./Notification";
 import { Event, Event_User } from "./Event";
+
+import { TypeLevel1, TypeLevel2, TypeLevel3 } from "./typeLevels";
+import { Clause } from "./Clause";
+import { SubClause } from "./SubClause";
+import { Contract } from "./Contract";
+import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
+
 //test
-import { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
 export { User } from "./User";
 export { ExternalToken } from "./ExternalToken";
 export { Admin } from "./users";
+export { Moderator } from "./users";
 export { Notification, Notification_User } from "./Notification";
 export { Event, Event_User } from "./Event";
-export { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
 export const models: {
   [name: string]: typeof KishiModel;
 } = {
   ExternalToken,
-  User, UserUserFollow,
+  User,
   Admin,
   Client,
+  Moderator,
   Notification, Notification_User,
+  TypeLevel1, TypeLevel2, TypeLevel3,
+  Clause,
+  SubClause,
+  Contract,
+  ContractTemplate, ContractTemplate_Clause,
   Event, Event_User,
-  ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord,
 };
 for (const name in models) {
   models[name].Init(sequelize, models)

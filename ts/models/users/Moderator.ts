@@ -1,6 +1,7 @@
+import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../../sequelize";
 import { User } from "../User";
-export class Client extends KishiModel {
+export class Moderator extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
     "read": false,
@@ -9,7 +10,7 @@ export class Client extends KishiModel {
   }
   static ParentModel = User;
   static WhereFromDisplay(display: string) {
-    return this.FlattenWhere(User.WhereFromDisplay(display), "User")
+    return this.FlattenWhere(User.WhereFromDisplay(display))
   }
   get display() {
     return (this.get("User") as User)?.display
@@ -23,4 +24,6 @@ export class Client extends KishiModel {
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
   };
+  static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+  }
 }

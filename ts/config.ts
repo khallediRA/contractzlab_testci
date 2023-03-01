@@ -32,10 +32,10 @@ export let config = {
     paranoid: false,
   },
   admin: {
-    email: "kishi.admin@yopmail.com",
+    email: "contractzlab.admin@yopmail.com",
     password: "admin",
-    username: "KishiAdmin",
-    firstName: "Kishi",
+    username: "ContractzlabAdmin",
+    firstName: "contractzlab",
     lastName: "Admin",
   },
   elasticsearch: {

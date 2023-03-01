@@ -80,19 +80,6 @@ export class User extends KishiModel {
       },
       through: "Notification_User",
     },
-    followers: {
-      type: "belongsToMany",
-      target: "User",
-      schemaMap: {
-        "nested": null,
-        "full": "pure",
-      },
-      actionMap: {
-        "Link": "Add",
-      },
-      otherKey: "followerId",
-      through: "UserUserFollow",
-    },
   };
   static initialHooks: Partial<ModelHooks<User, any>> = {
     afterSync: async (options) => {
