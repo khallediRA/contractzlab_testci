@@ -13,8 +13,9 @@ import {
   IndexesOptions,
   CountOptions,
   FindAndCountOptions,
-  DataTypes,
   UpdateOptions,
+  Transaction,
+  DestroyOptions,
 } from "sequelize";
 import { ModelHooks } from "sequelize/types/hooks";
 import { IUser } from "../interfaces";
@@ -397,6 +398,9 @@ export class KishiModel extends Model {
       }
       attribute = attribute as KishiModelAttributeColumnOptions
       initDataType(this, attributeName, attribute)
+      if (attribute.binder) {
+        attribute.fromView = false
+      }
       this.initialAttributes[attributeName] = attribute;
       (attribute.type as KishiDataType)?.Init?.(this, attribute);
     }
@@ -723,12 +727,12 @@ export class KishiModel extends Model {
       this.finalAssociations[name] = final;
     }
   }
-  static async LoadOptionsRows(options: UpdateOptions, attributes = ["id"]) {
-    var { where } = options
+  static async LoadOptionsRows(options: UpdateOptions | DestroyOptions, attributes = ["id"]) {
+    var { where, transaction } = options
     let rows = (options as any).rows as KishiModel[]
     if (!rows) {
       attributes = [...new Set([...attributes, "id"])];
-      rows = await this.findAll({ attributes, where })
+      rows = await this.findAll({ attributes, where, transaction })
       const ids = KArray.get(rows, "id")
       options.where = ids.length > 0 ? { id: { [KOp("in")]: ids } } : { id: null }
       if (ids.length == 0) {
@@ -746,7 +750,7 @@ export class KishiModel extends Model {
           missingAtts.push(att)
       }
       if (missingAtts.length > 0) {
-        const missingRows = await this.findAll({ attributes: ["id", ...missingAtts], where })
+        const missingRows = await this.findAll({ attributes: ["id", ...missingAtts], where, transaction })
         if (missingRows.length != rows.length) {
           const err = new Error(`${this.name}.LoadOptionsRows, missingRows Length not matched (${missingRows.length} != ${rows.length})`)
           console.error(err);
@@ -780,7 +784,7 @@ export class KishiModel extends Model {
     for (const sourceKey of OnDeleteForeignKeys) {
       const { references, onDelete = "", allowNull = true } = this.rawAttributes[sourceKey]
       const key = this.name + "." + sourceKey
-      let Target: typeof KishiModel
+      let Target: typeof KishiModel;
       if (typeof references == "string") {
         Target = this.models[references] as typeof KishiModel
 
@@ -891,6 +895,78 @@ export class KishiModel extends Model {
       if (!association.otherAssociation) {
         this.GenerateOtherAssociation(association, `${this.name}_as_${association.as}`)
         console.warn(`${association.Target.name}.${this.name}_as_${association.as} generated from ${this.name}.${association.as}`);
+      }
+    }
+    for (const sourceField in this.rawAttributes) {
+      const attribute = this.rawAttributes[sourceField] as KishiModelAttributeColumnOptions
+      if (attribute.binder) {
+        const { associationName, targetField } = attribute.binder
+        const association = this.finalAssociations[associationName]
+        if (!association)
+          throw `Unvalid Association ${this.name}.${associationName}`
+        if (!(association.type == "belongsTo"))
+          throw `Unvalid Association Type "${association.type}" for ${this.name}.${associationName}`
+        const { Target } = association
+        if (!Target.rawAttributes[targetField])
+          throw `Unvalid targetField ${this.name}.${associationName}.${targetField}`
+        const { sourceKey, targetKey } = association
+        
+        const loadFieldFromTarget = async (targetInstance: KishiModel, transaction?: Transaction | null) => {
+          let value: any = targetInstance.get(targetField)
+          if (targetInstance.dataValues[targetKey]) {
+            await this.update({ [sourceField]: value }, { where: { [sourceKey]: targetInstance.dataValues[targetKey] }, transaction })
+          }
+        }
+
+        const loadFieldFromSource = async (instance: KishiModel, transaction?: Transaction | null) => {
+          let value: any | any[] = null
+          if (instance.dataValues[sourceKey]) {
+            const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: instance.dataValues[sourceKey] }, transaction })
+            if (target) {
+              value = target.get(targetField)
+            }
+          }
+          instance.set(sourceField, value)
+        }
+
+        this.beforeCreate(async (instance, options) => {
+          await loadFieldFromSource(instance, options.transaction)
+        })
+
+        this.beforeUpdate(async (instance, options) => {
+          if (options.fields?.includes(sourceKey)) {
+            await loadFieldFromSource(instance, options.transaction)
+          }
+        })
+
+        Target.afterUpdate(async (targetInstance, options) => {
+          if (options.fields?.includes(targetField)) {
+            await loadFieldFromTarget(targetInstance, options.transaction)
+          }
+        })
+
+        Target.afterDestroy(async (targetInstance, options) => {
+          await loadFieldFromTarget(targetInstance, options.transaction)
+        })
+
+        Target.beforeBulkUpdate(async (options) => {
+          if (options.fields?.includes(targetField)) {
+            await Target.LoadOptionsRows(options, [targetKey])
+          }
+        })
+
+        Target.afterBulkUpdate(async (options) => {
+          if (options.fields?.includes(targetField)) {
+            const value = (options as any).attributes[targetField]
+            let rows = (options as any).rows as KishiModel[]
+            const sourceIds = KArray.get(rows, targetKey)
+            await this.update({ [sourceField]: value }, { where: { [sourceKey]: { [KOp("in")]: sourceIds } }, transaction: options.transaction })
+          }
+        })
+
+        Target.afterBulkDestroy(async (options) => {
+          await this.update({ [sourceField]: null }, { where: { [sourceKey]: null }, transaction: options.transaction })
+        })
       }
     }
   }
