@@ -4,7 +4,7 @@ import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAsso
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
-    "read": true,
+    "read": false,
     "update": false,
     "delete": false,
   }

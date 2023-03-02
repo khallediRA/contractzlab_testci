@@ -1,5 +1,6 @@
 import { IUser } from "./IUser";
 import { IContract } from "./IContract";
+import { IBeneficial } from "./IBeneficial";
 export interface IClient {
 	id?: string;
 	createdAt?: Date;
@@ -7,5 +8,7 @@ export interface IClient {
 	User?: Omit<IUser, "Client" | "Admin" | "Moderator" | "ClientId" | "AdminId" | "ModeratorId">;
 	contracts?: (Omit<IContract, "client" | "clientId">)[];
 	contractsId?: (string)[];
+	beneficials?: (Omit<IBeneficial, "client" | "clientId">)[];
+	beneficialsId?: (string)[];
 
 }

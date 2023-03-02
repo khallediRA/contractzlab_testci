@@ -41,6 +41,7 @@ import { TypeLevel1, TypeLevel2, TypeLevel3 } from "./typeLevels";
 import { Clause, Clause_SubClause } from "./Clause";
 import { SubClause } from "./SubClause";
 import { Contract } from "./Contract";
+import { Beneficial } from "./Beneficial";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
 
 export { User } from "./User";
@@ -61,6 +62,7 @@ export const models: {
   Clause, Clause_SubClause,
   SubClause,
   Contract,
+  Beneficial,
   ContractTemplate, ContractTemplate_Clause,
   Event, Event_User,
 };

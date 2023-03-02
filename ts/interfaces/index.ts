@@ -12,6 +12,7 @@ export * from "./IClause";
 export * from "./IClause_SubClause";
 export * from "./ISubClause";
 export * from "./IContract";
+export * from "./IBeneficial";
 export * from "./IContractTemplate";
 export * from "./IContractTemplate_Clause";
 export * from "./IEvent";

@@ -4,7 +4,7 @@ export interface ISubClause {
 	id?: number;
 	name?: string;
 	isOptional?: boolean;
-	params?: object;
+	params?: { [key in string]: 'String' | 'Integer' | 'Bool' | 'Date' | 'Float' | 'FixedNumber:1' | 'FixedNumber:2' | 'FixedNumber:3' };
 	rawText?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
