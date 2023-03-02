@@ -35,7 +35,7 @@ export class Contract extends KishiModel {
     template: {
       type: "belongsTo",
       target: "ContractTemplate",
-      foreignKey: "template_id",
+      foreignKey: "templateId",
       schemaMap: {
         "nested": "pure",
         "full": "nested",
@@ -44,7 +44,7 @@ export class Contract extends KishiModel {
     client: {
       type: "belongsTo",
       target: "Client",
-      foreignKey: "client_id",
+      foreignKey: "clientId",
       schemaMap: {
         "nested": "pure",
         "full": "pure",

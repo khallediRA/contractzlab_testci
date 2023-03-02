@@ -33,7 +33,7 @@ export class TypeLevel1 extends KishiModel {
     levels2: {
       type: "hasMany",
       target: "TypeLevel2",
-      foreignKey: "level1_id",
+      foreignKey: "level1Id",
       schemaMap: {
         "nested": "pure",
         "full": "pure",

@@ -27,12 +27,29 @@ export class TypeLevel3 extends KishiModel {
     name: {
       type: KishiDataTypes.STRING,
     },
+    level1_id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        associationName: "level2",
+        targetField: "level1Id"
+      }
+    },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
+    level1: {
+      type: "belongsTo",
+      target: "TypeLevel1",
+      foreignKey: "level1Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+        "full": "pure",
+      },
+    },
     level2: {
       type: "belongsTo",
       target: "TypeLevel2",
-      foreignKey: "level2_id",
+      foreignKey: "level2Id",
       schemaMap: {
         "nested": "pure",
         "full": "pure",

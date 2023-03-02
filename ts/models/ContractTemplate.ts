@@ -26,6 +26,20 @@ export class ContractTemplate extends KishiModel {
     name: {
       type: KishiDataTypes.STRING,
     },
+    level1_id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        associationName: "typeLevel3",
+        targetField: "level1Id"
+      }
+    },
+    level2Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        associationName: "typeLevel3",
+        targetField: "level2Id"
+      }
+    },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
     clauses: {
@@ -45,7 +59,27 @@ export class ContractTemplate extends KishiModel {
     typeLevel3: {
       type: "belongsTo",
       target: "TypeLevel3",
-      foreignKey:"typeLevel3_id",
+      foreignKey:"typeLevel3Id",
+      schemaMap: {
+        "nested": "pure",
+        "full": "pure",
+      },
+    },
+    level2: {
+      type: "belongsTo",
+      target: "TypeLevel2",
+      foreignKey: "level2Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+        "full": "pure",
+      },
+    },
+    level1: {
+      type: "belongsTo",
+      target: "TypeLevel1",
+      foreignKey: "level1Id",
+      actionMap: { Create: null, Update: null, Link: null },
       schemaMap: {
         "nested": "pure",
         "full": "pure",
