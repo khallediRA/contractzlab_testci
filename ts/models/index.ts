@@ -43,12 +43,8 @@ import { SubClause } from "./SubClause";
 import { Contract } from "./Contract";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
 
-//test
-
 export { User } from "./User";
 export { ExternalToken } from "./ExternalToken";
-export { Admin } from "./users";
-export { Moderator } from "./users";
 export { Notification, Notification_User } from "./Notification";
 export { Event, Event_User } from "./Event";
 
