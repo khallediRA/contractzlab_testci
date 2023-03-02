@@ -35,15 +35,11 @@ import { Admin } from "./users";
 import { Client } from "./users";
 import { Notification, Notification_User } from "./Notification";
 import { Event, Event_User } from "./Event";
-//test
-import { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
 export { User } from "./User";
 export { ExternalToken } from "./ExternalToken";
-export { Admin } from "./users";
 export { Notification, Notification_User } from "./Notification";
 export { Event, Event_User } from "./Event";
-export { ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord } from "./samples";
 
 export const models: {
   [name: string]: typeof KishiModel;
@@ -54,7 +50,6 @@ export const models: {
   Client,
   Notification, Notification_User,
   Event, Event_User,
-  ModelA, ModelB, ModelC, ModelD, InterfaceA, ParentA, StripeChargeRecord,
 };
 for (const name in models) {
   models[name].Init(sequelize, models)

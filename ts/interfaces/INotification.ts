@@ -4,7 +4,7 @@ export interface INotification {
 	id?: number;
 	type?: 'Custom' | 'Create' | 'Update';
 	message?: string;
-	ressourceName?: '' | 'ModelA';
+	ressourceName?: '';
 	ressourceId?: string;
 	triggeredBy?: string;
 	createdAt?: Date;
