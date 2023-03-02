@@ -72,6 +72,6 @@ export class Clause_SubClause extends KishiModel {
     }
   }
   static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["ContractTemplateId", "ClauseId", "index"], unique: true,name:"Clause_SubClause_index" }]
+    indexes: [{ fields: ["ClauseId", "SubClauseId", "index"], unique: true,name:"Clause_SubClause_index" }]
   }
 }
