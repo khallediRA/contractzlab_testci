@@ -62,9 +62,7 @@ export function initDataType(Model: typeof KishiModel, attributeName: string, at
   type.modelName = Model.name;
   type.attributeName = attributeName;
   type.dialect = Model.sequelize?.getDialect() as Dialect;
-  if (type.ts_typeStr) {
-    attribute.ts_typeStr = type.ts_typeStr
-  }
+  attribute.ts_typeStr = attribute.ts_typeStr || type.ts_typeStr
   if ((type.getters || []).length > 0) {
     const getChain = KFunction.chain(type.getters || [])
     attribute.get = function get() {
