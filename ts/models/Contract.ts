@@ -1,6 +1,5 @@
 import { ModelHooks } from "sequelize/types/hooks";
-import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../sequelize";
-import { User } from "./User";
+import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -54,5 +53,8 @@ export class Contract extends KishiModel {
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async afterSync(options) {
     },
+  }
+  static initialOptions: KishiModelOptions = {
+    indexes: [{ fields: ["clientId", "name"], unique: true,name:"Contract_name" }]
   }
 }

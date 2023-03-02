@@ -9,6 +9,7 @@ export * from "./ITypeLevel1";
 export * from "./ITypeLevel2";
 export * from "./ITypeLevel3";
 export * from "./IClause";
+export * from "./IClause_SubClause";
 export * from "./ISubClause";
 export * from "./IContract";
 export * from "./IContractTemplate";

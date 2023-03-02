@@ -6,9 +6,9 @@ export interface IContract {
 	paramValues?: object;
 	createdAt?: Date;
 	updatedAt?: Date;
-	templateId?: number;
 	clientId?: string;
+	templateId?: number;
 	template?: Omit<IContractTemplate, "Contract_as_template" | "Contract_as_templateId">;
-	client?: Omit<IClient, "Contract_as_client" | "Contract_as_clientId">;
+	client?: Omit<IClient, "contracts" | "contractsId">;
 
 }

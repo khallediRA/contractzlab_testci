@@ -38,7 +38,7 @@ import { Notification, Notification_User } from "./Notification";
 import { Event, Event_User } from "./Event";
 
 import { TypeLevel1, TypeLevel2, TypeLevel3 } from "./typeLevels";
-import { Clause } from "./Clause";
+import { Clause, Clause_SubClause } from "./Clause";
 import { SubClause } from "./SubClause";
 import { Contract } from "./Contract";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
@@ -58,7 +58,7 @@ export const models: {
   Moderator,
   Notification, Notification_User,
   TypeLevel1, TypeLevel2, TypeLevel3,
-  Clause,
+  Clause, Clause_SubClause,
   SubClause,
   Contract,
   ContractTemplate, ContractTemplate_Clause,

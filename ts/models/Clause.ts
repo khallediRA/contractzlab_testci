@@ -1,6 +1,5 @@
 import { ModelHooks } from "sequelize/types/hooks";
-import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../sequelize";
-import { User } from "./User";
+import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 
 export class Clause extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -26,12 +25,53 @@ export class Clause extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
+      unique:true,
+    },
+    isOptional: {
+      type: KishiDataTypes.BOOLEAN,
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
+    subClauses: {
+      type: "belongsToMany",
+      target: "SubClause",
+      schemaMap: {
+        "nested": "pure",
+        "full": "pure",
+      },
+      actionMap: {
+        Create: "Update",
+        Link: "Set",
+        Update: "UpsertRemove"
+      },
+      through: "Clause_SubClause",
+    },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async afterSync(options) {
     },
+  }
+}
+export class Clause_SubClause extends KishiModel {
+  static crudOptions: CrudOptions = {
+    "create": false,
+    "read": false,
+    "update": false,
+    "delete": false,
+  }
+  static initialAttributes: KishiModelAttributes = {
+    id: {
+      type: KishiDataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+    },
+    index: KishiDataTypes.INTEGER,
+  };
+  static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    afterSync: async (options) => {
+    }
+  }
+  static initialOptions: KishiModelOptions = {
+    indexes: [{ fields: ["ContractTemplateId", "ClauseId", "index"], unique: true,name:"Clause_SubClause_index" }]
   }
 }

@@ -1,6 +1,5 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
-import { User } from "./User";
 export class ContractTemplate extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
@@ -25,6 +24,7 @@ export class ContractTemplate extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
+      unique:true,
     },
     level1_id: {
       type: KishiDataTypes.INTEGER,

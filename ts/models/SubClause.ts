@@ -1,7 +1,10 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../sequelize";
-import { User } from "./User";
 
+type ParamsType =
+  { [key in string]: 'String' | 'Integer' | 'Bool' | 'Date' | 'Float' | 'FixedNumber:1' | 'FixedNumber:2' | 'FixedNumber:3' }
+export const ts_ParamsTypeStr =
+  "{ [key in string]: 'String' | 'Integer' | 'Bool' | 'Date' | 'Float' | 'FixedNumber:1' | 'FixedNumber:2' | 'FixedNumber:3' }"
 export class SubClause extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
@@ -26,6 +29,17 @@ export class SubClause extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
+      unique: true,
+    },
+    isOptional: {
+      type: KishiDataTypes.BOOLEAN,
+    },
+    params: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: ts_ParamsTypeStr,
+    },
+    rawText: {
+      type: KishiDataTypes.TEXT,
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {

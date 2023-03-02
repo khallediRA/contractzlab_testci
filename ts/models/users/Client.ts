@@ -22,5 +22,10 @@ export class Client extends KishiModel {
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
+    contracts: {
+      type: "hasMany",
+      target: "Contract",
+      foreignKey: "clientId",
+    },
   };
 }

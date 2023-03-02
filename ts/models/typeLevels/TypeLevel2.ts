@@ -1,6 +1,5 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../../sequelize";
-import { User } from "../User";
 
 export class TypeLevel2 extends KishiModel {
   static crudOptions: CrudOptions = {
