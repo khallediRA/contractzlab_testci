@@ -26,7 +26,7 @@ export class ContractTemplate extends KishiModel {
       type: KishiDataTypes.STRING,
       unique:true,
     },
-    level1_id: {
+    level1Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
         associationName: "typeLevel3",
