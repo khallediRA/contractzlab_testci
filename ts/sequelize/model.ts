@@ -910,18 +910,16 @@ export class KishiModel extends Model {
         if (!Target.rawAttributes[targetField])
           throw `Unvalid targetField ${this.name}.${associationName}.${targetField}`
         const { sourceKey, targetKey } = association
-        
         const loadFieldFromTarget = async (targetInstance: KishiModel, transaction?: Transaction | null) => {
           let value: any = targetInstance.get(targetField)
           if (targetInstance.dataValues[targetKey]) {
             await this.update({ [sourceField]: value }, { where: { [sourceKey]: targetInstance.dataValues[targetKey] }, transaction })
           }
         }
-
         const loadFieldFromSource = async (instance: KishiModel, transaction?: Transaction | null) => {
           let value: any | any[] = null
           if (instance.dataValues[sourceKey]) {
-            const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: instance.dataValues[sourceKey] }, transaction })
+            const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: instance.dataValues[sourceKey] } })
             if (target) {
               value = target.get(targetField)
             }
@@ -1449,7 +1447,7 @@ export class KishiModel extends Model {
           transaction: options?.transaction,
           where: {
             [association.throughSourceKey]: this.id,
-            [association.otherKey]: ids,
+            [association.otherKey]: { [KOp("notIn")]: ids },
           },
         })
         return this
