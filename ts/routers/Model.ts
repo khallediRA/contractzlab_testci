@@ -33,7 +33,7 @@ export class ModelRouter {
     let verifyCrud = (crud: keyof CrudOptions): Middleware => {
       return async (req, res) => {
         const user: (User & IUser) | null = req.middleData.user
-        const crudOption = Model.crudOptions[crud] || true
+        const crudOption = Model.crudOptions[crud] || false
         let crudResponse
         if (typeof crudOption == "function") {
           crudResponse = await crudOption(user || undefined)
