@@ -1,12 +1,13 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
+import { isOfType } from "../utils/user";
 
 export class Beneficial extends KishiModel {
   static crudOptions: CrudOptions = {
-    "create": false,
-    "read": false,
-    "update": false,
-    "delete": false,
+    "create": (user) => (isOfType(user, "Client")),
+    "read": (user) => (isOfType(user, "Client") && { clientId: user?.id } || false),
+    "update": (user) => (isOfType(user, "Client")),
+    "delete": (user) => (isOfType(user, "Client")),
   }
   static WhereFromDisplay(display: string) {
     const parts = display.split(" ")
