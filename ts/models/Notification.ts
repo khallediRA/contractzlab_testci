@@ -8,8 +8,6 @@ export class Notification extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
     "read": (user?: IUser) => { return user && { "$users.id$": user.id } || false },
-    "update": false,
-    "delete": false,
   }
   static WhereFromDisplay(display: string) {
     return { message: { [KOp("iLike")]: `%${display}%` } }
