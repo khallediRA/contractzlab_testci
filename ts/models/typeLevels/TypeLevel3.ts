@@ -54,6 +54,11 @@ export class TypeLevel3 extends KishiModel {
         "nested": "pure",
         "full": "pure",
       },
+      actionMap: {
+        Create: "Upsert",
+        Link: "Set",
+        Update: "Upsert"
+      },
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {

@@ -1,11 +1,12 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { KArray } from "../utils/array";
 
-type ParamsType =
-  { [key in string]: 'String' | 'Integer' | 'Bool' | 'Date' | 'Float' | 'FixedNumber:1' | 'FixedNumber:2' | 'FixedNumber:3' }
+export type ParamsType =
+  { [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' }
 export const ts_ParamsTypeStr =
-  "{ [key in string]: 'String' | 'Integer' | 'Bool' | 'Date' | 'Float' | 'FixedNumber:1' | 'FixedNumber:2' | 'FixedNumber:3' }"
+  "{ [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' }"
 export class SubClause extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Admin", "Moderator")),
@@ -40,7 +41,16 @@ export class SubClause extends KishiModel {
       ts_typeStr: ts_ParamsTypeStr,
     },
     rawText: {
-      type: KishiDataTypes.TEXT,
+      type: new KishiDataTypes.TEXT(),
+      ts_typeStr: "string[]",
+      get() {
+        return JSON.parse(this.getDataValue("rawText") || "[]")
+      },
+      set(value: string | string[]) {
+        value = value || []
+        const data = Array.isArray(value) ? value : [value]
+        this.setDataValue("rawText", JSON.stringify(data))
+      },
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {

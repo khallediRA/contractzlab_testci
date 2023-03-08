@@ -174,7 +174,7 @@ export interface KishiAssociationOptions extends AssociationOptions {
     /**
      * action when Source Model is created
      */
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     /**
      * action when Source Model is Updated and as in data
      */
@@ -247,7 +247,7 @@ export interface KishiBelongsToOptions extends KishiAssociationOptions {
   type: "belongsTo";
   parent?: boolean;
   actionMap?: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | null;
     Link?: "Set" | null;
   }
@@ -262,7 +262,7 @@ export interface KishiBelongsTo extends KishiAssociation {
   realizer?: boolean;
   otherAssociation?: KishiHasMany | KishiHasOne;
   actionMap: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | null;
     Link?: "Set" | null;
   }
@@ -273,7 +273,7 @@ export interface KishiHasManyOptions extends KishiAssociationOptions {
   foreignKey: string | ForeignKeyOptions;
   otherAssociation?: KishiBelongsToOptions;
   actionMap?: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertDel" | "UpsertRemove" | null;
     Link?: "Set" | "Add" | "SetDel" | null
   }
@@ -285,7 +285,7 @@ export interface KishiHasMany extends KishiAssociation {
   type: "hasMany";
   otherAssociation?: KishiBelongsTo;
   actionMap: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertDel" | "UpsertRemove" | null;
     Link?: "Set" | "Add" | "SetDel" | null
   }
@@ -295,7 +295,7 @@ export interface KishiHasOneOptions extends KishiAssociationOptions {
   type: "hasOne";
   foreignKey: string | ForeignKeyOptions;
   actionMap?: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertDel" | null;
     Link?: "Set" | "SetDel" | null
   }
@@ -307,7 +307,7 @@ export interface KishiHasOne extends KishiAssociation {
   type: "hasOne";
   otherAssociation?: KishiBelongsTo;
   actionMap: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertDel" | null;
     Link?: "Set" | "SetDel" | null
   }
@@ -323,7 +323,7 @@ export interface KishiBelongsToManyOptions extends KishiAssociationOptions {
   timestamps?: boolean;
   uniqueKey?: string;
   actionMap?: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertRemove" | null;
     Link?: "Set" | "Add" | null;
   }
@@ -337,7 +337,7 @@ export interface KishiBelongsToMany extends KishiAssociation {
   throughSourceKey: string;
   otherKey: string;
   actionMap: {
-    Create?: "Create" | "Update" | null;
+    Create?: "Create" | "Update" | "Upsert" | null;
     Update?: "Update" | "Upsert" | "UpsertRemove" | null;
     Link?: "Set" | "Add" | null;
   }

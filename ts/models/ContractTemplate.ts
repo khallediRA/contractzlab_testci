@@ -1,6 +1,27 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { ParamsType } from "./SubClause";
+
+export interface ContractTemplateResponse {
+  "language"?: "en" | "fr",
+  "name"?: string,
+  "level1"?: string,
+  "level2"?: string,
+  "level3"?: string,
+  "clauses"?: {
+    "index"?: number,
+    "name"?: string,
+    "isOptional"?: boolean,
+    "subClauses"?: {
+      "index"?: number,
+      "name"?: string,
+      "isOptional"?: boolean,
+      "rawText"?: string[],
+      "params"?: ParamsType,
+    }[]
+  }[]
+}
 export class ContractTemplate extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Admin", "Moderator")),
@@ -23,21 +44,24 @@ export class ContractTemplate extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
+    language: {
+      type: KishiDataTypes.ENUM("en", "fr"),
+    },
     name: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
     level1Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
-        associationName: "typeLevel3",
+        associationName: "level3",
         targetField: "level1Id"
       }
     },
     level2Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
-        associationName: "typeLevel3",
+        associationName: "level3",
         targetField: "level2Id"
       }
     },
@@ -48,22 +72,27 @@ export class ContractTemplate extends KishiModel {
       target: "Clause",
       schemaMap: {
         "nested": "pure",
-        "full": "pure",
+        "full": "nested",
       },
       actionMap: {
-        Create: "Update",
+        Create: "Upsert",
         Link: "Set",
         Update: "UpsertRemove"
       },
       through: "ContractTemplate_Clause",
     },
-    typeLevel3: {
+    level3: {
       type: "belongsTo",
       target: "TypeLevel3",
-      foreignKey:"typeLevel3Id",
+      foreignKey: "level3Id",
       schemaMap: {
         "nested": "pure",
         "full": "pure",
+      },
+      actionMap: {
+        Create: "Upsert",
+        Link: "Set",
+        Update: "Upsert"
       },
     },
     level2: {
@@ -112,6 +141,6 @@ export class ContractTemplate_Clause extends KishiModel {
     }
   }
   static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["ContractTemplateId", "ClauseId", "index"], unique: true,name:"ContractTemplate_Clause_index" }]
+    indexes: [{ fields: ["ContractTemplateId", "ClauseId", "index"], unique: true, name: "ContractTemplate_Clause_index" }]
   }
 }

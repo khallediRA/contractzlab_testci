@@ -38,10 +38,10 @@ export class Clause extends KishiModel {
       target: "SubClause",
       schemaMap: {
         "nested": "pure",
-        "full": "pure",
+        "full": "nested",
       },
       actionMap: {
-        Create: "Update",
+        Create: "Upsert",
         Link: "Set",
         Update: "UpsertRemove"
       },

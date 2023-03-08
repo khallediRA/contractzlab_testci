@@ -1,0 +1,30 @@
+{
+  "language": "en",
+  "name": "template name",
+  "level1": "level1",
+  "level2": "level2",
+  "level3": "level3",
+  "clauses": [
+    {
+      "index": 1,
+      "name": "Clause name",
+      "isOptional": false,
+      "subClauses": [
+        {
+          "index": 1,
+          "name": "sub clause name",
+          "isOptional": false,
+          "rawText": [
+            "$firstName $lastName born on $birthDate",
+            "name:$firstName $lastName\ndate of birth:$birthDate"
+          ],
+          "params": {
+            "firstName": "text",
+            "lastName": "text",
+            "birthDate": "date"
+          }
+        }
+      ]
+    }
+  ]
+}

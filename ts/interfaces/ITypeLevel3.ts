@@ -11,7 +11,7 @@ export interface ITypeLevel3 {
 	level2Id?: number;
 	level1?: Omit<ITypeLevel1, "TypeLevel3_as_level1" | "TypeLevel3_as_level1Id">;
 	level2?: Omit<ITypeLevel2, "levels3" | "levels3Id">;
-	ContractTemplate_as_typeLevel3?: (Omit<IContractTemplate, "typeLevel3" | "typeLevel3Id">)[];
-	ContractTemplate_as_typeLevel3Id?: (number)[];
+	ContractTemplate_as_level3?: (Omit<IContractTemplate, "level3" | "level3Id">)[];
+	ContractTemplate_as_level3Id?: (number)[];
 
 }

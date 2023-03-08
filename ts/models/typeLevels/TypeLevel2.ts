@@ -37,6 +37,11 @@ export class TypeLevel2 extends KishiModel {
         "nested": "pure",
         "full": "pure",
       },
+      actionMap: {
+        Create: "Upsert",
+        Link: "Set",
+        Update: "Upsert"
+      },
     },
     levels3: {
       type: "hasMany",
