@@ -1387,7 +1387,7 @@ export class KishiModel extends Model {
     switch (association.type) {
       case "belongsTo":
         this.set(association.sourceKey, ids)
-        await this.save()
+        await this.save(options)
         return this
       case "hasOne":
       case "hasMany":
@@ -1401,9 +1401,9 @@ export class KishiModel extends Model {
         var fields = []
         for (const data_ of data) {
           throughData.push({
+            ...(data_[association.Through.name] || {}),
             [association.throughSourceKey]: this.id,
             [association.otherKey]: data_["id"],
-            ...(data_[association.Through.name] || {})
           })
           fields.push(...Object.keys(data_[association.Through.name] || {}))
         }
@@ -1464,10 +1464,10 @@ export class KishiModel extends Model {
     for (let data of _values) {
       if (["hasOne", "hasMany"].includes(association.type))
         data[association.targetKey] = this.get(association.sourceKey)
-      const created_ = await association.Target.Create(data)
+      const created_ = await association.Target.Create(data, options)
       if (association.type == "belongsToMany") {
         data.id = created_.id
-        await this.LinkAssociation(name, data)
+        await this.LinkAssociation(name, data, options)
       }
       created.push(created_);
     }
@@ -1517,14 +1517,121 @@ export class KishiModel extends Model {
     for (let data_ of data) {
       if (["hasOne", "hasMany"].includes(association.type))
         data_[association.targetKey] = this.get(association.sourceKey)
-      const upserted_ = await association.Target.Upsert(data_)
+      const upserted_ = await association.Target.Upsert(data_, options)
       if (association.type == "belongsToMany") {
         data_.id = upserted_[0].id
-        await this.LinkAssociation(name, data)
+        await this.LinkAssociation(name, data_, options)
       }
       upserted.push(upserted_)
     }
     return upserted
+  }
+  public static async HandleBeforeAction(action: "Create" | "Update", values?: any | undefined, options?: CreateOptions | undefined) {
+    const associations = this.finalAssociations;
+    for (const name in associations) {
+      let association = associations[name]
+      if (!values[name]) continue
+      if (association.type != "belongsTo") continue
+      const { foreignName, Target } = association
+      switch (association.actionMap[action]) {
+        case "Create":
+          if (!values[foreignName]) {
+            const createdAssociation = await Target.Create(values[name], options)
+            values[foreignName] = createdAssociation.id
+          }
+          break
+        case "Update":
+          if (values[foreignName]) {
+            const target = await Target.findByPk(values[foreignName])
+            if (!target) {
+              values[foreignName] = null
+              break
+            }
+            await target.Update(values[name], options)
+          }
+        case "Upsert":
+          if (!values[foreignName]) {
+            const upsertedAssociation = await Target.Upsert(values[name], options)
+            values[foreignName] = upsertedAssociation[0].id
+          }
+          break;
+      }
+    }
+  }
+  public async HandleAfterAction(action: "Create" | "Update", values?: any | undefined, options?: CreateOptions | undefined) {
+    const associations = this.Model.finalAssociations;
+    for (const name in associations) {
+      let association = associations[name]
+      if (association.type == "belongsTo") continue
+      const { foreignName, Target } = association
+      if (values[name] != undefined) {
+        if (!association.actionMap[action])
+          continue
+        if (!values[name]) {
+          values[foreignName] = null
+          continue
+        }
+        let _values: any[] = Array.isArray(values[name]) ? values[name] : [values[name]]
+        let data = KArray.toRecords(_values, "id");
+        let ids = KArray.get(data, "id").filter(id => id)
+        const toUpdate = data.filter(row => row.id)
+        let upserted: [KishiModel, boolean][] = []
+        console.log(`${this.Model.name}[${this.id}].${[action]}Action[${name}]:${association.actionMap[action]}`);
+        switch (association.actionMap[action]) {
+          case "Create":
+            await this.CreateAssociation(name, data, options)
+            break
+          case "Update":
+            await this.UpdateAssociation(name, toUpdate, options)
+            break;
+          case "Upsert":
+            await this.UpsertAssociation(name, data, options)
+            break;
+          case "UpsertRemove":
+            upserted = await this.UpsertAssociation(name, data, options)
+            ids = KArray.get(upserted, [0, "id"]);
+            await this.SetAssociation(name, ids, options)
+            break;
+          case "UpsertDel":
+            upserted = await this.UpsertAssociation(name, data, options)
+            ids = KArray.get(upserted, [0, "id"]);
+            await Target.destroy({
+              transaction: options?.transaction,
+              where: {
+                [association.targetKey]: this.get(association.sourceKey),
+                id: { [KOp("notIn")]: ids },
+              }
+            });
+            break;
+        }
+      } else if (values[association.idName] != undefined) {
+        if (association.actionMap.Link == null)
+          continue
+        let _values: any[] = Array.isArray(values[association.idName]) ? values[association.idName] : [values[association.idName]]
+        let data = KArray.toRecords(_values, "id");
+        let ids = KArray.get(data, "id").filter(id => id)
+        console.log(`${this.Model.name}[${this.id}].UpdateAction[${name}]:${association.actionMap.Update}`);
+        switch (association.actionMap.Link) {
+          case "Add":
+            await this.LinkAssociation(name, data, options)
+            break;
+          case "Set":
+            await this.SetAssociation(name, data, options)
+            break;
+          case "SetDel":
+            if (association.type != "hasMany") continue
+            await this.LinkAssociation(name, ids, options)
+            await association.Target.destroy({
+              transaction: options?.transaction,
+              where: {
+                [association.targetKey]: this.get(association.sourceKey),
+                id: { [KOp("notIn")]: ids },
+              }
+            });
+            break;
+        }
+      }
+    }
   }
 
   public static async Create(values?: any | undefined, options?: CreateOptions | undefined): Promise<KishiModel> {
@@ -1551,52 +1658,25 @@ export class KishiModel extends Model {
     for (const name in associations) {
       let association = associations[name]
       if (!values[name]) continue
+      if (association.type != "belongsTo") continue
       const { foreignName, Target } = association
-      switch (association.type) {
-        case "belongsTo":
+      switch (association.actionMap.Create) {
+        case "Create":
           if (!values[foreignName]) {
             const createdAssociation = await Target.Create(values[name], options)
             values[foreignName] = createdAssociation.id
+          }
+          break
+        case "Upsert":
+          if (!values[foreignName]) {
+            const upsertedAssociation = await Target.Upsert(values[name], options)
+            values[foreignName] = upsertedAssociation[0].id
           }
           break;
       }
     }
     const created = await this.create(values, options)
-    try {
-      for (const name in associations) {
-        let association = associations[name]
-        if (!values[name]) continue
-        let datas: any[] = Array.isArray(values[name]) ? values[name] : [values[name]]
-        datas = datas.filter(data => data)
-        const { foreignName, Target } = association
-        switch (association.type) {
-          case "hasOne":
-          case "hasMany":
-            for (let data of datas) {
-              data[foreignName] = created.id
-              await Target.Create(data, options)
-            }
-            break;
-          case "belongsToMany":
-            const { Through, throughSourceKey, otherKey } = association
-            for (let data of datas) {
-              if (!(data instanceof Object)) {
-                data = { "id": data }
-              }
-
-              let throughData: any = {}
-              throughData[throughSourceKey] = created.id
-              throughData[otherKey] = data.id
-              if (data[Through.name])
-                defaults(throughData, data[Through.name])
-              await Through.Create(throughData, options)
-            }
-            break;
-        }
-      }
-    } catch (error) {
-      throw error
-    }
+    await created.HandleAfterAction("Create", values, options)
     return created
   }
 
@@ -1639,6 +1719,9 @@ export class KishiModel extends Model {
       }
     }
     await this.update(values, options)
+    await this.HandleAfterAction("Update", values, options)
+    return this
+
     for (const name in associations) {
       let association = associations[name]
       if (association.type == "belongsTo") continue
@@ -1675,7 +1758,7 @@ export class KishiModel extends Model {
             ids = KArray.get(upserted, [0, "id"]);
             //delete rest
             await association.Target.destroy({
-              transaction: options.transaction,
+              transaction: options?.transaction,
               where: {
                 [association.targetKey]: this.get(association.sourceKey),
                 id: { [KOp("notIn")]: ids },
@@ -1705,7 +1788,7 @@ export class KishiModel extends Model {
             if (association.type != "hasMany") continue
             await this.LinkAssociation(name, ids, options)
             await association.Target.destroy({
-              transaction: options.transaction,
+              transaction: options?.transaction,
               where: {
                 [association.targetKey]: this.get(association.sourceKey),
                 id: { [KOp("notIn")]: ids },
@@ -1730,7 +1813,7 @@ export class KishiModel extends Model {
     let where: WhereOptions | undefined = this.DataToWhere(values)
     if (where) {
       console.log(where);
-      let toUpdate = await this.findOne({ where, transaction: options.transaction })
+      let toUpdate = await this.findOne({ where })
       if (toUpdate) {
         newRecord = false
         await toUpdate.Update(values, options)
@@ -1752,7 +1835,7 @@ export class KishiModel extends Model {
         for (const key in err.fields) {
           where[key] = values[key]
         }
-        let toUpdate = await this.findOne({ where, transaction: options.transaction })
+        let toUpdate = await this.findOne({ where })
         newRecord = false
         if (!toUpdate) {
           throw {

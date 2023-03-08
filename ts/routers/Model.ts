@@ -22,156 +22,160 @@ export class ModelRouter {
   constructor(Model: typeof KishiModel) {
     this.Model = Model
   }
+  verifyUser: Middleware = async (req, res) => {
+    const user = await UserAuthService.verifyToken(req).catch((err => null))
+    req.middleData.user = user
+    return user
+  }
+  verifyCrud = (crud: keyof CrudOptions): Middleware => {
+    return async (req, res) => {
+      const user: (User & IUser) | null = req.middleData.user
+      const crudOption = this.Model.crudOptions[crud] || false
+      let crudResponse
+      if (typeof crudOption == "function") {
+        crudResponse = await crudOption(user || undefined)
+      } else {
+        crudResponse = crudOption
+      }
+      if (!crudResponse)
+        throw { status: 403, message: "User Not Authorized" };
+      req.middleData.crudResponse = crudResponse
+      return crudResponse
+    }
+  }
+  parseFindOptions: Middleware = async (req, res) => {
+    const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
+    const schema: string = (req.query["schema"] || "pure") as string
+    let findOptions: FindOptions = this.Model.SchemaToFindOptions(schema, true)
+    const page: string = req.query["page"] as string;
+    if (page) {
+      const limit = Number(page.split(":")[0])
+      let offset: number | undefined = limit * (Number(page.split(":")[1]) - 1)
+      offset = offset != 0 ? offset : undefined
+      findOptions.limit = limit
+      findOptions.offset = offset
+    } else {
+    }
+    const orderBy: string = req.query["orderBy"] as string
+    if (orderBy) {
+      const [name, order] = orderBy.split(":")
+      findOptions.order = [[name, order]]
+    } else {
+    }
+    const where = req.body?.where
+    if (where) {
+      const deepWhere = flatToDeep(where)
+      let whereData = this.Model.FlattenWhere(deepWhere)
+      findOptions.where = whereData
+    }
+    if (crudResponse != true) {
+      findOptions.where = findOptions.where ? { [KOp("and")]: [findOptions.where, crudResponse] } : crudResponse
+    }
+    const group = req.query["group"] as string
+    if (group) {
+      findOptions.group = group
+    }
+    req.middleData.findOptions = findOptions
+    return findOptions
+  }
+  parseReqData: Middleware = async (req, res) => {
+    let reqData = req.body.data
+    if (req.body.isJSON)
+      reqData = JSON.parse(reqData)
+    if (req.files) {
+      for (const key in req.files) {
+        setDeepValue(reqData, key, req.files[key])
+      }
+    }
+    req.middleData.reqData = reqData
+    return reqData
+  }
+  findById: Middleware = async (req, res) => {
+    const findOptions: FindOptions = req.middleData.findOptions
+    const id: string = req.query["id"] as string
+    delete findOptions.where
+    const row = await this.Model.findByPk(id, findOptions)
+    if (!row)
+      throw { message: `Instance Not Found` }
+    req.middleData.row = row
+    return { row: row.toView() }
+  }
+  findAll: Middleware = async (req, res) => {
+    const findOptions: FindOptions = req.middleData.findOptions
+    const { rows, count } = await this.Model.findAndCountAll(findOptions)
+    req.middleData.findAll = { rows, count }
+
+    return { count, rows: this.Model.toView(rows) }
+  }
+  count: Middleware = async (req, res) => {
+    const findOptions: FindOptions = req.middleData.findOptions
+    const count = await this.Model.count(findOptions)
+    return { count }
+  }
+  findOneWhere: Middleware = async (req, res) => {
+    const findOptions: FindOptions = req.middleData.findOptions
+    const row = await this.Model.findOne(findOptions)
+    return { row: row?.toView() }
+  }
+  uploadFile: (attributeName: string) => Middleware = (attributeName: string) => {
+    return async (req, res) => {
+      const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
+      if (!req.files?.["file"])
+        throw {
+          message: "File Not Found",
+          attributeName,
+        };
+      if (Array.isArray(req.files["file"]) && !fileType.isArray)
+        throw {
+          message: "Found Multiple Files",
+          length: (req.files["file"] as any[]).length
+        };
+      const id: string = req.query["id"] as string
+      let row = await this.Model.findByPk(id)
+      if (!row)
+        throw { message: `Instance Not Found` }
+      row.set(attributeName, req.files["file"])
+      await row.save()
+      return { row: row.toView() }
+    }
+  }
+  deleteFile: (attributeName: string) => Middleware = (attributeName: string) => {
+    return async (req, res) => {
+      const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
+      const id: string = req.query["id"] as string
+      let row = await this.Model.findByPk(id)
+      if (!row)
+        throw { message: `Instance Not Found` }
+      let toDelete = (req.body?.file || []) as any | any[]
+      toDelete = Array.isArray(toDelete) ? toDelete : [toDelete]
+      toDelete = KArray.toValues(toDelete, "key") as string[]
+      let found = []
+      let notFound = []
+
+      let fileNames = fileType.isArray ? JSON.parse(row.getDataValue(attributeName) || "[]") : [row.getDataValue(attributeName)] as string[]
+      found = KArray.intersection(fileNames, toDelete)
+      notFound = KArray.minus(toDelete, found)
+      const remainng = KArray.minus(fileNames, found)
+      row.setDataValue(attributeName, fileType.isArray ? JSON.stringify(remainng) : (remainng[0] || null))
+      await row.save()
+      return { found, notFound, row: row.toView() }
+    }
+  }
+  findByDisplay: Middleware = async (req, res) => {
+    const display: string = req.query["display"] as string
+    const findOptions: FindOptions = req.middleData.findOptions
+    if (display)
+      findOptions.where = this.Model.WhereFromDisplay?.(display)
+    const rows = await this.Model.findAll(findOptions)
+    return { rows: this.Model.toView(rows) }
+  }
   Route(): Router {
     let router: Router = Router();
     const Model = this.Model
-    let verifyUser: Middleware = async (req, res) => {
-      const user = await UserAuthService.verifyToken(req).catch((err => null))
-      req.middleData.user = user
-      return user
-    }
-    let verifyCrud = (crud: keyof CrudOptions): Middleware => {
-      return async (req, res) => {
-        const user: (User & IUser) | null = req.middleData.user
-        const crudOption = Model.crudOptions[crud] || false
-        let crudResponse
-        if (typeof crudOption == "function") {
-          crudResponse = await crudOption(user || undefined)
-        } else {
-          crudResponse = crudOption
-        }
-        if (!crudResponse)
-          throw { status: 403, message: "User Not Authorized" };
-        req.middleData.crudResponse = crudResponse
-        return crudResponse
-      }
-    }
-
-    let parseFindOptions: Middleware = async (req, res) => {
-      const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
-      const schema: string = (req.query["schema"] || "pure") as string
-      let findOptions: FindOptions = Model.SchemaToFindOptions(schema, true)
-      const page: string = req.query["page"] as string;
-      if (page) {
-        const limit = Number(page.split(":")[0])
-        let offset: number | undefined = limit * (Number(page.split(":")[1]) - 1)
-        offset = offset != 0 ? offset : undefined
-        findOptions.limit = limit
-        findOptions.offset = offset
-      } else {
-      }
-      const orderBy: string = req.query["orderBy"] as string
-      if (orderBy) {
-        const [name, order] = orderBy.split(":")
-        findOptions.order = [[name, order]]
-      } else {
-      }
-      const where = req.body?.where
-      if (where) {
-        const deepWhere = flatToDeep(where)
-        let whereData = Model.FlattenWhere(deepWhere)
-        findOptions.where = whereData
-      }
-      if (crudResponse != true) {
-        findOptions.where = findOptions.where ? { [KOp("and")]: [findOptions.where, crudResponse] } : crudResponse
-      }
-      const group = req.query["group"] as string
-      if (group) {
-        findOptions.group = group
-      }
-      req.middleData.findOptions = findOptions
-      return findOptions
-    }
-    let parseReqData: Middleware = async (req, res) => {
-      let reqData = req.body.data
-      if (req.body.isJSON)
-        reqData = JSON.parse(reqData)
-      if (req.files) {
-        for (const key in req.files) {
-          setDeepValue(reqData, key, req.files[key])
-        }
-      }
-      req.middleData.reqData = reqData
-      return reqData
-    }
-    let findById: Middleware = async (req, res) => {
-      const findOptions: FindOptions = req.middleData.findOptions
-      const id: string = req.query["id"] as string
-      delete findOptions.where
-      const row = await Model.findByPk(id, findOptions)
-      if (!row)
-        throw { message: `Instance Not Found` }
-      req.middleData.row = row
-      return { row: row.toView() }
-    }
-    let findAll: Middleware = async (req, res) => {
-      const findOptions: FindOptions = req.middleData.findOptions
-      const { rows, count } = await Model.findAndCountAll(findOptions)
-      return { count, rows: Model.toView(rows) }
-    }
-    let count: Middleware = async (req, res) => {
-      const findOptions: FindOptions = req.middleData.findOptions
-      const count = await Model.count(findOptions)
-      return { count }
-    }
-    let findOneWhere: Middleware = async (req, res) => {
-      const findOptions: FindOptions = req.middleData.findOptions
-      const row = await Model.findOne(findOptions)
-      return { row: row?.toView() }
-    }
-    let uploadFile: (attributeName: string) => Middleware = (attributeName: string) => {
-      return async (req, res) => {
-        const fileType = Model.rawAttributes[attributeName].type as KishiDataType
-        if (!req.files?.["file"])
-          throw {
-            message: "File Not Found",
-            attributeName,
-          };
-        if (Array.isArray(req.files["file"]) && !fileType.isArray)
-          throw {
-            message: "Found Multiple Files",
-            length: (req.files["file"] as any[]).length
-          };
-        const id: string = req.query["id"] as string
-        let row = await Model.findByPk(id)
-        if (!row)
-          throw { message: `Instance Not Found` }
-        row.set(attributeName, req.files["file"])
-        await row.save()
-        return { row: row.toView() }
-      }
-    }
-    let deleteFile: (attributeName: string) => Middleware = (attributeName: string) => {
-      return async (req, res) => {
-        const fileType = Model.rawAttributes[attributeName].type as KishiDataType
-        const id: string = req.query["id"] as string
-        let row = await Model.findByPk(id)
-        if (!row)
-          throw { message: `Instance Not Found` }
-        let toDelete = (req.body?.file || []) as any | any[]
-        toDelete = Array.isArray(toDelete) ? toDelete : [toDelete]
-        toDelete = KArray.toValues(toDelete, "key") as string[]
-        let found = []
-        let notFound = []
-
-        let fileNames = fileType.isArray ? JSON.parse(row.getDataValue(attributeName) || "[]") : [row.getDataValue(attributeName)] as string[]
-        found = KArray.intersection(fileNames, toDelete)
-        notFound = KArray.minus(toDelete, found)
-        const remainng = KArray.minus(fileNames, found)
-        row.setDataValue(attributeName, fileType.isArray ? JSON.stringify(remainng) : (remainng[0] || null))
-        await row.save()
-        return { found, notFound, row: row.toView() }
-      }
-    }
+    const {
+      verifyUser, verifyCrud, parseReqData, parseFindOptions, findByDisplay, findById, findOneWhere, findAll, count, uploadFile, deleteFile
+    } = this
     if (Model.WhereFromDisplay) {
-      let findByDisplay: Middleware = async (req, res) => {
-        const display: string = req.query["display"] as string
-        const findOptions: FindOptions = req.middleData.findOptions
-        if (display)
-          findOptions.where = Model.WhereFromDisplay?.(display)
-        const rows = await Model.findAll(findOptions)
-        return { rows: Model.toView(rows) }
-      }
       router.get("/byDisplay", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findByDisplay))
     }
     router.get("/", MiddlewareChain(verifyUser, verifyCrud("read"), parseFindOptions, findById))
