@@ -26,6 +26,7 @@ export class TypeLevel1 extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
+      unique:true,
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
