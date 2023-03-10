@@ -5,6 +5,7 @@ import { IContractTemplate } from "./IContractTemplate";
 import { IContractTemplate_Clause } from "./IContractTemplate_Clause";
 export interface IClause {
 	id?: number;
+	code?: string;
 	name?: string;
 	isOptional?: boolean;
 	createdAt?: Date;

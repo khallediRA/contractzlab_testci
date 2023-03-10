@@ -24,9 +24,12 @@ export class Clause extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
-    name: {
+    code: {
       type: KishiDataTypes.STRING,
       unique:true,
+    },
+    name: {
+      type: KishiDataTypes.STRING,
     },
     isOptional: {
       type: KishiDataTypes.BOOLEAN,
@@ -66,7 +69,7 @@ export class Clause_SubClause extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
-    index: KishiDataTypes.INTEGER,
+    index: KishiDataTypes.STRING(8),
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     afterSync: async (options) => {

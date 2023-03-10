@@ -7,6 +7,7 @@ import { IContractTemplate_Clause } from "./IContractTemplate_Clause";
 export interface IContractTemplate {
 	id?: number;
 	language?: 'en' | 'fr';
+	code?: string;
 	name?: string;
 	level1Id?: number;
 	level2Id?: number;

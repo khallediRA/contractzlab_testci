@@ -2,6 +2,7 @@ import { IClause } from "./IClause";
 import { IClause_SubClause } from "./IClause_SubClause";
 export interface ISubClause {
 	id?: number;
+	code?: string;
 	name?: string;
 	isOptional?: boolean;
 	params?: { [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' };

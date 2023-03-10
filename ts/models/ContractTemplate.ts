@@ -10,11 +10,11 @@ export interface ContractTemplateResponse {
   "level2"?: string,
   "level3"?: string,
   "clauses"?: {
-    "index"?: number,
+    "index"?: string,
     "name"?: string,
     "isOptional"?: boolean,
     "subClauses"?: {
-      "index"?: number,
+      "index"?: string,
       "name"?: string,
       "isOptional"?: boolean,
       "rawText"?: string[],
@@ -47,9 +47,12 @@ export class ContractTemplate extends KishiModel {
     language: {
       type: KishiDataTypes.ENUM("en", "fr"),
     },
+    code: {
+      type: KishiDataTypes.STRING,
+      unique:true,
+    },
     name: {
       type: KishiDataTypes.STRING,
-      unique: true,
     },
     level1Id: {
       type: KishiDataTypes.INTEGER,
@@ -134,7 +137,7 @@ export class ContractTemplate_Clause extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
-    index: KishiDataTypes.INTEGER,
+    index: KishiDataTypes.STRING(8),
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     afterSync: async (options) => {

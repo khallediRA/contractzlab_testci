@@ -21,14 +21,14 @@ async function test() {
     },
     clauses: [{
       ContractTemplate_Clause: {
-        index: 1,
+        index: "1",
       },
       name: "Clause name",
       isOptional: false,
       subClauses: [
         {
           Clause_SubClause: {
-            index: 1,
+            index: "1",
           },
           name: "sub clause name",
           isOptional: false,

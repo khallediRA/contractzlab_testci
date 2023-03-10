@@ -29,9 +29,12 @@ export class SubClause extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
+    code: {
+      type: KishiDataTypes.STRING,
+      unique:true,
+    },
     name: {
       type: KishiDataTypes.STRING,
-      unique: true,
     },
     isOptional: {
       type: KishiDataTypes.BOOLEAN,

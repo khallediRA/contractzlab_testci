@@ -21,6 +21,7 @@ import { UserAuthService } from "./services/userAuth";
 import { YouSignService } from "./services/youSign";
 import { ZoomService } from "./services/zoom";
 import { OSMRouter } from "./routers/osm";
+import { ReportRouter } from "./routers/report";
 
 
 const { uploadPath } = config;
@@ -58,6 +59,7 @@ for (const name in models) {
 }
 router.use(`/utils`, UtilsRouter.Route())
 router.use("/osm",OSMRouter.Route())
+router.use("/report",ReportRouter.Route())
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)
