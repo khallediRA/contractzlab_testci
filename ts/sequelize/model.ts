@@ -1636,8 +1636,8 @@ export class KishiModel extends Model {
 
   public static async Create(values?: any | undefined, options?: CreateOptions | undefined): Promise<KishiModel> {
     if (!options?.transaction) {
-      let _options = (options || {}) as CreateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as CreateOptions
         _options.transaction = transaction
         return await this.Create(values, _options)
       })
@@ -1683,8 +1683,8 @@ export class KishiModel extends Model {
 
   public async Update(values?: any | undefined, options?: InstanceUpdateOptions | undefined): Promise<this> {
     if (!options?.transaction) {
-      let _options = (options || {}) as InstanceUpdateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as InstanceUpdateOptions
         _options.transaction = transaction
         return await this.Update(values, _options)
       })
@@ -1721,89 +1721,11 @@ export class KishiModel extends Model {
     await this.update(values, options)
     await this.HandleAfterAction("Update", values, options)
     return this
-
-    for (const name in associations) {
-      let association = associations[name]
-      if (association.type == "belongsTo") continue
-      const { foreignName } = association
-      if (values[name] != undefined) {
-        if (association.actionMap.Update == null)
-          continue
-        if (!values[name]) {
-          values[foreignName] = null
-          continue
-        }
-        let _values: any[] = Array.isArray(values[name]) ? values[name] : [values[name]]
-        let data = KArray.toRecords(_values, "id");
-        let ids = KArray.get(data, "id").filter(id => id)
-        const toUpdate = data.filter(row => row.id)
-        let upserted: [KishiModel, boolean][] = []
-        let updated: KishiModel[] = []
-        console.log(`${this.Model.name}[${this.id}].UpdateAction[${name}]:${association.actionMap.Update}`);
-        switch (association.actionMap.Update) {
-          case "Update":
-            updated = await this.UpdateAssociation(name, toUpdate, options)
-            break;
-          case "Upsert":
-            upserted = await this.UpsertAssociation(name, data, options)
-            break;
-          case "UpsertRemove":
-            upserted = await this.UpsertAssociation(name, data, options)
-            ids = KArray.get(upserted, [0, "id"]);
-            //remove rest
-            await this.SetAssociation(name, ids, options)
-            break;
-          case "UpsertDel":
-            upserted = await this.UpsertAssociation(name, data, options)
-            ids = KArray.get(upserted, [0, "id"]);
-            //delete rest
-            await association.Target.destroy({
-              transaction: options?.transaction,
-              where: {
-                [association.targetKey]: this.get(association.sourceKey),
-                id: { [KOp("notIn")]: ids },
-              }
-            });
-            break;
-        }
-        if (upserted.length > 0) {
-          ids = KArray.get(upserted, [0, "id"]);
-          console.log(ids);
-        }
-      } else if (values[association.idName] != undefined) {
-        if (association.actionMap.Link == null)
-          continue
-        let _values: any[] = Array.isArray(values[association.idName]) ? values[association.idName] : [values[association.idName]]
-        let data = KArray.toRecords(_values, "id");
-        let ids = KArray.get(data, "id").filter(id => id)
-        console.log(`${this.Model.name}[${this.id}].UpdateAction[${name}]:${association.actionMap.Update}`);
-        switch (association.actionMap.Link) {
-          case "Add":
-            await this.LinkAssociation(name, data, options)
-            break;
-          case "Set":
-            await this.SetAssociation(name, data, options)
-            break;
-          case "SetDel":
-            if (association.type != "hasMany") continue
-            await this.LinkAssociation(name, ids, options)
-            await association.Target.destroy({
-              transaction: options?.transaction,
-              where: {
-                [association.targetKey]: this.get(association.sourceKey),
-                id: { [KOp("notIn")]: ids },
-              }
-            });
-            break;
-        }
-      }
-    }
-    return this
   }
   static async Upsert(values?: any | undefined, options?: CreateOptions | undefined): Promise<[KishiModel, boolean]> {
     if (!options?.transaction) {
-      let _options = (options || {}) as InstanceUpdateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as InstanceUpdateOptions
         _options.transaction = transaction
         return await this.Upsert(values, _options)
       })
@@ -1821,7 +1743,11 @@ export class KishiModel extends Model {
       }
     }
 
-    const upserted = await this.Create(values, options)
+    const upserted = await this.sequelize?.transaction({ transaction: options.transaction }, async (transaction) => {
+      let _options = (options && { ...options } || {}) as CreateOptions
+      _options.transaction = transaction
+      return await this.Create(values, _options)
+    })
       .catch(async err => {
         if (!err.fields)
           throw err
@@ -1849,6 +1775,8 @@ export class KishiModel extends Model {
         }
         return await toUpdate.Update(values, options)
       })
+    if (!upserted)
+      throw "Goodbye World"
     return [upserted, newRecord]
   }
 }

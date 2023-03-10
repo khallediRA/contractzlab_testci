@@ -34,7 +34,7 @@ export class KArray {
 		return Array.from(array, (row) => (row && typeof row == "object" && key in row) ? row?.[key] : row).filter(value => value)
 	}
 	static toRecords(array: any[], key: string): any[] {
-		return Array.from(array.filter(row => row), (row) => (row && typeof row == "object" && key in row) ? row : { [key]: row })
+		return Array.from(array.filter(row => row), (row) => (row && typeof row == "object") ? row : { [key]: row })
 	}
 	static clense(array: any[]): any[] {
 		return array.filter(row => row)
