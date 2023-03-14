@@ -58,8 +58,8 @@ for (const name in models) {
   router.use(`/${name}`, modelRouter.Route())
 }
 router.use(`/utils`, UtilsRouter.Route())
-router.use("/osm",OSMRouter.Route())
-router.use("/report",ReportRouter.Route())
+router.use("/osm", OSMRouter.Route())
+router.use("/report", ReportRouter.Route())
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)

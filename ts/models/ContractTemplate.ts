@@ -49,7 +49,7 @@ export class ContractTemplate extends KishiModel {
     },
     code: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
     name: {
       type: KishiDataTypes.STRING,
@@ -90,7 +90,7 @@ export class ContractTemplate extends KishiModel {
       foreignKey: "level3Id",
       schemaMap: {
         "nested": "pure",
-        "full": "pure",
+        "full": "full",
       },
       actionMap: {
         Create: "Upsert",
@@ -138,6 +138,10 @@ export class ContractTemplate_Clause extends KishiModel {
       autoIncrement: true,
     },
     index: KishiDataTypes.STRING(8),
+    isOptional: {
+      type: KishiDataTypes.BOOLEAN,
+      defaultValue: false,
+    },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     afterSync: async (options) => {

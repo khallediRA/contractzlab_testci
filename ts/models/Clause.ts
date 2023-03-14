@@ -1,6 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { ts_ParamsTypeStr } from "./SubClause";
 
 export class Clause extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -26,56 +27,46 @@ export class Clause extends KishiModel {
     },
     code: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
     name: {
       type: KishiDataTypes.STRING,
     },
-    isOptional: {
-      type: KishiDataTypes.BOOLEAN,
+    params: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: ts_ParamsTypeStr,
+    },
+    rawText: {
+      type: new KishiDataTypes.TEXT(),
+      ts_typeStr: "string[]",
+      get() {
+        return JSON.parse(this.getDataValue("rawText") || "[]")
+      },
+      set(value: string | string[]) {
+        value = value || []
+        const data = Array.isArray(value) ? value : [value]
+        this.setDataValue("rawText", JSON.stringify(data))
+      },
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
     subClauses: {
-      type: "belongsToMany",
+      type: "hasMany",
       target: "SubClause",
+      foreignKey: "clauseId",
       schemaMap: {
         "nested": "pure",
         "full": "nested",
       },
       actionMap: {
-        Create: "Upsert",
-        Link: "Set",
-        Update: "UpsertRemove"
+        Create: "Create",
+        Link: null,
+        Update: "UpsertDel"
       },
-      through: "Clause_SubClause",
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async afterSync(options) {
     },
-  }
-}
-export class Clause_SubClause extends KishiModel {
-  static crudOptions: CrudOptions = {
-    "create": false,
-    "read": false,
-    "update": false,
-    "delete": false,
-  }
-  static initialAttributes: KishiModelAttributes = {
-    id: {
-      type: KishiDataTypes.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    index: KishiDataTypes.STRING(8),
-  };
-  static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
-    afterSync: async (options) => {
-    }
-  }
-  static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["ClauseId", "SubClauseId", "index"], unique: true,name:"Clause_SubClause_index" }]
   }
 }

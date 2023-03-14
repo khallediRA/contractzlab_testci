@@ -1,6 +1,7 @@
 import XLSX from "xlsx"
 import fs from "fs"
 import { parse } from "csv-parse"
+import { Parser } from "json2csv"
 export class CSVLib {
   static XlsxToCsv(inPath: string, outPath: string) {
     // Load the XLSX file
@@ -18,10 +19,10 @@ export class CSVLib {
     // Write the CSV to a file
     fs.writeFileSync(outPath, csv);
   }
-  static CsvToRecords(inPath: string, encodeing: BufferEncoding) {
+  static CsvToRecords(inPath: string, encoding?: BufferEncoding): Promise<any[]> {
     return new Promise((resolve, reject) => {
       try {
-        const csvData = fs.readFileSync(inPath, encodeing);
+        const csvData = fs.readFileSync(inPath, encoding);
         // Parse the CSV data
         parse(csvData, {
           delimiter: ',', // Set the delimiter to comma
@@ -38,5 +39,14 @@ export class CSVLib {
       }
 
     })
+  }
+  static RecordsToCSV(records: any[], outPath: string, encoding?: BufferEncoding) {
+    // Convert the records to CSV data
+    const parser = new Parser();
+    const csvData = parser.parse(records);
+
+    // Write the CSV data to a file
+    fs.writeFileSync(outPath, csvData,{encoding});
+
   }
 }

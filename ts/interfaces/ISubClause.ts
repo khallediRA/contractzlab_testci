@@ -1,15 +1,15 @@
 import { IClause } from "./IClause";
-import { IClause_SubClause } from "./IClause_SubClause";
 export interface ISubClause {
 	id?: number;
+	index?: string;
 	code?: string;
 	name?: string;
 	isOptional?: boolean;
-	params?: { [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' };
+	params?: {    name: string,    label: string,    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'  }[];
 	rawText?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
-	Clause_as_subClauses?: (Omit<IClause, "subClauses" | "subClausesId"> & { Clause_SubClause?: IClause_SubClause })[];
-	Clause_as_subClausesId?: (number)[];
+	clauseId?: number;
+	Clause_as_subClauses?: Omit<IClause, "subClauses" | "subClausesId">;
 
 }

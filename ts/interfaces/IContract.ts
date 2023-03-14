@@ -4,6 +4,9 @@ export interface IContract {
 	id?: number;
 	name?: string;
 	paramValues?: object;
+	excludedClauses?: number[];
+	excludedSubClauses?: number[];
+	annexes?: { key: string, fileName:string, url: string }[];
 	createdAt?: Date;
 	updatedAt?: Date;
 	clientId?: string;

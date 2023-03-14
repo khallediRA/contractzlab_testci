@@ -1,4 +1,3 @@
-import { IClause_SubClause } from "./IClause_SubClause";
 import { ISubClause } from "./ISubClause";
 import { IContract } from "./IContract";
 import { IContractTemplate } from "./IContractTemplate";
@@ -7,10 +6,11 @@ export interface IClause {
 	id?: number;
 	code?: string;
 	name?: string;
-	isOptional?: boolean;
+	params?: {    name: string,    label: string,    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'  }[];
+	rawText?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
-	subClauses?: (Omit<ISubClause, "Clause_as_subClauses" | "Clause_as_subClausesId"> & { Clause_SubClause?: IClause_SubClause })[];
+	subClauses?: (Omit<ISubClause, "Clause_as_subClauses" | "Clause_as_subClausesId">)[];
 	subClausesId?: (number)[];
 	ContractTemplate_as_clauses?: (Omit<IContractTemplate, "clauses" | "clausesId"> & { ContractTemplate_Clause?: IContractTemplate_Clause })[];
 	ContractTemplate_as_clausesId?: (number)[];

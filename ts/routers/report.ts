@@ -23,47 +23,6 @@ export class ReportRouter {
 
   static Route(): Router {
     let router: Router = Router();
-    router.get("/exportContractTemplate", async (req, res) => {
-      const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
-      try {
-        let _req = req as MiddlewareRequest
-        _req.middleData = {}
-        req.query["schema"] = "full"
-        await verifyUser(_req, res)
-        await verifyCrud("read")(_req, res)
-        await parseFindOptions(_req, res)
-        const findOptions: FindOptions = _req.middleData.findOptions
-        const rows = await ContractTemplate.findAll(findOptions) as (ContractTemplate & IContractTemplate)[]
-        let output: ContractTemplateResponse[] = []
-        for (const row of rows) {
-          output.push({
-            name: row.name,
-            language: row.language,
-            level1: row.level1?.name,
-            level2: row.level2?.name,
-            level3: row.level3?.name,
-            clauses: row.clauses?.map((clause) => {
-              return {
-                index: clause.ContractTemplate_Clause?.index,
-                isOptional: clause.isOptional,
-                name: clause.name,
-                subClauses: clause.subClauses?.map((subClause) => {
-                  return {
-                    index: subClause.Clause_SubClause?.index,
-                    isOptional: subClause.isOptional,
-                    name: subClause.name,
-                    rawText: subClause.rawText,
-                    params: subClause.params,
-                  }
-                })
-              }
-            })
-          })
-        }
-        res.status(200).send({ output })
-      } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
-
-    })
     router.post("/csv/importContractTemplate", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
 
@@ -91,84 +50,137 @@ export class ReportRouter {
           fs.unlinkSync(`tmp/${random}.xlsx`)
         }
         fs.unlinkSync(`tmp/${random}.csv`)
-        let data: IContractTemplate = { clauses: [] }
-        for (const record of records as any) {
-          if (record["Id de la clause"] || record["Nom de la clause"]) {
-            data.clauses?.push({
-              ContractTemplate_Clause: { index: record["Id de la clause"] },
-              name: record["Nom de la clause"] || undefined,
-              subClauses: [],
+        let data: IContractTemplate = {
+          code: records[0]["Doc_code"],
+          name: records[0]["Document_name"],
+          level3: {
+            name: records[0]["Document_type_level3"],
+            level2: {
+              name: records[0]["Document_type_level2"],
+              level1: {
+                name: records[0]["Document_type_level1"],
+              },
+            },
+          },
+          clauses: [],
 
+        }
+        for (const record of records as any) {
+          if (record["Clause_code"]) {
+            data.clauses?.push({
+              code: record["Clause_code"],
+              ContractTemplate_Clause: { index: record["Clause_index"], isOptional: record["Clause_Is_optional"] ? true : false },
+              name: record["Clause_Name"] || undefined,
+              rawText: [record["Clause_text1"]],
+              subClauses: [],
             })
           }
-          if (record["ID de la sous clause"] || record["Nom de la sous clause"]) {
-            let clause = data.clauses?.[data.clauses.length - 1]
-            clause?.subClauses?.push({
-              Clause_SubClause: { index: record["ID de la sous clause"].split(".").pop() },
-              name: record["Nom de la sous clause"] || undefined,
-              rawText: record["Text de la sous clause"] ? [record["Text de la sous clause"]] : undefined,
-              params: {}
+          const paramsMap: any = {
+            "string": "string",
+            "bool": "string",
+            "Date": "string",
+            "file": "string",
+          }
+          let params: ISubClause["params"] = []
+          for (const idx of [1, 2, 3, 4]) {
+            if (!record[`Param${idx}`] || !record[`Param${idx}_type`]) continue
+            params.push({
+              name: record[`Param${idx}`],
+              label: record[`Param${idx}_label`] || record[`Param${idx}`],
+              type: paramsMap[record[`Param${idx}_type`]] || record[`Param${idx}_type`],
             })
-            const paramsMap: any = {
-              "bool": "string",
-              "date": "string",
-              "text": "string",
-            }
-            if (!clause?.subClauses?.[clause?.subClauses?.length - 1].params) continue
-            for (const key of ["Input utilisateur 1", "Input utilisateur 2", "Input utilisateur 3", "Input utilisateur 4"]) {
-              if (!record["Text de la sous clause"]) continue
-              const [name, type] = record[key].split(":")
-              const paramTYpe = paramsMap[type];
-              if (!paramTYpe) continue
-              (clause.subClauses[clause.subClauses.length - 1].params as any)[name] = paramTYpe
-            }
-            if (Object.keys(clause.subClauses[clause.subClauses.length - 1].params as any).length == 0)
-              delete clause.subClauses[clause.subClauses.length - 1].params
+          }
+          let clause = data.clauses?.[data.clauses.length - 1]
+          if (!clause) continue
+          if (record["Sub_clause_index"]) {
+            clause.subClauses?.push({
+              index: record["Sub_clause_index"],
+              isOptional: record["Sub_Clause_Is_optional"] ? true : false,
+              name: record["Sub_clause_name"] || undefined,
+              rawText: [record["Sub_clause_text1"]],
+              params,
+            })
+          } else if (record["Clause_code"]) {
+            clause.params = params
           }
         }
         const [upserted, newRecord] = await ContractTemplate.Upsert(data)
         res.send({ records, data, upserted })
-
       } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
-
     })
 
-    router.post("/importContractTemplate", async (req, res) => {
+    router.get("/csv/exportContractTemplate", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
+
       try {
         let _req = req as MiddlewareRequest
         _req.middleData = {}
         await verifyUser(_req, res)
-        await verifyCrud("create")(_req, res)
-
-        await ContractTemplate.sequelize?.transaction(async (transaction) => {
-          const data = req.body as ContractTemplateResponse
-          let level1: KishiModel | null = await TypeLevel1.findOne({ where: { name: data.level1 }, transaction })
-          if (!level1)
-            level1 = await TypeLevel1.Create({ name: data.level1 }, { transaction })
-          const level1Id = level1.id
-          let level2: KishiModel | null = await TypeLevel2.findOne({ where: { name: data.level2 }, transaction })
-          if (!level2)
-            level2 = await TypeLevel2.Create({ name: data.level2, level1Id }, { transaction })
-          const level2Id = level2.id
-          let level3: KishiModel | null = await TypeLevel3.findOne({ where: { name: data.level3 }, transaction })
-          if (!level3)
-            level3 = await TypeLevel3.Create({ name: data.level3, level2Id }, { transaction })
-          const level3Id = level3.id
-          let createData: IContractTemplate = {
-            language: data.language,
-            name: data.name,
-            level3Id: level3Id,
-            clauses: [],
+        await verifyCrud("read")(_req, res)
+        _req.query["schema"] = "full"
+        await parseFindOptions(_req, res)
+        const findOptions: FindOptions = _req.middleData.findOptions
+        const id: string = req.query["id"] as string
+        delete findOptions.where
+        const row = await ContractTemplate.findByPk(id, findOptions) as IContractTemplate
+        let records: any[] = []
+        let record: any = {
+          "Doc_code": row.code,
+          "Document_name": row.name,
+          "Document_type_level1": row.level1?.name,
+          "Document_type_level2": row.level2?.name,
+          "Document_type_level3": row.level3?.name,
+        }
+        for (const clause of row.clauses || []) {
+          record = {
+            ...record,
+            "Clause_code": clause.code,
+            "Clause_index": clause.ContractTemplate_Clause?.index,
+            "Clause_Is_optional": clause.ContractTemplate_Clause?.isOptional,
+            "Clause_Name": clause.name
           }
-          let clauses: IContractTemplate["clauses"] = []
-          for (const _clasue of data.clauses || []) {
-            let clause: KishiModel | null = await TypeLevel1.findOne({ where: { name: _clasue.name }, transaction })
+          for (const idx in clause.rawText || []) {
+            record[`Clause_text${(Number(idx) + 1)}`] = clause.rawText?.[idx]
           }
-        })
-
+          if (clause.subClauses?.length) {
+            for (const subClause of clause.subClauses) {
+              record = {
+                ...record,
+                "Sub_clause_index": subClause.index,
+                "Sub_Clause_Is_optional": subClause.isOptional,
+                "Sub_clause_name": subClause.name
+              }
+              for (const idx in subClause.rawText || []) {
+                record[`Sub_clause_text${(Number(idx) + 1)}`] = subClause.rawText?.[idx]
+              }
+              for (const idx in subClause.params || []) {
+                const name = subClause.params?.[0].name
+                const label = subClause.params?.[0].label
+                const type = subClause.params?.[0].type
+                record[`Param${(Number(idx) + 1)}`] = name
+                record[`Param${(Number(idx) + 1)}_label`] = label
+                record[`Param${(Number(idx) + 1)}_type`] = type
+              }
+              records.push(record)
+              record = {}
+            }
+          } else {
+            for (const idx in clause.params || []) {
+              const name = clause.params?.[0].name
+              const label = clause.params?.[0].label
+              const type = clause.params?.[0].type
+              record[`Param${(Number(idx) + 1)}`] = name
+              record[`Param${(Number(idx) + 1)}_label`] = label
+              record[`Param${(Number(idx) + 1)}_type`] = type
+            }
+            records.push(record)
+            record = {}
+          }
+        }
+        const path = `tmp/${id}.csv`
+        CSVLib.RecordsToCSV(records, path, "utf8")
+        res.send({ records, path })
       } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
-
     })
     return router;
   }

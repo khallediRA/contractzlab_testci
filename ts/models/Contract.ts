@@ -1,6 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { IContract } from "../interfaces";
 
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -28,8 +29,19 @@ export class Contract extends KishiModel {
       type: KishiDataTypes.STRING,
     },
     paramValues: {
-      type:new KishiDataTypes.KJSON(),
+      type: new KishiDataTypes.KJSON(),
     },
+    excludedClauses: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: "number[]",
+    },
+    excludedSubClauses: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: "number[]",
+    },
+    annexes: {
+      type: new KishiDataTypes.NAMEDFILES(),
+    }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
     template: {
@@ -56,6 +68,6 @@ export class Contract extends KishiModel {
     },
   }
   static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["clientId", "name"], unique: true,name:"Contract_name" }]
+    indexes: [{ fields: ["clientId", "name"], unique: true, name: "Contract_name" }]
   }
 }

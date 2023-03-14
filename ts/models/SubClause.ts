@@ -4,9 +4,17 @@ import { isOfType } from "../utils/user";
 import { KArray } from "../utils/array";
 
 export type ParamsType =
-  { [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' }
+  {
+    name: string,
+    label: string,
+    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'
+  }[]
 export const ts_ParamsTypeStr =
-  "{ [key in string]: 'text' | 'integer' | 'boolean' | 'date' | 'number' | 'fixedNumber:1' | 'fixedNumber:2' | 'fixedNumber:3' | 'beneficial' }"
+  "{\
+    name: string,\
+    label: string,\
+    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'\
+  }[]"
 export class SubClause extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Admin", "Moderator")),
@@ -29,15 +37,17 @@ export class SubClause extends KishiModel {
       primaryKey: true,
       autoIncrement: true,
     },
+    index: KishiDataTypes.STRING(8),
     code: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
     name: {
       type: KishiDataTypes.STRING,
     },
     isOptional: {
       type: KishiDataTypes.BOOLEAN,
+      defaultValue: false,
     },
     params: {
       type: new KishiDataTypes.KJSON(),

@@ -26,22 +26,21 @@ export class TypeLevel1 extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
-
     levels2: {
       type: "hasMany",
       target: "TypeLevel2",
       foreignKey: "level1Id",
       schemaMap: {
-        "full": "nested",
       },
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
-    async afterSync(options) {
-    },
+    async beforeQuery(options, query) {
+      console.log(query);
+    }
   }
 }

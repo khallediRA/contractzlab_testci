@@ -43,8 +43,6 @@ export class TypeLevel3 extends KishiModel {
       foreignKey: "level1Id",
       actionMap: { Create: null, Update: null, Link: null },
       schemaMap: {
-        "nested": "pure",
-        "full": "pure",
       },
     },
     level2: {
@@ -53,7 +51,7 @@ export class TypeLevel3 extends KishiModel {
       foreignKey: "level2Id",
       schemaMap: {
         "nested": "pure",
-        "full": "pure",
+        "full": "full",
       },
       actionMap: {
         Create: "Upsert",

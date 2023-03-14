@@ -21,7 +21,7 @@ export const sequelize = new Sequelize(name, user, password, {
   dialect,
   operatorsAliases,
   logging: (sql: string, queryObject: any) => {
-    logger.log(`${sql.slice("Executing (default): ".length)}`)
+    logger.log(sql)
   },
   define: { paranoid, freezeTableName: true },
   pool: { max: 5, min: 0, acquire: 30000, idle: 10000 },
@@ -38,7 +38,7 @@ import { Notification, Notification_User } from "./Notification";
 import { Event, Event_User } from "./Event";
 
 import { TypeLevel1, TypeLevel2, TypeLevel3 } from "./typeLevels";
-import { Clause, Clause_SubClause } from "./Clause";
+import { Clause } from "./Clause";
 import { SubClause } from "./SubClause";
 import { Contract } from "./Contract";
 import { Beneficial } from "./Beneficial";
@@ -59,7 +59,7 @@ export const models: {
   Moderator,
   Notification, Notification_User,
   TypeLevel1, TypeLevel2, TypeLevel3,
-  Clause, Clause_SubClause,
+  Clause,
   SubClause,
   Contract,
   Beneficial,
