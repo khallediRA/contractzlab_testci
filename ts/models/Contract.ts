@@ -50,7 +50,7 @@ export class Contract extends KishiModel {
       foreignKey: "templateId",
       schemaMap: {
         "nested": "pure",
-        "full": "nested",
+        "full": "full",
       },
     },
     client: {
