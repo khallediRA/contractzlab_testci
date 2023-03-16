@@ -2,6 +2,8 @@ import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
 import { ParamsType } from "./SubClause";
+import { IContractTemplate } from "../views";
+import { KArray } from "../utils/array";
 
 export interface ContractTemplateResponse {
   "language"?: "en" | "fr",
@@ -34,6 +36,10 @@ export class ContractTemplate extends KishiModel {
     return {
       name: { [KOp("or")]: parts.map(value => { return { [KOp("iLike")]: `%${value}%` } }) },
     }
+  }
+  static AfterView(row: KishiModel, view: IContractTemplate): any {
+    view.clauses?.sort((a, b) => a.ContractTemplate_Clause?.index?.localeCompare(b.ContractTemplate_Clause?.index || "") || 0)
+    return view
   }
   get display() {
     return this.get("name") as string

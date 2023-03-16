@@ -2,6 +2,7 @@ import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
 import { ts_ParamsTypeStr } from "./SubClause";
+import { IClause } from "../views";
 
 export class Clause extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -15,6 +16,10 @@ export class Clause extends KishiModel {
     return {
       name: { [KOp("or")]: parts.map(value => { return { [KOp("iLike")]: `%${value}%` } }) },
     }
+  }
+  static AfterView(row: KishiModel, view: IClause): any {
+    view.subClauses?.sort((a, b) => a.index?.localeCompare(b.index || "") || 0)
+    return view
   }
   get display() {
     return this.get("name") as string
