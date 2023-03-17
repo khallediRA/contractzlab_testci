@@ -13,7 +13,7 @@
     "generate-interfaces": "node js/scripts/generateInterfaces.js",
     "generate-vapid-keys": "npx web-push generate-vapid-keys",
     "start": "tsc --build && node js/server.js --max-old-space-size=8192",
-    "test": "node js/tests/transaction.js"
+    "test": "npm run build && node js/tests/userAuth.js"
   },
   "nodemonConfig": {
     "ignore": [
