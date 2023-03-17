@@ -5,13 +5,11 @@ import fs from "fs"
 export let router = Router();
 //file upload dependencies
 import bodyParser from "body-parser";
-import { Middleware, MiddlewareChain, MiddlewareRequest } from "../utils/middleware";
+import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
-import { KishiModel } from "../sequelize";
 import { FindOptions } from "sequelize";
-import { ContractTemplate, ContractTemplateResponse } from "../models/ContractTemplate";
-import { IClause, IContractTemplate, ISubClause } from "../interfaces";
-import { TypeLevel1, TypeLevel2, TypeLevel3 } from "../models/typeLevels";
+import { ContractTemplate } from "../models/ContractTemplate";
+import { IContractTemplate, ISubClause } from "../interfaces";
 import fileUpload from "express-fileupload";
 import { randomUUID } from "crypto";
 import { CSVLib } from "../utils/csv";
@@ -23,7 +21,7 @@ export class ReportRouter {
 
   static Route(): Router {
     let router: Router = Router();
-    router.post("/csv/importContractTemplate", async (req, res) => {
+    router.post("/importContractTemplate", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
 
       try {
@@ -109,7 +107,7 @@ export class ReportRouter {
       } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
     })
 
-    router.get("/csv/exportContractTemplate", async (req, res) => {
+    router.get("/exportContractTemplate", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
 
       try {

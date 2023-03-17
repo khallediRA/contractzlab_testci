@@ -1,8 +1,12 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../sequelize";
+import { isOfType } from "../utils/user";
 export class User extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": false,
+    "read": (user) => { return user ? isOfType(user, "Admin", "Moderator") || { id: user?.id } : false },
+    "update": (user) => { return user ? { id: user?.id } : false },
+    "delete": false,
   }
 
   static WhereFromDisplay(display: string) {

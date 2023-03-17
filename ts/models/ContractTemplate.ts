@@ -1,29 +1,8 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { ParamsType } from "./SubClause";
 import { IContractTemplate } from "../views";
-import { KArray } from "../utils/array";
 
-export interface ContractTemplateResponse {
-  "language"?: "en" | "fr",
-  "name"?: string,
-  "level1"?: string,
-  "level2"?: string,
-  "level3"?: string,
-  "clauses"?: {
-    "index"?: string,
-    "name"?: string,
-    "isOptional"?: boolean,
-    "subClauses"?: {
-      "index"?: string,
-      "name"?: string,
-      "isOptional"?: boolean,
-      "rawText"?: string[],
-      "params"?: ParamsType,
-    }[]
-  }[]
-}
 export class ContractTemplate extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Admin", "Moderator")),
