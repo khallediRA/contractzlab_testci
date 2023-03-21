@@ -1,7 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { IContract } from "../interfaces";
+import { IUser } from "../interfaces";
 
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -41,6 +41,9 @@ export class Contract extends KishiModel {
     },
     annexes: {
       type: new KishiDataTypes.NAMEDFILES(),
+    },
+    clientId: {
+      type: KishiDataTypes.UUID,
     }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
@@ -64,6 +67,10 @@ export class Contract extends KishiModel {
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    async beforeCreate(attributes, options) {
+      const user = (options as any).user as IUser
+      attributes.set("clientId", user?.id)
+    },
     async afterSync(options) {
     },
   }

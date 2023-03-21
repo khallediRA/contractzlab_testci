@@ -193,6 +193,7 @@ export class ModelRouter {
     }
 
     let create: Middleware = async (req, res) => {
+      let user = req.middleData.user as IUser
       let data = Model.fromView(req.middleData.reqData) as any
       let created: KishiModel | null = null
       if (Model.parentOptions) {
@@ -200,9 +201,9 @@ export class ModelRouter {
         if (!Model.parentOptions.models.includes(type))
           throw `Unvalid Child Type ${type}`
         const ChildModel = Model.models[type]
-        created = await ChildModel.Create(data) as KishiModel
+        created = await ChildModel.Create(data, { user } as any) as KishiModel
       } else {
-        created = await Model.Create(data) as KishiModel
+        created = await Model.Create(data, { user } as any) as KishiModel
       }
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
@@ -212,13 +213,14 @@ export class ModelRouter {
       return { row: row.toView() }
     }
     let update: Middleware = async (req, res) => {
+      let user = req.middleData.user as IUser
       const id: string = req.query["id"] as string
       const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
       const toUpdate = crudResponse != true ? await Model.findOne({ where: { [KOp("and")]: [{ id }, crudResponse] } }) : await Model.findByPk(id)
       if (!toUpdate)
         throw { message: `Instance Not Found` }
       let data = Model.fromView(req.middleData.reqData) as any
-      await toUpdate.Update(data)
+      await toUpdate.Update(data, { user } as any)
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
       const row = await Model.findByPk(toUpdate.id, findOptions)
@@ -227,8 +229,9 @@ export class ModelRouter {
       return { row: row.toView() }
     }
     let upsert: Middleware = async (req, res) => {
+      let user = req.middleData.user as IUser
       let data = Model.fromView(req.middleData.reqData) as any
-      const [upserted, newRecord] = await Model.Upsert(data)
+      const [upserted, newRecord] = await Model.Upsert(data, { user } as any)
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
       const row = await Model.findByPk(upserted.id, findOptions)
@@ -238,12 +241,13 @@ export class ModelRouter {
     }
 
     let destroy: Middleware = async (req, res) => {
+      let user = req.middleData.user as IUser
       const id: string = req.query["id"] as string
       const crudResponse: true | WhereAttributeHash = req.middleData.crudResponse
       const toDestroy = crudResponse != true ? await Model.findOne({ where: { [KOp("and")]: [{ id }, crudResponse] } }) : await Model.findByPk(id)
       if (!toDestroy)
         throw { message: `Instance Not Found` }
-      await toDestroy.destroy()
+      await toDestroy.destroy({ user } as any)
       return { deleted: true }
     }
     router.post("/", MiddlewareChain(verifyUser, verifyCrud("create"), parseReqData, create))
