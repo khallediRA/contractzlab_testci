@@ -80,7 +80,7 @@ export class Contract extends KishiModel {
   static initialOptions: KishiModelOptions = {
     indexes: [
       { fields: ["clientId", "name"], unique: true, name: "Contract_name" },
-      { fields: ["clientId", "status"], unique: true, name: "Contract_status" },
+      { fields: ["clientId", "status"], unique: false, name: "Contract_status" },
     ],
   }
 }
