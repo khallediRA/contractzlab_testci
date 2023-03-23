@@ -7,8 +7,8 @@ export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Client")),
     "read": (user) => (isOfType(user, "Client") && { clientId: user?.id } || false),
-    "update": (user) => (isOfType(user, "Client")),
-    "delete": (user) => (isOfType(user, "Client")),
+    "update": (user) => (isOfType(user, "Client") && { clientId: user?.id } || false),
+    "delete": (user) => (isOfType(user, "Client") && { clientId: user?.id } || false),
   }
   static WhereFromDisplay(display: string) {
     const parts = display.split(" ")
@@ -24,6 +24,9 @@ export class Contract extends KishiModel {
       type: KishiDataTypes.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    status: {
+      type: KishiDataTypes.STRING,
     },
     name: {
       type: KishiDataTypes.STRING,
@@ -75,6 +78,9 @@ export class Contract extends KishiModel {
     },
   }
   static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["clientId", "name"], unique: true, name: "Contract_name" }]
+    indexes: [
+      { fields: ["clientId", "name"], unique: true, name: "Contract_name" },
+      { fields: ["clientId", "status"], unique: false, name: "Contract_status" },
+    ],
   }
 }
