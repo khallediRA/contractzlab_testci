@@ -32,5 +32,10 @@ export class Client extends KishiModel {
       target: "Beneficial",
       foreignKey: "clientId",
     },
+    documents: {
+      type: "hasMany",
+      target: "Document",
+      foreignKey: "clientId",
+    },
   };
 }

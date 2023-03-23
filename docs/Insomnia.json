@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-21T16:46:06.839Z",
+  "__export_date": "2023-03-23T21:24:46.115Z",
   "__export_source": "insomnia.desktop.app:v2023.1.0",
   "resources": [
     {
@@ -765,6 +765,58 @@
       "_type": "request_group"
     },
     {
+      "_id": "req_87ce718eedd24df58c80ec9444fd2b34",
+      "parentId": "fld_ecd4669925924733976c3df18145b39d",
+      "modified": 1679602487668,
+      "created": 1679602389687,
+      "url": "{{ _.host }}/Contract/all",
+      "name": "filter contracts",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"where\":{\n\t\t\t\"status\": \"in-progress\"\n\t}\n}"
+      },
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_895a7a55d5d941f09a31007204e84762",
+          "name": "page",
+          "value": "50:1",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "headers": [
+        {
+          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+          "name": "user-token",
+          "value": "{{ _.token }}",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1658057415913.875,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_4e3de50ef5334d7aa5dff0530ec48ae8",
       "parentId": "fld_ecd4669925924733976c3df18145b39d",
       "modified": 1679417036990,
@@ -811,7 +863,7 @@
     {
       "_id": "req_b33f038397b54eea9e1709a7e96d57d9",
       "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679416391620,
+      "modified": 1679418171677,
       "created": 1679266574019,
       "url": "{{ _.host }}/Contract/",
       "name": "create a contract",
@@ -819,7 +871,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"data\": {\n    \"templateId\": 2,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"name\": \"Contract Name\"\n  }\n}"
+        "text": "{\n  \"data\": {\n    \"templateId\": 2,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"status\": \"draft\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
       },
       "parameters": [
         {
@@ -868,7 +920,7 @@
     {
       "_id": "req_c39341ffb02349e18933a776a2b07883",
       "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679268622644,
+      "modified": 1679418325233,
       "created": 1679266574030,
       "url": "{{ _.host }}/Contract",
       "name": "update a contract",
@@ -876,13 +928,13 @@
       "method": "PATCH",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"data\": {\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": false\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"name\": \"Contract Name\"\n  }\n}"
+        "text": "{\n  \"data\": {\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": false\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n\t\t\"status\": \"in-progress\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
       },
       "parameters": [
         {
           "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
           "name": "id",
-          "value": "1",
+          "value": "11",
           "description": ""
         },
         {
@@ -907,6 +959,134 @@
       ],
       "authentication": {},
       "metaSortKey": -1658057415742,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_4047c612b16b485ba7215ccc9414221b",
+      "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
+      "modified": 1679602646935,
+      "created": 1679602588338,
+      "url": "{{ _.host }}/Document/all",
+      "name": "all documents",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_895a7a55d5d941f09a31007204e84762",
+          "name": "page",
+          "value": "50:1",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "headers": [
+        {
+          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+          "name": "user-token",
+          "value": "{{ _.token }}",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1660999458482.4375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_f901bac5323741e4aaf9e23c46a2b095",
+      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+      "modified": 1679602581026,
+      "created": 1679602570800,
+      "name": "Document",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1660999458532.4375,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_013f218dbfdb4970a8f7442491f75e24",
+      "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
+      "modified": 1679606667636,
+      "created": 1679602744640,
+      "url": "{{ _.host }}/Document/",
+      "name": "create a document",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "file",
+            "value": "",
+            "id": "pair_2eba2fd3f45e4eb6b1ee7d58d323cc0b",
+            "type": "file",
+            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\Insomnia.json"
+          },
+          {
+            "id": "pair_4384d69f9d594da9a2ac9469693ee361",
+            "name": "name",
+            "value": "my document",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [
+        {
+          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+          "name": "schema",
+          "value": "nested",
+          "description": ""
+        }
+      ],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data",
+          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+        },
+        {
+          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+          "name": "user-token",
+          "value": "{{ _.token }}",
+          "description": ""
+        },
+        {
+          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1660263947853.5781,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,

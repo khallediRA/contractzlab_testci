@@ -79,6 +79,14 @@ export class ModelRouter {
     return findOptions
   }
   parseReqData: Middleware = async (req, res) => {
+    if (req.headers['content-type'] && req.headers['content-type'].includes('multipart/form-data')) {
+      let data = {}
+      for (const key in req.body) {
+        setDeepValue(data, key, req.body[key])
+        delete req.body[key]
+      }
+      req.body.data = data
+    }
     let reqData = req.body.data
     if (req.body.isJSON)
       reqData = JSON.parse(reqData)
@@ -205,6 +213,12 @@ export class ModelRouter {
       } else {
         created = await Model.Create(data, { user } as any) as KishiModel
       }
+      for (const attributeName in req.files) {
+        const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
+        if (!fileType?.isFile)continue
+        created.set(attributeName, req.files[attributeName])
+      }
+      await created.save()
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
       const row = await Model.findByPk(created.id, findOptions)

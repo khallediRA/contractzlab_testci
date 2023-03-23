@@ -42,6 +42,7 @@ import { Clause } from "./Clause";
 import { SubClause } from "./SubClause";
 import { Contract } from "./Contract";
 import { Beneficial } from "./Beneficial";
+import { Document } from "./Document";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
 
 export { User } from "./User";
@@ -63,6 +64,7 @@ export const models: {
   SubClause,
   Contract,
   Beneficial,
+  Document,
   ContractTemplate, ContractTemplate_Clause,
   Event, Event_User,
 };
