@@ -2,11 +2,12 @@ import { IUser } from "./IUser";
 import { IContract } from "./IContract";
 import { IBeneficial } from "./IBeneficial";
 import { IDocument } from "./IDocument";
-export interface IClient {
+export type IClient = Omit<IUser, "Client" | "Admin" | "Moderator" | "ClientId" | "AdminId" | "ModeratorId"> & {
 	id?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
-	User?: Omit<IUser, "Client" | "Admin" | "Moderator" | "ClientId" | "AdminId" | "ModeratorId">;
+	display?: string;
+	UserType?: 'Client';
 	contracts?: (Omit<IContract, "client" | "clientId">)[];
 	contractsId?: (string)[];
 	beneficials?: (Omit<IBeneficial, "client" | "clientId">)[];
@@ -15,3 +16,4 @@ export interface IClient {
 	documentsId?: (string)[];
 
 }
+export const keysofIClient: (keyof IClient)[] = ["id", "createdAt", "updatedAt", "display", "UserType", "contracts", "contractsId", "beneficials", "beneficialsId", "documents", "documentsId"]

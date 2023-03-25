@@ -2,7 +2,6 @@ node_modules
 migrations/*.js
 migrations/*.json
 interfaces/*.ts
-ts/views/*.ts
 old.md
 public
 uploads
