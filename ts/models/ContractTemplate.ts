@@ -133,6 +133,5 @@ export class ContractTemplate_Clause extends KishiModel {
     }
   }
   static initialOptions: KishiModelOptions = {
-    indexes: [{ fields: ["ContractTemplateId", "index"], unique: true, name: "ContractTemplate_index" }]
   }
 }
