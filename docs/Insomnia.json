@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-03-23T21:24:46.115Z",
+  "__export_date": "2023-04-03T21:52:20.186Z",
   "__export_source": "insomnia.desktop.app:v2023.1.0",
   "resources": [
     {
@@ -447,7 +447,7 @@
     {
       "_id": "req_f73fe2f497cd42d29d1924d160ca8204",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679067167031,
+      "modified": 1680558508356,
       "created": 1678129839074,
       "url": "{{ _.host }}/ContractTemplate/all",
       "name": "all templates",
@@ -460,7 +460,7 @@
           "name": "schema",
           "value": "nested",
           "description": "",
-          "disabled": true
+          "disabled": false
         },
         {
           "id": "pair_895a7a55d5d941f09a31007204e84762",
@@ -497,7 +497,7 @@
     {
       "_id": "req_4f05e74ed5ed4bed98d5bad77196d59b",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679318709852,
+      "modified": 1679842254993,
       "created": 1678129839086,
       "url": "{{ _.host }}/ContractTemplate/",
       "name": "a template",
@@ -515,7 +515,7 @@
         {
           "id": "pair_615d230587f14f8d979756ce6e93c5b7",
           "name": "id",
-          "value": "11",
+          "value": "3",
           "description": ""
         }
       ],
@@ -539,9 +539,111 @@
       "_type": "request"
     },
     {
+      "_id": "req_9fff8f4ec08a41baa176371876498e06",
+      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+      "modified": 1680558657006,
+      "created": 1680558291855,
+      "url": "{{ _.host }}/ContractTemplate/all",
+      "name": "all templates by level3 name",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"where\":{\n\t\t\"level3.name\": \"Logiciel Saas\"\n\t}\n}"
+      },
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+          "name": "id",
+          "value": "3",
+          "description": ""
+        }
+      ],
+      "headers": [
+        {
+          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1658057415817,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_ff236529213e46c0a152baf695cfcbdd",
+      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+      "modified": 1680558682372,
+      "created": 1680558639518,
+      "url": "{{ _.host }}/ContractTemplate/all",
+      "name": "all templates by level3 id",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"where\":{\n\t\t\"level3Id\": 2\n\t}\n}"
+      },
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+          "name": "id",
+          "value": "3",
+          "description": ""
+        }
+      ],
+      "headers": [
+        {
+          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1658057415792,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "req_b58e6ec522ba4678aa830ad3c169d0b8",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679092590760,
+      "modified": 1679839105308,
       "created": 1678129839080,
       "url": "{{ _.host }}/ContractTemplate/",
       "name": "create a template",
@@ -549,7 +651,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n    \"language\": \"en\",\n    \"name\": \"template name 11\",\n    \"level3\": {\n      \"name\": \"level3-11\",\n      \"level2\": {\n        \"name\": \"level2-11\", \"level1\": { \"name\": \"level1-11\" }\n      }\n    },\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 1\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 1\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": false\n\t\t\t\t}\n\t\t\t}\n\t\t]\n  }\n}"
+        "text": "{\n\t\"data\":{\n    \"language\": \"en\",\n    \"name\": \"template name 1\",\n    \"level3\": {\n      \"name\": \"level3-11\",\n      \"level2\": {\n        \"name\": \"level2-11\", \"level1\": { \"name\": \"level1-11\" }\n      }\n    },\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 1\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 1\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": false\n\t\t\t\t}\n\t\t\t}\n\t\t]\n  }\n}"
       },
       "parameters": [
         {
@@ -643,7 +745,7 @@
     {
       "_id": "req_e63dc91a98584ba093c5d98c2f480c13",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679067243187,
+      "modified": 1679839454121,
       "created": 1678365068633,
       "url": "{{ _.host }}/report/importContractTemplate",
       "name": "import template from csv or xlsx",
@@ -657,7 +759,7 @@
             "value": "",
             "id": "pair_9616102c4823496f8693bc497b7ce7f0",
             "type": "file",
-            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\main_table-updated.xlsx"
+            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\main_table.xlsx"
           }
         ]
       },
@@ -1156,11 +1258,11 @@
     {
       "_id": "env_fb7cebd80cc64393a80e16db1fcf5b2f",
       "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "modified": 1679416351534,
+      "modified": 1679839135441,
       "created": 1678129564072,
       "name": "kishi",
       "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImZhNjc1MzIxLTUzNjAtNGEwNS04ODRmLTA0ODkyZmIwNDM4YiIsImRhdGUiOjE2Nzk0MTYzMzY0NDMsInR5cGUiOiJDbGllbnQiLCJpYXQiOjE2Nzk0MTYzMzZ9.xUfir2FRtH7du5s3HDV-X_JC8QQIUhVldqs0nsvtr5o",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjYzQzZGU4LWM2MzMtNDZhNi1iOWUxLTk0ZjY1YWVkOTJjMiIsImRhdGUiOjE2Nzk4MzkxMjMyODgsInR5cGUiOiJBZG1pbiIsImlhdCI6MTY3OTgzOTEyM30.aVFaEOOGiiLupAD2FMxUKUCjVOAw1Rvo8zt7l9cVWqM",
         "host": "127.0.0.1:4001"
       },
       "dataPropertyOrder": {
