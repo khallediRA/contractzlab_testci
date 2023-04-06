@@ -22,7 +22,7 @@ moment.updateLocale('fr', {
 	holidayFormat: 'YYYY-MM-DD'
 });
 import dateformat from "dateformat"
-class DATELib {
+export default class DATELib {
 	static DateOnly(date: Date | string) {
 		return dateformat(date, "yyyy-mm-dd")
 	}
