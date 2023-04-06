@@ -1643,8 +1643,8 @@ export class KishiModel extends Model {
 
   public static async Create(values?: any | undefined, options?: CreateOptions | undefined): Promise<KishiModel> {
     if (!options?.transaction) {
-      let _options = (options || {}) as CreateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as CreateOptions
         _options.transaction = transaction
         return await this.Create(values, _options)
       })
@@ -1690,8 +1690,8 @@ export class KishiModel extends Model {
 
   public async Update(values?: any | undefined, options?: InstanceUpdateOptions | undefined): Promise<this> {
     if (!options?.transaction) {
-      let _options = (options || {}) as InstanceUpdateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as InstanceUpdateOptions
         _options.transaction = transaction
         return await this.Update(values, _options)
       })
@@ -1731,8 +1731,8 @@ export class KishiModel extends Model {
   }
   static async Upsert(values?: any | undefined, options?: CreateOptions | undefined): Promise<[KishiModel, boolean]> {
     if (!options?.transaction) {
-      let _options = (options || {}) as InstanceUpdateOptions
       const result = await this.sequelize?.transaction(async (transaction) => {
+        let _options = (options && { ...options } || {}) as InstanceUpdateOptions
         _options.transaction = transaction
         return await this.Upsert(values, _options)
       })
@@ -1750,7 +1750,11 @@ export class KishiModel extends Model {
       }
     }
 
-    const upserted = await this.Create(values, options)
+    const upserted = await this.sequelize?.transaction({ transaction: options.transaction }, async (transaction) => {
+      let _options = (options && { ...options } || {}) as CreateOptions
+      _options.transaction = transaction
+      return await this.Create(values, _options)
+    })
       .catch(async err => {
         if (!err.fields)
           throw err
@@ -1778,6 +1782,8 @@ export class KishiModel extends Model {
         }
         return await toUpdate.Update(values, options)
       })
+    if (!upserted)
+      throw "Goodbye World"
     return [upserted, newRecord]
   }
 }
