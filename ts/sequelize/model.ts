@@ -918,13 +918,24 @@ export class KishiModel extends Model {
         }
         const loadFieldFromSource = async (instance: KishiModel, transaction?: Transaction | null) => {
           let value: any | any[] = null
-          if (instance.dataValues[sourceKey]) {
-            const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: instance.dataValues[sourceKey] } })
-            if (target) {
-              value = target.get(targetField)
-            }
+          const targetId = instance.dataValues[sourceKey]
+          let rootTransaction = transaction
+          while ((rootTransaction as any)?.parent)
+            rootTransaction = (rootTransaction as any)?.parent
+          if (rootTransaction) {
+            return (rootTransaction as Transaction).afterCommit(async () => {
+              let target: KishiModel | null = null
+              if (targetId) {
+                target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
+              }
+              await this.update({ [sourceField]: target?.getDataValue(targetField) || null }, { where: { [sourceKey]: targetId } })
+            })
           }
-          instance.set(sourceField, value)
+          if (targetId) {
+            const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
+            value = target?.getDataValue(targetField) || null
+          }
+          instance.setDataValue(sourceField, value)
         }
 
         this.beforeCreate(async (instance, options) => {

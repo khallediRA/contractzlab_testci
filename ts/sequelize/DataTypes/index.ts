@@ -1,6 +1,7 @@
 import { DataTypes } from "sequelize";
 import { FileS3Type } from "./FileS3Type";
 import { FilesType } from "./FilesType";
+import { NamedFilesType } from "./NamedFilesType";
 import { FileType } from "./FileType";
 import { HashedType } from "./HashedType";
 import { JSONType } from "./JSONType";
@@ -12,7 +13,7 @@ import { Polygon } from "./Polygon";
 
 export let KishiDataTypes = {
     ...DataTypes,
-    MODEL:ModelType,
+    MODEL: ModelType,
     MULTIENUM: MultiEnum,
     POINT: Point,
     POLYGON: Polygon,
@@ -20,6 +21,7 @@ export let KishiDataTypes = {
     PHONE: Phone,
     FILE: FileType,
     FILES: FilesType,
+    NAMEDFILES: NamedFilesType,
     S3FILE: FileS3Type,
     HASH: HashedType
 };

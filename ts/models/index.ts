@@ -21,7 +21,7 @@ export const sequelize = new Sequelize(name, user, password, {
   dialect,
   operatorsAliases,
   logging: (sql: string, queryObject: any) => {
-    logger.log(`${sql.slice("Executing (default): ".length)}`)
+    logger.log(sql)
   },
   define: { paranoid, freezeTableName: true },
   pool: { max: 5, min: 0, acquire: 30000, idle: 10000 },

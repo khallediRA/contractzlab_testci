@@ -7,9 +7,11 @@ import fs from "fs";
 import { app, dbSync } from "./app";
 import { models } from "./models"
 import { SocketService } from "./services/socket";
+import { PromiseLib } from "./utils/promise";
 
 const { server: serverConfig, domainName } = config;
 
+const { promise: serverSync, ...sub } = PromiseLib.Create()
 let server: http.Server | https.Server;
 dbSync.then(() => {
   if (serverConfig.protocol == "http://") {
@@ -22,7 +24,9 @@ dbSync.then(() => {
     server = https.createServer(options, app);
   }
   server.listen(serverConfig.port, function () {
+    sub.resolve(server)
     console.log("Express server listening on port " + serverConfig.port);
   });
   SocketService.Init(server, models)
 });
+export default serverSync
