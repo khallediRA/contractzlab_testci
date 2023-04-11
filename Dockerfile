@@ -1,4 +1,5 @@
-FROM node:16
+FROM node:16 AS build
+
 # Create app directory
 WORKDIR /usr/src/app
 
@@ -12,6 +13,18 @@ COPY . .
 
 # Build the TypeScript code into JavaScript code
 RUN npm run build
+
+# Final stage
+FROM node:16
+
+# Install poppler-utils
+RUN apt-get update && apt-get install -y poppler-utils
+
+# Copy the Node.js application code from the build stage
+COPY --from=build /usr/src/app /usr/src/app
+
+# Set the working directory to the Node.js application code
+WORKDIR /usr/src/app
 
 # Expose port 4001
 EXPOSE 4001 5432
