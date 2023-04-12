@@ -1,6 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { IUser } from "../interfaces";
 
 export class Beneficial extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -34,7 +35,6 @@ export class Beneficial extends KishiModel {
     email: {
       type: KishiDataTypes.STRING(50),
       allowNull: false,
-      unique: true,
       validate: { isEmail: true },
     },
     firstName: {
@@ -71,6 +71,10 @@ export class Beneficial extends KishiModel {
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    async beforeCreate(attributes, options) {
+      const user = (options as any).user as IUser
+      attributes.set("clientId", user?.id)
+    },
     async afterSync(options) {
     },
   }
