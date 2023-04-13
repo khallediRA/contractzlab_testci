@@ -1,4 +1,5 @@
 
+
 export function pathHead(path: string): [string, string, string[]] {
 	const parts = path.split(".")
 	const head = parts[0]
@@ -21,4 +22,22 @@ export function capitalizeFirstLetter(string: string) {
 }
 export function lowerCaseFirstLetter(string: string) {
 	return string.charAt(0).toLowerCase() + string.slice(1);
+}
+
+export function fixFrenchDiacritics(text:string) {
+  // Replace `e with é
+  text = text.replace(/´e/gi, 'é');
+	text = text.replace(/`e/gi, 'è'); 
+	text = text.replace(/\^e/gi, 'ê'); 
+	text = text.replace(/"e/gi, 'ë'); 
+	text = text.replace(/\^a/gi, 'â'); 
+	text = text.replace(/`a/gi, 'à'); 
+	text = text.replace(/a`/gi, 'à'); 
+	text = text.replace(/\^i/gi, 'î'); 
+	text = text.replace(/"i/gi, 'ï'); 
+	text = text.replace(/\^o/gi, 'ô'); 
+	text = text.replace(/\^u/gi, 'û'); 
+	text = text.replace(/,c/gi, 'ç'); 
+  // Return the corrected text
+  return text;
 }
