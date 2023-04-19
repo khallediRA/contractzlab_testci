@@ -6,7 +6,7 @@ export type IClause = {
 	id?: number;
 	code?: string;
 	name?: string;
-	params?: {    name: string,    label: string,    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'  }[];
+	params?: {    name: string,    label: string,    args?: any,    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'  }[];
 	rawText?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;
