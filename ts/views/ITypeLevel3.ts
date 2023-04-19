@@ -2,6 +2,8 @@ import { ITypeLevel1 } from "./ITypeLevel1";
 import { ITypeLevel2 } from "./ITypeLevel2";
 import { IContract } from "./IContract";
 import { IContractTemplate } from "./IContractTemplate";
+import { IContractAI } from "./IContractAI";
+import { IContractAIForm } from "./IContractAIForm";
 export type ITypeLevel3 = {
 	id?: number;
 	name?: string;
@@ -14,6 +16,8 @@ export type ITypeLevel3 = {
 	level2?: Omit<ITypeLevel2, "levels3" | "levels3Id">;
 	ContractTemplate_as_level3?: (Omit<IContractTemplate, "level3" | "level3Id">)[];
 	ContractTemplate_as_level3Id?: (number)[];
+	ContractAIForm_as_level3?: (Omit<IContractAIForm, "level3" | "level3Id">)[];
+	ContractAIForm_as_level3Id?: (number)[];
 
 }
-export const keysofITypeLevel3: (keyof ITypeLevel3)[] = ["id", "name", "level1Id", "createdAt", "updatedAt", "level2Id", "display", "level1", "level2", "ContractTemplate_as_level3", "ContractTemplate_as_level3Id"]
+export const keysofITypeLevel3: (keyof ITypeLevel3)[] = ["id", "name", "level1Id", "createdAt", "updatedAt", "level2Id", "display", "level1", "level2", "ContractTemplate_as_level3", "ContractTemplate_as_level3Id", "ContractAIForm_as_level3", "ContractAIForm_as_level3Id"]

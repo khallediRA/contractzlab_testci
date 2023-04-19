@@ -15,5 +15,8 @@ export * from "./IBeneficial";
 export * from "./IDocument";
 export * from "./IContractTemplate";
 export * from "./IContractTemplate_Clause";
+export * from "./IContractAI";
+export * from "./IContractAIForm";
+export * from "./IContractAIResponse";
 export * from "./IEvent";
 export * from "./IEvent_User";

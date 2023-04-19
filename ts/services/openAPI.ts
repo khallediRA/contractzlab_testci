@@ -6,7 +6,7 @@ const { openAIApiKey } = config
 const configuration = new Configuration({
   apiKey: openAIApiKey,
 });
-const openai = new OpenAIApi(configuration);
+export const openai = new OpenAIApi(configuration);
 export class OpenAIService {
   static async Completion(prompt: string): Promise<string> {
     try {
@@ -14,10 +14,9 @@ export class OpenAIService {
         model: "text-davinci-003",
         prompt: prompt,
         temperature: 0.2,
-        max_tokens:10,
+        max_tokens: 64,
       });
-      console.log(completion);
-      
+      console.log(completion.data);
       return completion.data.choices[0].text!
 
     } catch (error: any) {

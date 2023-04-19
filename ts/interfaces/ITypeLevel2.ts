@@ -2,6 +2,8 @@ import { ITypeLevel1 } from "./ITypeLevel1";
 import { ITypeLevel3 } from "./ITypeLevel3";
 import { IContract } from "./IContract";
 import { IContractTemplate } from "./IContractTemplate";
+import { IContractAI } from "./IContractAI";
+import { IContractAIForm } from "./IContractAIForm";
 export interface ITypeLevel2 {
 	id?: number;
 	name?: string;
@@ -13,5 +15,7 @@ export interface ITypeLevel2 {
 	levels3Id?: (number)[];
 	ContractTemplate_as_level2?: (Omit<IContractTemplate, "level2" | "level2Id">)[];
 	ContractTemplate_as_level2Id?: (number)[];
+	ContractAIForm_as_level2?: (Omit<IContractAIForm, "level2" | "level2Id">)[];
+	ContractAIForm_as_level2Id?: (number)[];
 
 }
