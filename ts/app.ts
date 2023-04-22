@@ -21,6 +21,7 @@ import { UserAuthService } from "./services/userAuth";
 import { YouSignService } from "./services/youSign";
 import { ZoomService } from "./services/zoom";
 import { OSMRouter } from "./routers/osm";
+import { MailService } from "./services/mail";
 
 
 const { uploadPath } = config;
@@ -57,10 +58,11 @@ for (const name in models) {
   router.use(`/${name}`, modelRouter.Route())
 }
 router.use(`/utils`, UtilsRouter.Route())
-router.use("/osm",OSMRouter.Route())
+router.use("/osm", OSMRouter.Route())
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)
+MailService.Init(models, router)
 // RedisService.Init(models,router)
 QueryCacheService.Init(models, router)
 UserAuthService.Init(models, router)
