@@ -1,7 +1,7 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-04-26T08:54:54.351Z",
+  "__export_date": "2023-04-26T10:53:13.878Z",
   "__export_source": "insomnia.desktop.app:v2023.1.0",
   "resources": [
     {
@@ -159,7 +159,7 @@
     {
       "_id": "req_b9aca71a896c4e72af1e29413b063f3c",
       "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "modified": 1679416335010,
+      "modified": 1682505631596,
       "created": 1678129564218,
       "url": "{{ _.host }}/auth/SignIn",
       "name": "user sign in",
@@ -1292,6 +1292,120 @@
       "_type": "request"
     },
     {
+      "_id": "req_42d70b080f5f4eb1bcdc8b5fc4dd983d",
+      "parentId": "fld_25d420506f1345768ed19897fa62e913",
+      "modified": 1682505783232,
+      "created": 1682505408124,
+      "url": "{{ _.host }}/Beneficial/all",
+      "name": "all beneficials",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": true
+        },
+        {
+          "id": "pair_895a7a55d5d941f09a31007204e84762",
+          "name": "page",
+          "value": "50:1",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "headers": [
+        {
+          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+          "name": "user-token",
+          "value": "{{ _.token }}",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1660999458482.4375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_25d420506f1345768ed19897fa62e913",
+      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+      "modified": 1682505408120,
+      "created": 1682505408120,
+      "name": "Beneficial",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1660999458482.4375,
+      "_type": "request_group"
+    },
+    {
+      "_id": "req_64cec69d368c48e3bd80e846c7612c89",
+      "parentId": "fld_25d420506f1345768ed19897fa62e913",
+      "modified": 1682506346473,
+      "created": 1682505408130,
+      "url": "{{ _.host }}/Beneficial/",
+      "name": "create a beneficial",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"data\":{\n\t\t\"name\": \"My company co founder Janna\",\n\t\t\"email\": \"janna.doe@yopmail.com\",\n\t\t\"jobTitle\": \"CEO\",\n\t\t\"passport\": \"XY123456\",\n\t\t\"cin\": \"12345678\",\n\t\t\"firstName\": \"Janna\",\n\t\t\"lastName\": \"Doe\",\n\t\t\"dateOfBirth\": \"1991/01/01\",\n\t\t\"placeOfBirth\": \"Tunis\",\n\t\t\"address\": {\n\t\t\t\"addressLine\": \"2 rue Pablo Picasco\",\n\t\t\t\"postalCode\": \"94000\",\n\t\t\t\"city\": \"Creteil\",\n\t\t\t\"country\": \"FR\"\n\t\t}\n\t}\n}"
+      },
+      "parameters": [
+        {
+          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+          "name": "schema",
+          "value": "nested",
+          "description": ""
+        }
+      ],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+        },
+        {
+          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+          "name": "user-token",
+          "value": "{{ _.token }}",
+          "description": ""
+        },
+        {
+          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+          "name": "",
+          "value": "",
+          "description": ""
+        },
+        {
+          "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1660263947853.5781,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
       "_id": "env_2d1e9f08beac4e3d9ba056c774240c29",
       "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
       "modified": 1678129564070,
@@ -1351,11 +1465,11 @@
     {
       "_id": "env_fb7cebd80cc64393a80e16db1fcf5b2f",
       "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "modified": 1682182676909,
+      "modified": 1682505764540,
       "created": 1678129564072,
       "name": "kishi",
       "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjYzQzZGU4LWM2MzMtNDZhNi1iOWUxLTk0ZjY1YWVkOTJjMiIsImRhdGUiOjE2Nzk4MzkxMjMyODgsInR5cGUiOiJBZG1pbiIsImlhdCI6MTY3OTgzOTEyM30.aVFaEOOGiiLupAD2FMxUKUCjVOAw1Rvo8zt7l9cVWqM",
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWMzOTQ0LWFkZTItNDEwNC05YmU0LTJlOGM2ZjkwZWRhNCIsImRhdGUiOjE2ODI1MDU3NDE0NTksInR5cGUiOiJDbGllbnQiLCJpYXQiOjE2ODI1MDU3NDF9.iBLClP4RC4-qJuDrWXAunNMx2sfaViwotsikji8s-OI",
         "host": "127.0.0.1:4001"
       },
       "dataPropertyOrder": {

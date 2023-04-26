@@ -37,6 +37,15 @@ export class Beneficial extends KishiModel {
       allowNull: false,
       validate: { isEmail: true },
     },
+    jobTitle: {
+      type: KishiDataTypes.STRING(50),
+    },
+    passport: {
+      type: KishiDataTypes.STRING(16),
+    },
+    cin: {
+      type: KishiDataTypes.STRING(16),
+    },
     firstName: {
       type: KishiDataTypes.STRING(50),
     },
@@ -48,6 +57,26 @@ export class Beneficial extends KishiModel {
     },
     placeOfBirth: {
       type: KishiDataTypes.STRING(128),
+    },
+    address: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: '\
+      {\
+        "addressLine": string,\
+        "postalCode": string,\
+        "city": string,\
+        "country": string,\
+      }\
+      ',
+      toView(address: any) {
+        if (!address) return address
+        return {
+          "addressLine": address.addressLine,
+          "postalCode": address.postalCode,
+          "city": address.city,
+          "country": address.country,
+        }
+      },
     },
     fullName: {
       type: KishiDataTypes.VIRTUAL,
