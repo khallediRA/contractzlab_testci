@@ -1,9 +1,74 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2023-04-03T21:52:20.186Z",
+  "__export_date": "2023-04-26T08:54:54.351Z",
   "__export_source": "insomnia.desktop.app:v2023.1.0",
   "resources": [
+    {
+      "_id": "req_00d1ce9f1bc14d709becf57aa1d17add",
+      "parentId": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
+      "modified": 1682182657719,
+      "created": 1682182528768,
+      "url": "{{ _.host }}/smtp/send",
+      "name": "New Request",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\":\"fares.manai@etudiant-enit.utm.tn\",\n\t\"subject\":\"Test Node SMTP\",\n\t\"content\":\"Test 001\"\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1682182528768,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
+      "parentId": "fld_8912aa302ece41728efcac1357d01fea",
+      "modified": 1682182521066,
+      "created": 1682182521066,
+      "name": "Mail",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1682182521066,
+      "_type": "request_group"
+    },
+    {
+      "_id": "fld_8912aa302ece41728efcac1357d01fea",
+      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+      "modified": 1678129564213,
+      "created": 1678129564213,
+      "name": "Services",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1662641171616,
+      "_type": "request_group"
+    },
+    {
+      "_id": "wrk_7f2ddf427d824065a2147b705c194052",
+      "parentId": null,
+      "modified": 1678129564068,
+      "created": 1678129564068,
+      "name": "contractzlab",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
     {
       "_id": "req_447c309a09714969957f325eaf517a26",
       "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
@@ -58,28 +123,6 @@
       "environmentPropertyOrder": null,
       "metaSortKey": -1662641196594,
       "_type": "request_group"
-    },
-    {
-      "_id": "fld_8912aa302ece41728efcac1357d01fea",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564213,
-      "created": 1678129564213,
-      "name": "Services",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1662641171616,
-      "_type": "request_group"
-    },
-    {
-      "_id": "wrk_7f2ddf427d824065a2147b705c194052",
-      "parentId": null,
-      "modified": 1678129564068,
-      "created": 1678129564068,
-      "name": "contractzlab",
-      "description": "",
-      "scope": "collection",
-      "_type": "workspace"
     },
     {
       "_id": "req_af6d149e880c403992f03e30d29620b3",
@@ -497,7 +540,7 @@
     {
       "_id": "req_4f05e74ed5ed4bed98d5bad77196d59b",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679842254993,
+      "modified": 1682089330542,
       "created": 1678129839086,
       "url": "{{ _.host }}/ContractTemplate/",
       "name": "a template",
@@ -515,7 +558,7 @@
         {
           "id": "pair_615d230587f14f8d979756ce6e93c5b7",
           "name": "id",
-          "value": "3",
+          "value": "4",
           "description": ""
         }
       ],
@@ -745,7 +788,7 @@
     {
       "_id": "req_e63dc91a98584ba093c5d98c2f480c13",
       "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679839454121,
+      "modified": 1681253975650,
       "created": 1678365068633,
       "url": "{{ _.host }}/report/importContractTemplate",
       "name": "import template from csv or xlsx",
@@ -759,7 +802,7 @@
             "value": "",
             "id": "pair_9616102c4823496f8693bc497b7ce7f0",
             "type": "file",
-            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\main_table.xlsx"
+            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\main_table-updated.xlsx"
           }
         ]
       },
@@ -808,6 +851,56 @@
       "settingRebuildPath": true,
       "settingFollowRedirects": "global",
       "_type": "request"
+    },
+    {
+      "_id": "req_4db78d78bf9043b2a59988bad36447e2",
+      "parentId": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
+      "modified": 1682499068879,
+      "created": 1682498635053,
+      "url": "{{ _.host }}/TypeLevel1/all",
+      "name": "all type levels",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "nested",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_895a7a55d5d941f09a31007204e84762",
+          "name": "page",
+          "value": "50:1",
+          "description": "",
+          "disabled": true
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1658057415917,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
+      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+      "modified": 1682499089575,
+      "created": 1682498635049,
+      "name": "TypeLevel",
+      "description": "",
+      "environment": {},
+      "environmentPropertyOrder": null,
+      "metaSortKey": -1660999458559.7812,
+      "_type": "request_group"
     },
     {
       "_id": "req_2c162c0f3f0b4511a512c0c148813e17",
@@ -1258,7 +1351,7 @@
     {
       "_id": "env_fb7cebd80cc64393a80e16db1fcf5b2f",
       "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "modified": 1679839135441,
+      "modified": 1682182676909,
       "created": 1678129564072,
       "name": "kishi",
       "data": {
