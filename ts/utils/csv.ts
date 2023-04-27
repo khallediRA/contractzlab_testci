@@ -19,6 +19,23 @@ export class CSVLib {
     // Write the CSV to a file
     fs.writeFileSync(outPath, csv);
   }
+  static XlsxToRecords(inPath: string): any[][] {
+    let recordsPerSheet: any[][] = []
+    // Load the XLSX file
+    const workbook = XLSX.readFile(inPath);
+
+    for (const sheetName of workbook.SheetNames) {
+      // Get the worksheet
+      const worksheet = workbook.Sheets[sheetName];
+
+      const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      console.log(sheetData);
+      recordsPerSheet.push(sheetData)
+
+    }
+    return recordsPerSheet
+
+  }
   static CsvToRecords(inPath: string, encoding?: BufferEncoding): Promise<any[]> {
     return new Promise((resolve, reject) => {
       try {
@@ -46,7 +63,7 @@ export class CSVLib {
     const csvData = parser.parse(records);
 
     // Write the CSV data to a file
-    fs.writeFileSync(outPath, csvData,{encoding});
+    fs.writeFileSync(outPath, csvData, { encoding });
 
   }
 }
