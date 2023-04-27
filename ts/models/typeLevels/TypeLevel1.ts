@@ -1,6 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions } from "../../sequelize";
 import { isOfType } from "../../utils/user";
+import { dbSync } from "../../app";
 
 const initData = [
   {
@@ -93,10 +94,12 @@ export class TypeLevel1 extends KishiModel {
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async afterSync(options) {
-      console.log("TypeLevel1.afterBulkSync");
-      for (const row of initData) {
-        await TypeLevel1.Upsert(row)
-      }
+      dbSync.then(async () => {
+        console.log("TypeLevel1.afterBulkSync");
+        for (const row of initData) {
+          await TypeLevel1.Upsert(row)
+        }
+      })
     },
     async beforeQuery(options, query) {
     }
