@@ -2,6 +2,7 @@ import XLSX from "xlsx"
 import fs from "fs"
 import { parse } from "csv-parse"
 import { Parser } from "json2csv"
+import fileUpload from "express-fileupload";
 export class CSVLib {
   static XlsxToCsv(inPath: string, outPath: string) {
     // Load the XLSX file
@@ -19,42 +20,52 @@ export class CSVLib {
     // Write the CSV to a file
     fs.writeFileSync(outPath, csv);
   }
-  static XlsxToRecords(inPath: string): any[][] {
-    let recordsPerSheet: any[][] = []
+  static XlsxToRecords(source: string | fileUpload.UploadedFile): Record<string, string>[][] {
+    let recordsPerSheet: Record<string, string>[][] = []
     // Load the XLSX file
-    const workbook = XLSX.readFile(inPath);
+    let workbook: XLSX.WorkBook;
+    if (typeof source === "string") {
+      workbook = XLSX.readFile(source);
+    } else {
+      workbook = XLSX.read(source.data);
+    }
 
     for (const sheetName of workbook.SheetNames) {
       // Get the worksheet
       const worksheet = workbook.Sheets[sheetName];
-
-      const sheetData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-      console.log(sheetData);
-      recordsPerSheet.push(sheetData)
-
+      let records = []
+      const sheetRows: string[][] = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+      const [_headers, ...rows] = sheetRows
+      const headers = _headers.map(str => str.trim())
+      for (const row of rows) {
+        let record: any = {}
+        for (const idx in headers) {
+          record[headers[idx]] = String(row[idx] || "")
+        }
+        if (Object.values(record).filter(item => item).length == 0)
+          continue
+        records.push(record)
+      }
+      recordsPerSheet.push(records)
     }
     return recordsPerSheet
-
   }
-  static CsvToRecords(inPath: string, encoding?: BufferEncoding): Promise<any[]> {
+  static CsvToRecords(source: string | fileUpload.UploadedFile, encoding?: BufferEncoding): Promise<Record<string, string>[]> {
     return new Promise((resolve, reject) => {
       try {
-        const csvData = fs.readFileSync(inPath, encoding);
+        let csvData: string | Buffer;
+        if (typeof source === "string") {
+          csvData = fs.readFileSync(source, encoding);
+        } else {
+          csvData = source.data.toString(encoding);
+        }
         // Parse the CSV data
-        parse(csvData, {
-          delimiter: ',', // Set the delimiter to comma
-          columns: true, // Treat the first row as headers
-        }, (err, records) => {
-          if (err) {
-            reject(err)
-            return;
-          }
+        parse(csvData, { delimiter: ',', columns: true }, (err, records) => {
+          if (err)
+            return reject(err)
           resolve(records)
         });
-      } catch (error) {
-        reject(error)
-      }
-
+      } catch (error) { reject(error) }
     })
   }
   static RecordsToCSV(records: any[], outPath: string, encoding?: BufferEncoding) {
