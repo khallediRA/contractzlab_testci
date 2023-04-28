@@ -9,11 +9,12 @@ import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
 import { FindOptions } from "sequelize";
 import { ContractTemplate } from "../models/ContractTemplate";
-import { IContractTemplate, ISubClause } from "../interfaces";
+import { IContractTemplate, ISubClause, ITypeLevel1 } from "../interfaces";
 import fileUpload from "express-fileupload";
 import { randomUUID } from "crypto";
 import { CSVLib } from "../utils/csv";
 import { KishiModel } from "../sequelize";
+import { TypeLevel1 } from "../models/typeLevels";
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -45,24 +46,34 @@ export class ReportRouter {
         } else {
           throw `Unspported file extension '${extension}'`
         }
-        
+
         let rows: KishiModel[] = []
         let datas: IContractTemplate[] = []
         for (const records of recordsPerContractTemplate) {
           let data: IContractTemplate = {
             code: records[0]["Doc_code"],
             name: records[0]["Document_name"],
-            level3: {
-              name: records[0]["Document_type_level3"],
-              level2: {
-                name: records[0]["Document_type_level2"],
-                level1: {
-                  name: records[0]["Document_type_level1"],
-                },
-              },
-            },
             clauses: [],
           }
+          const level1Data: ITypeLevel1 = {
+            name: records[0]["Document_type_level1"],
+            levels2: records[0]["Document_type_level2"] && [{
+              name: records[0]["Document_type_level2"],
+              levels3: records[0]["Document_type_level3"] && [{
+                name: records[0]["Document_type_level3"],
+              }] || []
+            }] || []
+          }
+
+          const [level1Upserted] = await TypeLevel1.Upsert(level1Data)
+          const options = TypeLevel1.SchemaToFindOptions("full")
+          const level1 = await TypeLevel1.findByPk(level1Upserted.id, options) as ITypeLevel1
+          const level2 = level1.levels2?.find(({ name }) => name == records[0]["Document_type_level2"])
+          const level3 = level2?.levels3?.find(({ name }) => name == records[0]["Document_type_level3"])
+          data.level1Id = level1?.id
+          data.level2Id = level2?.id || null
+          data.level3Id = level3?.id || null
+
           for (const record of records as any) {
             if (record["Clause_code"]) {
               data.clauses?.push({

@@ -26,11 +26,12 @@ export class TypeLevel3 extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
     level1Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
+        hardBind: true,
         associationName: "level2",
         targetField: "level1Id"
       }
