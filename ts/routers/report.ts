@@ -37,7 +37,7 @@ export class ReportRouter {
         file = Array.isArray(file) ? file[0] : file
 
         const extension = file.name.split(".").pop()
-        let recordsPerContractTemplate: any[][]
+        let recordsPerContractTemplate
         if (extension == "xlsx") {
           recordsPerContractTemplate = CSVLib.XlsxToRecords(file)
         } else if (extension == "csv") {
@@ -74,11 +74,14 @@ export class ReportRouter {
           data.level2Id = level2?.id || null
           data.level3Id = level3?.id || null
 
-          for (const record of records as any) {
+          let clauseIndex = 1
+          let subClauseIndex = 1
+          for (const record of records) {
             if (record["Clause_code"]) {
+              subClauseIndex = 1
               data.clauses?.push({
                 code: record["Clause_code"],
-                ContractTemplate_Clause: { index: record["Clause_index"], isOptional: record["Clause_Is_optional"] ? true : false },
+                ContractTemplate_Clause: { index: String(clauseIndex++), isOptional: record["Clause_Is_optional"] ? true : false },
                 name: record["Clause_Name"] || undefined,
                 rawText: [record["Clause_text1"]],
                 subClauses: [],
@@ -90,14 +93,14 @@ export class ReportRouter {
               params.push({
                 name: record[`Param${idx}`],
                 label: record[`Param${idx}_label`] || record[`Param${idx}`],
-                type: record[`Param${idx}_type`],
+                type: record[`Param${idx}_type`].toLowerCase() as any,
               })
             }
             let clause = data.clauses?.[data.clauses.length - 1]
             if (!clause) continue
-            if (record["Sub_clause_index"]) {
+            if (record["Sub_clause_name"] || record["Sub_clause_text1"]) {
               clause.subClauses?.push({
-                index: record["Sub_clause_index"],
+                index: String(subClauseIndex++),
                 isOptional: record["Sub_Clause_Is_optional"] ? true : false,
                 name: record["Sub_clause_name"] || undefined,
                 rawText: [record["Sub_clause_text1"]],
@@ -107,8 +110,6 @@ export class ReportRouter {
               clause.params = params
             }
           }
-          console.log(data);
-
           const [upserted, newRecord] = await ContractTemplate.Upsert(data)
           rows.push(upserted)
           datas.push(data)
