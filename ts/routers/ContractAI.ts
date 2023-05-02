@@ -60,16 +60,40 @@ const a = [
   "Le prestataire reste propriétaire du"
 ]
 
+const maxTokens = 4097
 
 export class ContractAIRouter {
   static async generateAIPrompt(row: IContractAI, file: Buffer | string): Promise<string> {
     if (!(row.answers && row.answers.length == row.form?.questions?.length))
       throw "missing data"
+    const questions = row.form?.questions
+    const answers = row.answers
     const fileContent = await PDFToTextLib.PdfToText(file)
-
-    return fileContent
+    let prompt = `
+    Generate a Contract Legal Document based on an uploaded pdf file and a form
+    language:deduct from file
+    [output format]
+    {
+      "name": string;
+      "clauses": {
+        "name": string;
+        "rawText": string;
+        "subClauses": {
+          "name": string;
+          "rawText": string;
+        } []
+      } [];
+    }
+    [/output format]
+    [form]
+    ${questions.map((q, idx) => `${answers[idx]}\n`)}
+    [/form]
+    [pdf file]
+    ${fileContent}
+    [/pdf file]
+    `
+    return prompt
   }
-
   static Route(): Router {
     let router: Router = Router();
     router.post("/generateAIResponse", async (req, res) => {
@@ -87,7 +111,7 @@ export class ContractAIRouter {
         const id: string = req.query["id"] as string
         findOptions.where = findOptions.where ? { [KOp("and")]: [findOptions.where, { id }] } : { id }
 
-        const row = await ContractTemplate.findOne(findOptions) as IContractAI
+        const row = await ContractAI.findOne(findOptions) as IContractAI
         if (!row)
           throw { message: `Instance Not Found` }
         let pdfFile: Buffer | string | undefined = (req.files?.["file"] as fileUpload.UploadedFile)?.data
@@ -97,14 +121,23 @@ export class ContractAIRouter {
         if (!pdfFile)
           return
         const prompt = await this.generateAIPrompt(row, pdfFile)
-        return res.send({ prompt })
+        const tokens=prompt.length
+        return res.send({tokens, prompt })
 
+        if (tokens > maxTokens)
+          throw {
+            message: `This model's maximum context length is ${maxTokens} tokens, however you requested ${tokens} tokens`
+          }
         const openAiResponse = await openai.createCompletion({
           model: "text-davinci-003",
           prompt: prompt,
           temperature: 0.2,
-          max_tokens: 2000,
+          max_tokens: maxTokens - prompt.length,
         })
+        const now = Date.now()
+        fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
+        fs.writeFileSync(`tmp/${now}-openAiResponse.txt`, JSON.stringify(openAiResponse))
+        return res.send({ prompt, openAiResponse })
         const data = openAiResponse.data
         let contractAIResponse: IContractAIResponse = {
           contractAIId: row.id,
@@ -118,7 +151,12 @@ export class ContractAIRouter {
         }
         const createdResponse = await ContractAIResponse.Create(contractAIResponse, { user } as any)
         res.send({ row: createdResponse })
-      } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
+      } catch (error) {
+        console.error(error);
+        if ((error as any)?.response?.data)
+          return res.status((error as any)?.response?.status || 400).send((error as any)?.response?.data)
+        return res.status((error as any)?.status || 400).send(error)
+      }
     })
     return router;
   }
