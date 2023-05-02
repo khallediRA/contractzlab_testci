@@ -30,6 +30,20 @@ export let router = express.Router();
 export let app = express().use(router);
 export const dbSync = sequelize.sync()
 
+dbSync.then(async sequelize => {
+  try {
+    for (const modelName in models) {
+      const prom = models[modelName].AfterSync?.(sequelize)
+      if (prom)
+        await prom
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return sequelize
+  }
+})
+
 router.use(cors({
   origin: function (origin, callback) {
     if (!origin) return callback(null, true);
