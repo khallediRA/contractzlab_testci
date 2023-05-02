@@ -26,7 +26,7 @@ export class TypeLevel2 extends KishiModel {
     },
     name: {
       type: KishiDataTypes.STRING,
-      unique:true,
+      unique: true,
     },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
@@ -49,7 +49,13 @@ export class TypeLevel2 extends KishiModel {
       target: "TypeLevel3",
       foreignKey: "level2Id",
       schemaMap: {
+        "full": "nested",
+        "nested": "nested",
       },
+      actionMap: {
+        "Create": "Upsert",
+        "Update": "Upsert",
+      }
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {

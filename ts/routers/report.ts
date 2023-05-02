@@ -73,19 +73,13 @@ export class ReportRouter {
               subClauses: [],
             })
           }
-          const paramsMap: any = {
-            "string": "string",
-            "bool": "string",
-            "Date": "string",
-            "file": "string",
-          }
           let params: ISubClause["params"] = []
           for (const idx of [1, 2, 3, 4]) {
             if (!record[`Param${idx}`] || !record[`Param${idx}_type`]) continue
             params.push({
               name: record[`Param${idx}`],
               label: record[`Param${idx}_label`] || record[`Param${idx}`],
-              type: paramsMap[record[`Param${idx}_type`]] || record[`Param${idx}_type`],
+              type: record[`Param${idx}_type`],
             })
           }
           let clause = data.clauses?.[data.clauses.length - 1]

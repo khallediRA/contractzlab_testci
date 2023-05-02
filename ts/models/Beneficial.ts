@@ -1,6 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
+import { IUser } from "../interfaces";
 
 export class Beneficial extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -34,8 +35,16 @@ export class Beneficial extends KishiModel {
     email: {
       type: KishiDataTypes.STRING(50),
       allowNull: false,
-      unique: true,
       validate: { isEmail: true },
+    },
+    jobTitle: {
+      type: KishiDataTypes.STRING(50),
+    },
+    passport: {
+      type: KishiDataTypes.STRING(16),
+    },
+    cin: {
+      type: KishiDataTypes.STRING(16),
     },
     firstName: {
       type: KishiDataTypes.STRING(50),
@@ -48,6 +57,26 @@ export class Beneficial extends KishiModel {
     },
     placeOfBirth: {
       type: KishiDataTypes.STRING(128),
+    },
+    address: {
+      type: new KishiDataTypes.KJSON(),
+      ts_typeStr: '\
+      {\
+        "addressLine": string,\
+        "postalCode": string,\
+        "city": string,\
+        "country": string,\
+      }\
+      ',
+      toView(address: any) {
+        if (!address) return address
+        return {
+          "addressLine": address.addressLine,
+          "postalCode": address.postalCode,
+          "city": address.city,
+          "country": address.country,
+        }
+      },
     },
     fullName: {
       type: KishiDataTypes.VIRTUAL,
@@ -71,6 +100,10 @@ export class Beneficial extends KishiModel {
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    async beforeCreate(attributes, options) {
+      const user = (options as any).user as IUser
+      attributes.set("clientId", user?.id)
+    },
     async afterSync(options) {
     },
   }
