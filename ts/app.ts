@@ -22,6 +22,7 @@ import { YouSignService } from "./services/youSign";
 import { ZoomService } from "./services/zoom";
 import { OSMRouter } from "./routers/osm";
 import { ReportRouter } from "./routers/report";
+import { ContractAIRouter } from "./routers/ContractAI";
 
 
 const { uploadPath } = config;
@@ -60,6 +61,8 @@ for (const name in models) {
 router.use(`/utils`, UtilsRouter.Route())
 router.use("/osm", OSMRouter.Route())
 router.use("/report", ReportRouter.Route())
+router.use("/ContractAI", ContractAIRouter.Route())
+
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)
