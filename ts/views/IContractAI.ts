@@ -8,7 +8,6 @@ export type IContractAI = {
 	name?: string;
 	content?: string;
 	file?: { key: string, url: string };
-	answers?: string[];
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
@@ -20,4 +19,4 @@ export type IContractAI = {
 	client?: Omit<IClient, "ContractAI_as_client" | "ContractAI_as_clientId">;
 
 }
-export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "content", "file", "answers", "clientId", "createdAt", "updatedAt", "formId", "display", "form", "responses", "responsesId", "client"]
+export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "content", "file", "clientId", "createdAt", "updatedAt", "formId", "display", "form", "responses", "responsesId", "client"]

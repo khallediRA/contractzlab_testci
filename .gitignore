@@ -1,7 +1,7 @@
+confidential
 node_modules
 migrations/*.js
 migrations/*.json
-interfaces/*.ts
 old.md
 public
 uploads

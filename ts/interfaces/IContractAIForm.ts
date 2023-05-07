@@ -8,7 +8,7 @@ export interface IContractAIForm {
 	language?: 'en' | 'fr';
 	code?: string;
 	name?: string;
-	questions?: string[];
+	form?: [string, string][];
 	level1Id?: number;
 	level2Id?: number;
 	createdAt?: Date;

@@ -60,42 +60,30 @@ const a = [
   "Le prestataire reste propriétaire du"
 ]
 
-const maxTokens = 4097
+const maxTokens = 8191
 
 export class ContractAIRouter {
   static async generateAIPrompt(row: IContractAI, file: Buffer | string): Promise<string> {
-    if (!(row.answers && row.answers.length == row.form?.questions?.length))
-      throw "missing data"
-    const questions = row.form?.questions
-    const answers = row.answers
+    const form = row.form?.form!
     const fileContent = await PDFToTextLib.PdfToText(file)
     let prompt = `
-    Generate a Contract Legal Document based on an uploaded pdf file and a form
-    language:deduct from file
-    [output format]
-    {
-      "name": string;
-      "clauses": {
-        "name": string;
-        "rawText": string;
-        "subClauses": {
-          "name": string;
-          "rawText": string;
-        } []
-      } [];
-    }
-    [/output format]
-    [form]
-    ${questions.map((q, idx) => `${answers[idx]}\n`)}
-    [/form]
-    [pdf file]
-    ${fileContent}
-    [/pdf file]
+Generate a Contract Legal Document based on an uploaded pdf file and a form
+language:deduct from file
+[form]
+${form.map(([clause,text]) => `${clause}:${text}\n`)}
+[/form]
+[pdf file]
+${fileContent}
+[/pdf file]
     `
     return prompt
   }
   static Route(): Router {
     let router: Router = Router();
+    router.get("/models", async (req, res) => {
+      
+    })
+
     router.post("/generateAIResponse", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractAI)
 
@@ -122,17 +110,17 @@ export class ContractAIRouter {
           return
         const prompt = await this.generateAIPrompt(row, pdfFile)
         const tokens=prompt.length
-        return res.send({tokens, prompt })
+        // return res.send({tokens, prompt })
 
         if (tokens > maxTokens)
           throw {
             message: `This model's maximum context length is ${maxTokens} tokens, however you requested ${tokens} tokens`
           }
         const openAiResponse = await openai.createCompletion({
-          model: "text-davinci-003",
+          model: "gpt-4",
           prompt: prompt,
           temperature: 0.2,
-          max_tokens: maxTokens - prompt.length,
+          max_tokens: maxTokens,
         })
         const now = Date.now()
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)

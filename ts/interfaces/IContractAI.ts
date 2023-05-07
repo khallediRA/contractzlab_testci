@@ -8,7 +8,6 @@ export interface IContractAI {
 	name?: string;
 	content?: string;
 	file?: { key: string, url: string };
-	answers?: string[];
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
