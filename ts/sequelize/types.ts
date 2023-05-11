@@ -129,17 +129,9 @@ export interface KishiModelAttributeColumnOptions extends ModelAttributeColumnOp
   binder?: {
     associationName: string;
     targetField: string;
+    hardBind?: boolean;
   }
 }
-/**
- * TODO
- */
-
-export interface AttributeBinder {
-  source: string,
-  targetPath: string,
-  bind?: (targetValues: any[]) => any;
-};
 /**
  * Model Attributes to define a Model
  */

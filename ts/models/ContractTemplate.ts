@@ -42,13 +42,15 @@ export class ContractTemplate extends KishiModel {
     level1Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
-        associationName: "level3",
+        hardBind: false,
+        associationName: "level2",
         targetField: "level1Id"
       }
     },
     level2Id: {
       type: KishiDataTypes.INTEGER,
       binder: {
+        hardBind: false,
         associationName: "level3",
         targetField: "level2Id"
       }
