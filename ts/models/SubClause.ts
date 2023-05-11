@@ -23,7 +23,7 @@ export class SubClause extends KishiModel {
     let matches = text.match(templateRegex);
     while (matches) {
       const [str, paramName, args_str] = matches;
-      let param = params.find(({ name, type }) => name == paramName && type == "boolean")
+      let param = params.find(({ name, type }) => name == paramName)
       if (!param) break
       const args = args_str.slice(1, -1).split("][")
       if (param.type == "boolean" && args.length == 2) {
@@ -101,9 +101,13 @@ export class SubClause extends KishiModel {
       const params: any = instance.get("params")
       let rawText: string[] = instance.get("rawText") as string[]
       if (params && rawText?.[0]) {
-        rawText[0] = SubClause.ProcessParams(rawText[0], params)
-        instance.set("rawText", rawText)
-        instance.set("params", params)
+        const processedText = SubClause.ProcessParams(rawText[0], params)
+        if (rawText[0] != processedText) {
+          rawText[0] = processedText
+          options.fields?.push("rawText", "params")
+          instance.set("rawText", [...rawText])
+          instance.set("params", params)
+        }
       }
     },
     async afterSync(options) {
