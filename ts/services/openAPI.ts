@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { config } from '../config'
 import { Configuration, OpenAIApi } from "openai";
 
@@ -8,25 +8,30 @@ const configuration = new Configuration({
 });
 export const openai = new OpenAIApi(configuration);
 export class OpenAIService {
-  static async Completion(prompt: string): Promise<string> {
+  static async ChatCompletion(prompt: string, model: string): Promise<any> {
     try {
-      const completion = await openai.createCompletion({
-        model: "text-davinci-003",
-        prompt: prompt,
-        temperature: 0.2,
-        max_tokens: 64,
-      });
-      console.log(completion.data);
-      return completion.data.choices[0].text!
+      const apiUrl = 'https://api.openai.com/v1/chat/completions';
+      const response = await axios.post(apiUrl, {
+        model,
+        messages: [{ role: 'system', content: prompt }],
+        temperature: 0.2
+      }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${openAIApiKey}`
+        }
+      })
+      console.log(response.data.choices[0].message.content);
+      return response.data
 
     } catch (error: any) {
-      // Consider adjusting the error handling logic for your use case
-      if (error.response) {
+      if (error.response?.data) {
         console.error(error.response.status, error.response.data);
+        throw error.response.data
       } else {
         console.error(`Error with OpenAI API request: ${error.message}`);
+        throw error.message
       }
-      return ""
     }
   }
 

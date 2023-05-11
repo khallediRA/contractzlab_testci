@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Router } from "express";
 import fs from "fs"
 
@@ -8,11 +7,10 @@ import bodyParser from "body-parser";
 import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
 import { FindOptions } from "sequelize";
-import { ContractTemplate } from "../models/ContractTemplate";
 import { IContractAI, IContractAIResponse } from "../interfaces";
 import { ContractAI } from "../models/ContractAI";
 import { KOp } from "../sequelize";
-import { openai } from "../services/openAPI";
+import { OpenAIService, openai } from "../services/openAPI";
 import { ContractAIResponse } from "../models/ContractAIResponse";
 import { PDFToTextLib } from "../services/pdfToText";
 import fileUpload from "express-fileupload";
@@ -63,25 +61,26 @@ const a = [
 const maxTokens = 8191
 
 export class ContractAIRouter {
-  static async generateAIPrompt(row: IContractAI, file: Buffer | string): Promise<string> {
+  static async generateAIPrompt(row: IContractAI, fileContent: string): Promise<string> {
     const form = row.form?.form!
-    const fileContent = await PDFToTextLib.PdfToText(file)
     let prompt = `
-Generate a Contract Legal Document based on an uploaded pdf file and a form
-language:deduct from file
-[form]
-${form.map(([clause,text]) => `${clause}:${text}\n`)}
-[/form]
+Generate a Legal Document based on the draft pdf file and a desired output.
+Match the output format provided in clauses and subclaues
+Expand each clause and subclause into a comprehensive legal document format
+Language: Deduct from file.
 [pdf file]
 ${fileContent}
 [/pdf file]
+[output]
+${form.map(([clause, text]) => `${clause}:${text}\n`)}
+[/output]
     `
     return prompt
   }
   static Route(): Router {
     let router: Router = Router();
     router.get("/models", async (req, res) => {
-      
+
     })
 
     router.post("/generateAIResponse", async (req, res) => {
@@ -108,25 +107,23 @@ ${fileContent}
         }
         if (!pdfFile)
           return
-        const prompt = await this.generateAIPrompt(row, pdfFile)
-        const tokens=prompt.length
+        const fileContent = await PDFToTextLib.PdfToText(pdfFile)
+
+        const prompt = await this.generateAIPrompt(row, fileContent)
+        const tokens = prompt.length
         // return res.send({tokens, prompt })
 
         if (tokens > maxTokens)
           throw {
             message: `This model's maximum context length is ${maxTokens} tokens, however you requested ${tokens} tokens`
           }
-        const openAiResponse = await openai.createCompletion({
-          model: "gpt-4",
-          prompt: prompt,
-          temperature: 0.2,
-          max_tokens: maxTokens,
-        })
+        const openAiData = await OpenAIService.ChatCompletion(prompt, "gpt-4")
         const now = Date.now()
+        fs.writeFileSync(`tmp/${now}-file.txt`, fileContent)
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
-        fs.writeFileSync(`tmp/${now}-openAiResponse.txt`, JSON.stringify(openAiResponse))
-        return res.send({ prompt, openAiResponse })
-        const data = openAiResponse.data
+        fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
+        return res.send({ prompt, data: openAiData })
+        const data = openAiData
         let contractAIResponse: IContractAIResponse = {
           contractAIId: row.id,
           externalId: data.id,
