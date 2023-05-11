@@ -1,7 +1,7 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { ts_ParamsTypeStr } from "./SubClause";
+import { SubClause, ts_ParamsTypeStr } from "./SubClause";
 import { IClause } from "../views";
 
 export class Clause extends KishiModel {
@@ -71,6 +71,15 @@ export class Clause extends KishiModel {
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
+    beforeValidate(instance, options) {
+      const params: any = instance.get("params")
+      let rawText: string[] = instance.get("rawText") as string[]
+      if (params && rawText?.[0]) {
+        rawText[0] = SubClause.ProcessParams(rawText[0], params)
+        instance.set("rawText", rawText)
+        instance.set("params", params)
+      }
+    },
     async afterSync(options) {
     },
   }

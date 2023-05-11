@@ -8,24 +8,37 @@ export type ParamsType =
     name: string,
     label: string,
     args?: any,
-    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'
+    type: 'string' | 'boolean' | 'list' | 'date' | 'number' | 'beneficial' | 'file'
   }[]
 export const ts_ParamsTypeStr =
   "{\
     name: string,\
     label: string,\
     args?: any,\
-    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'\
+    type: 'string' | 'boolean' | 'list' | 'date' | 'number' | 'beneficial' | 'file'\
   }[]"
 export class SubClause extends KishiModel {
-  static ExtractBooleanParams(text: string, params: ParamsType): string {
-    const templateRegex = /\$(\w+)\[([^[\]]*)\]\[([^[\]]*)\]/;
+  static ProcessParams(text: string, params: ParamsType): string {
+    const templateRegex = /\$(\w+)((?:\[(?:[^[\]]*)\])+)/;
     let matches = text.match(templateRegex);
     while (matches) {
-      const [str, paramName, textIfTrue, textIfFalse] = matches;
+      const [str, paramName, args_str] = matches;
       let param = params.find(({ name, type }) => name == paramName && type == "boolean")
       if (!param) break
-      param.args = { textIfTrue, textIfFalse }
+      const args = args_str.slice(1, -1).split("][")
+      if (param.type == "boolean" && args.length == 2) {
+        const [textIfTrue, textIfFalse] = args
+        param.args = { textIfTrue, textIfFalse }
+      } else if (param.type == "list") {
+        param.args = []
+        for (const arg of args) {
+          if (arg.startsWith("!")) {
+            param.args.push({ option: arg.slice(1), required: true })
+          } else {
+            param.args.push({ option: arg, required: false })
+          }
+        }
+      }
       text = text.replace(str, `$${paramName}`)
       matches = text.match(templateRegex);
     }
@@ -88,7 +101,7 @@ export class SubClause extends KishiModel {
       const params: any = instance.get("params")
       let rawText: string[] = instance.get("rawText") as string[]
       if (params && rawText?.[0]) {
-        rawText[0] = SubClause.ExtractBooleanParams(rawText[0], params)
+        rawText[0] = SubClause.ProcessParams(rawText[0], params)
         instance.set("rawText", rawText)
         instance.set("params", params)
       }
