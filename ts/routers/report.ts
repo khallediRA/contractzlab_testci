@@ -9,10 +9,12 @@ import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
 import { FindOptions } from "sequelize";
 import { ContractTemplate } from "../models/ContractTemplate";
-import { IContractTemplate, ISubClause } from "../interfaces";
+import { IContractTemplate, ISubClause, ITypeLevel1 } from "../interfaces";
 import fileUpload from "express-fileupload";
 import { randomUUID } from "crypto";
 import { CSVLib } from "../utils/csv";
+import { KishiModel } from "../sequelize";
+import { TypeLevel1 } from "../models/typeLevels";
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -33,71 +35,86 @@ export class ReportRouter {
         if (!req.files?.["file"])
           throw "missing file"
         file = Array.isArray(file) ? file[0] : file
-        console.log(file);
 
-        const random = randomUUID()
         const extension = file.name.split(".").pop()
+        let recordsPerContractTemplate
         if (extension == "xlsx") {
-          await file.mv(`tmp/${random}.xlsx`)
-          CSVLib.XlsxToCsv(`tmp/${random}.xlsx`, `tmp/${random}.csv`)
+          recordsPerContractTemplate = CSVLib.XlsxToRecords(file)
+        } else if (extension == "csv") {
+          const records = await CSVLib.CsvToRecords(file, "utf8")
+          recordsPerContractTemplate = [records]
         } else {
-          await file.mv(`tmp/${random}.csv`)
+          throw `Unspported file extension '${extension}'`
         }
-        const records = await CSVLib.CsvToRecords(`tmp/${random}.csv`, "utf8")
-        if (extension == "xlsx") {
-          fs.unlinkSync(`tmp/${random}.xlsx`)
-        }
-        fs.unlinkSync(`tmp/${random}.csv`)
-        let data: IContractTemplate = {
-          code: records[0]["Doc_code"],
-          name: records[0]["Document_name"],
-          level3: {
-            name: records[0]["Document_type_level3"],
-            level2: {
-              name: records[0]["Document_type_level2"],
-              level1: {
-                name: records[0]["Document_type_level1"],
-              },
-            },
-          },
-          clauses: [],
 
+        let rows: KishiModel[] = []
+        let datas: IContractTemplate[] = []
+        for (const records of recordsPerContractTemplate) {
+          let data: IContractTemplate = {
+            code: records[0]["Doc_code"],
+            name: records[0]["Document_name"],
+            clauses: [],
+          }
+          const level1Data: ITypeLevel1 = {
+            name: records[0]["Document_type_level1"],
+            levels2: records[0]["Document_type_level2"] && [{
+              name: records[0]["Document_type_level2"],
+              levels3: records[0]["Document_type_level3"] && [{
+                name: records[0]["Document_type_level3"],
+              }] || []
+            }] || []
+          }
+
+          const [level1Upserted] = await TypeLevel1.Upsert(level1Data)
+          const options = TypeLevel1.SchemaToFindOptions("full")
+          const level1 = await TypeLevel1.findByPk(level1Upserted.id, options) as ITypeLevel1
+          const level2 = level1.levels2?.find(({ name }) => name == records[0]["Document_type_level2"])
+          const level3 = level2?.levels3?.find(({ name }) => name == records[0]["Document_type_level3"])
+          data.level1Id = level1?.id
+          data.level2Id = level2?.id || null
+          data.level3Id = level3?.id || null
+
+          let clauseIndex = 1
+          let subClauseIndex = 1
+          for (const record of records) {
+            if (record["Clause_code"]) {
+              subClauseIndex = 1
+              data.clauses?.push({
+                code: record["Clause_code"],
+                ContractTemplate_Clause: { index: String(clauseIndex++), isOptional: record["Clause_Is_optional"] ? true : false },
+                name: record["Clause_Name"] || undefined,
+                rawText: [record["Clause_text1"]],
+                subClauses: [],
+              })
+            }
+            let params: ISubClause["params"] = []
+            for (const idx of [1, 2, 3, 4]) {
+              if (!record[`Param${idx}`] || !record[`Param${idx}_type`]) continue
+              params.push({
+                name: record[`Param${idx}`],
+                label: record[`Param${idx}_label`] || record[`Param${idx}`],
+                type: record[`Param${idx}_type`].toLowerCase() as any,
+              })
+            }
+            let clause = data.clauses?.[data.clauses.length - 1]
+            if (!clause) continue
+            if (record["Sub_clause_name"] || record["Sub_clause_text1"]) {
+              clause.subClauses?.push({
+                index: String(subClauseIndex++),
+                isOptional: record["Sub_Clause_Is_optional"] ? true : false,
+                name: record["Sub_clause_name"] || undefined,
+                rawText: [record["Sub_clause_text1"]],
+                params,
+              })
+            } else if (record["Clause_code"]) {
+              clause.params = params
+            }
+          }
+          const [upserted, newRecord] = await ContractTemplate.Upsert(data)
+          rows.push(upserted)
+          datas.push(data)
         }
-        for (const record of records as any) {
-          if (record["Clause_code"]) {
-            data.clauses?.push({
-              code: record["Clause_code"],
-              ContractTemplate_Clause: { index: record["Clause_index"], isOptional: record["Clause_Is_optional"] ? true : false },
-              name: record["Clause_Name"] || undefined,
-              rawText: [record["Clause_text1"]],
-              subClauses: [],
-            })
-          }
-          let params: ISubClause["params"] = []
-          for (const idx of [1, 2, 3, 4]) {
-            if (!record[`Param${idx}`] || !record[`Param${idx}_type`]) continue
-            params.push({
-              name: record[`Param${idx}`],
-              label: record[`Param${idx}_label`] || record[`Param${idx}`],
-              type: record[`Param${idx}_type`],
-            })
-          }
-          let clause = data.clauses?.[data.clauses.length - 1]
-          if (!clause) continue
-          if (record["Sub_clause_index"]) {
-            clause.subClauses?.push({
-              index: record["Sub_clause_index"],
-              isOptional: record["Sub_Clause_Is_optional"] ? true : false,
-              name: record["Sub_clause_name"] || undefined,
-              rawText: [record["Sub_clause_text1"]],
-              params,
-            })
-          } else if (record["Clause_code"]) {
-            clause.params = params
-          }
-        }
-        const [upserted, newRecord] = await ContractTemplate.Upsert(data)
-        res.send({ records, data, upserted })
+        res.send({ datas, rows: ContractTemplate.toView(rows) })
       } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
     })
 
