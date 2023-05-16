@@ -14,7 +14,7 @@ import { OpenAIService, openai } from "../services/openAPI";
 import { ContractAIResponse } from "../models/ContractAIResponse";
 import { PDFToTextLib } from "../services/pdfToText";
 import fileUpload from "express-fileupload";
-import { UrlToUploadPath } from "../utils/string";
+import { UrlToUploadPath, optimizeStr } from "../utils/string";
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -69,7 +69,7 @@ Match the output format provided in clauses and subclaues
 Expand each clause and subclause into a comprehensive legal document format
 Language: Deduct from file.
 [pdf file]
-${fileContent}
+${optimizeStr(fileContent)}
 [/pdf file]
 [output]
 ${form.map(([clause, text]) => `${clause}:${text}\n`)}
@@ -92,7 +92,6 @@ ${form.map(([clause, text]) => `${clause}:${text}\n`)}
 
     router.post("/generateAIResponse", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractAI)
-
       try {
         let _req = req as MiddlewareRequest
         _req.middleData = {}
@@ -131,7 +130,7 @@ ${form.map(([clause, text]) => `${clause}:${text}\n`)}
         fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
         this.processAIResponse(row, openAiData.choices[0].message.content)
         await row.save()
-        return res.send({ now, prompt, row: row.toView() })
+        return res.send({ tokens, now, prompt, row: row.toView() })
       } catch (error) {
         console.error(error);
         if ((error as any)?.response?.data)

@@ -1,5 +1,19 @@
 import { config } from "../config"
 
+export function optimizeStr(content: string) {
+	let output = content
+	const replacers: [RegExp, string][] = [
+		[/^\s+|\s+$/g, ''],
+		[/\s+/g, ' '],
+		[/\f/g, ''],
+		[/[\r\n]+/g, ''],
+		[/^( +)/g, ' '],
+	]
+	for (const replacer of replacers) {
+		output = output.replace(replacer[0], replacer[1])
+	}
+	return output
+}
 
 export function UrlToUploadPath(path: string) {
 	if (path?.startsWith(config.server.publicUrl))
