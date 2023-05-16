@@ -38,6 +38,18 @@ export class ContractAI extends KishiModel {
     file: {
       type: new KishiDataTypes.FILE(),
     },
+    summarySheet: {
+      type: new KishiDataTypes.TEXT(),
+      ts_typeStr: "[string, string][]",
+      get() {
+        return JSON.parse(this.getDataValue("summarySheet") || "[]")
+      },
+      set(value: string | [string, string][]) {
+        value = value || []
+        const data = Array.isArray(value) ? value : [value]
+        this.setDataValue("summarySheet", JSON.stringify(data))
+      },
+    },
     clientId: {
       type: KishiDataTypes.UUID,
     }

@@ -71,8 +71,8 @@ export class ReportRouter {
           const level2 = level1.levels2?.find(({ name }) => name == records[0]["Document_type_level2"])
           const level3 = level2?.levels3?.find(({ name }) => name == records[0]["Document_type_level3"])
           data.level1Id = level1?.id
-          data.level2Id = level2?.id || null
-          data.level3Id = level3?.id || null
+          data.level2Id = level2?.id || null as any
+          data.level3Id = level3?.id || null as any
 
           let clauseIndex = 1
           let subClauseIndex = 1

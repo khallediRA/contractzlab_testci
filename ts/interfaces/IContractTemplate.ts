@@ -10,10 +10,10 @@ export interface IContractTemplate {
 	code?: string;
 	name?: string;
 	level1Id?: number;
-	level2Id?: number | null;
+	level2Id?: number;
 	createdAt?: Date;
 	updatedAt?: Date;
-	level3Id?: number | null;
+	level3Id?: number;
 	clauses?: (Omit<IClause, "ContractTemplate_as_clauses" | "ContractTemplate_as_clausesId"> & { ContractTemplate_Clause?: IContractTemplate_Clause })[];
 	clausesId?: (number)[];
 	level3?: Omit<ITypeLevel3, "ContractTemplate_as_level3" | "ContractTemplate_as_level3Id">;

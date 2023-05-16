@@ -5,7 +5,7 @@ export interface ISubClause {
 	code?: string;
 	name?: string;
 	isOptional?: boolean;
-	params?: {    name: string,    label: string,    args?: any,    type: 'string' | 'boolean' | 'date' | 'number' | 'beneficial' | 'file'  }[];
+	params?: {    name: string,    label: string,    args?: any,    type: 'string' | 'boolean' | 'list' | 'date' | 'number' | 'beneficial' | 'file'  }[];
 	rawText?: string[];
 	createdAt?: Date;
 	updatedAt?: Date;

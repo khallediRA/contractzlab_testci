@@ -77,6 +77,13 @@ ${form.map(([clause, text]) => `${clause}:${text}\n`)}
     `
     return prompt
   }
+  static async processAIResponse(row: IContractAI, response: string): Promise<any> {
+    const summarySheet = response.split("\n")
+      .filter((str) => str)
+      .map((line) => line.split(":").map(str => str.trim()))
+    row.summarySheet = summarySheet as any
+    return summarySheet
+  }
   static Route(): Router {
     let router: Router = Router();
     router.get("/models", async (req, res) => {
@@ -98,7 +105,7 @@ ${form.map(([clause, text]) => `${clause}:${text}\n`)}
         const id: string = req.query["id"] as string
         findOptions.where = findOptions.where ? { [KOp("and")]: [findOptions.where, { id }] } : { id }
 
-        const row = await ContractAI.findOne(findOptions) as IContractAI
+        const row = await ContractAI.findOne(findOptions) as IContractAI & ContractAI
         if (!row)
           throw { message: `Instance Not Found` }
         let pdfFile: Buffer | string | undefined = (req.files?.["file"] as fileUpload.UploadedFile)?.data
@@ -122,20 +129,9 @@ ${form.map(([clause, text]) => `${clause}:${text}\n`)}
         fs.writeFileSync(`tmp/${now}-file.txt`, fileContent)
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
         fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
-        return res.send({ prompt, data: openAiData })
-        const data = openAiData
-        let contractAIResponse: IContractAIResponse = {
-          contractAIId: row.id,
-          externalId: data.id,
-          content: data.choices[0].text,
-          info: {
-            model: data.model,
-            finish_reason: data.choices[0].finish_reason,
-            ...data.usage,
-          }
-        }
-        const createdResponse = await ContractAIResponse.Create(contractAIResponse, { user } as any)
-        res.send({ row: createdResponse })
+        this.processAIResponse(row, openAiData.choices[0].message.content)
+        await row.save()
+        return res.send({ now, prompt, row: row.toView() })
       } catch (error) {
         console.error(error);
         if ((error as any)?.response?.data)
