@@ -49,6 +49,7 @@ export class KishiModel extends Model {
   files: Record<string, AbstractFile | AbstractFile[]> = {}
   static AfterView?: (row: KishiModel, view: any) => any;
   static PreInit?: (sequelize: Sequelize, models: Record<string, typeof KishiModel>) => any;
+  static AfterSync?: (sequelize: Sequelize) => Promise<void>;
   static WhereFromDisplay?: (display: string) => WhereOptions;
   static get nonVirtualAttributes(): string[] {
     return Object.keys(this.rawAttributes).filter(name => (this.rawAttributes[name].type.constructor.name != "VIRTUAL"))
