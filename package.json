@@ -10,7 +10,7 @@
     "build": "tsc --build",
     "makemigration": "npm run build && makemigration --models-path .\\js\\models",
     "runmigration": "npm run build && runmigration --models-path .\\js\\models",
-    "generate-interfaces": "node js/scripts/generateInterfaces.js",
+    "generate-interfaces": "node js/scripts/generateInterfaces.js && node js/scripts/exportModelsToXLSX.js",
     "generate-vapid-keys": "npx web-push generate-vapid-keys",
     "start": "tsc --build && node js/server.js --max-old-space-size=8192",
     "test": "npm run build && node js/tests/userAuth.js"
