@@ -22,8 +22,7 @@ router.use(bodyParser.json());
 export class ContractAIRouter {
   static async generateAIPrompt(row: IContractAI, fileContent: string): Promise<string> {
     const form = row.form?.form!
-    let prompt = `
-Generate a Legal Document based on the draft pdf file and a desired output.
+    let prompt = `Generate a Legal Document based on the draft pdf file and a desired output.
 Match the output format provided in clauses and subclaues
 Expand each clause and subclause into a comprehensive legal document format
 Language: Deduct from file.

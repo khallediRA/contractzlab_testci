@@ -14,7 +14,7 @@ export class OpenAIService {
       const response = await axios.post(apiUrl, {
         model,
         messages: [{ role: 'system', content: prompt }],
-        temperature: 0.2
+        temperature: 0
       }, {
         headers: {
           'Content-Type': 'application/json',
