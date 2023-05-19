@@ -21,6 +21,7 @@ import { UserAuthService } from "./services/userAuth";
 import { YouSignService } from "./services/youSign";
 import { ZoomService } from "./services/zoom";
 import { OSMRouter } from "./routers/osm";
+import { MailService } from "./services/mail";
 import { ReportRouter } from "./routers/report";
 
 
@@ -29,6 +30,20 @@ const { uploadPath } = config;
 export let router = express.Router();
 export let app = express().use(router);
 export const dbSync = sequelize.sync()
+
+dbSync.then(async sequelize => {
+  try {
+    for (const modelName in models) {
+      const prom = models[modelName].AfterSync?.(sequelize)
+      if (prom)
+        await prom
+    }
+  } catch (error) {
+    console.error(error);
+  } finally {
+    return sequelize
+  }
+})
 
 dbSync.then(async sequelize => {
   try {
@@ -72,11 +87,12 @@ for (const name in models) {
   router.use(`/${name}`, modelRouter.Route())
 }
 router.use(`/utils`, UtilsRouter.Route())
-router.use("/osm", OSMRouter.Route())
+router.use("/osm",  OSMRouter.Route())
 router.use("/report", ReportRouter.Route())
 
 // ElasticsearchService.Init(models, router)
 NotificationService.Init(models, router)
+MailService.Init(models, router)
 // RedisService.Init(models,router)
 QueryCacheService.Init(models, router)
 UserAuthService.Init(models, router)
