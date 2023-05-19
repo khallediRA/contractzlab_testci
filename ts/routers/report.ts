@@ -36,8 +36,8 @@ export class ReportRouter {
           throw "missing file"
         file = Array.isArray(file) ? file[0] : file
 
-        const extension = file.name.split(".").pop()
         let recordsPerContractTemplate
+        const extension = file.name.split(".").pop()
         if (extension == "xlsx") {
           recordsPerContractTemplate = CSVLib.XlsxToRecords(file)
         } else if (extension == "csv") {

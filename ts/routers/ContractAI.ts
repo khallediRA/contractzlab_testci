@@ -7,19 +7,17 @@ import bodyParser from "body-parser";
 import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
 import { FindOptions } from "sequelize";
-import { IContractAI, IContractAIResponse } from "../interfaces";
+import { IContractAI } from "../interfaces";
 import { ContractAI } from "../models/ContractAI";
 import { KOp } from "../sequelize";
-import { OpenAIService, openai } from "../services/openAPI";
-import { ContractAIResponse } from "../models/ContractAIResponse";
+import { OpenAIService } from "../services/openAPI";
 import { PDFToTextLib } from "../services/pdfToText";
 import fileUpload from "express-fileupload";
 import { UrlToUploadPath, optimizeStr } from "../utils/string";
+import DocxLib from "../utils/docx";
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
-
-const maxTokens = 8191
 
 export class ContractAIRouter {
   static async generateAIPrompt(row: IContractAI, fileContent: string): Promise<string> {
@@ -68,10 +66,22 @@ ${form.map(([clause, text]) => `${clause}:${text}`).join("\n")}
         const row = await ContractAI.findOne(findOptions) as IContractAI & ContractAI
         if (!row)
           throw { message: `Instance Not Found` }
-        let pdfFile: Buffer | string | undefined = (req.files?.["file"] as fileUpload.UploadedFile)?.data
-        if (!pdfFile) {
+        if (row.clientId != user.id) {
+          throw { message: `Unauthorized` }
+        }
+        let file = req.files?.["file"] as fileUpload.UploadedFile
+        let pdfFile: Buffer | string | undefined
+        if (!file) {
           pdfFile = UrlToUploadPath((row as IContractAI).file?.url!)
         } else {
+          const extension = file.name.split(".").pop()
+          if (extension == "docx") {
+            pdfFile = await DocxLib.DocxToPdf(file.data)
+          } else if (extension == "pdf") {
+            pdfFile = file.data
+          } else {
+            throw `Unspported file extension '${extension}'`
+          }
           row.set("file", req.files?.["file"])
           await row.save()
         }
@@ -80,17 +90,12 @@ ${form.map(([clause, text]) => `${clause}:${text}`).join("\n")}
         const fileContent = await PDFToTextLib.PdfToText(pdfFile)
 
         const prompt = await this.generateAIPrompt(row, fileContent)
-        const tokens = prompt.length
-        // return res.send({tokens, prompt })
 
-        if (tokens > maxTokens)
-          throw {
-            message: `This model's maximum context length is ${maxTokens} tokens, however you requested ${tokens} tokens`
-          }
-        const openAiData = await OpenAIService.ChatCompletion(prompt, "gpt-4")
         const now = Date.now()
         fs.writeFileSync(`tmp/${now}-file.txt`, fileContent)
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
+        return res.send({ fileContent, prompt })
+        const openAiData = await OpenAIService.ChatCompletion(prompt, "gpt-4")
         fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
         this.processAIResponse(row, openAiData.choices[0].message.content)
         await row.save()

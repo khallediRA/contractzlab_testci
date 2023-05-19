@@ -2,13 +2,19 @@ import { config } from "../config"
 
 export function optimizeStr(content: string) {
 	let output = content
-	const replacers: [RegExp, string][] = [
-		[/^\s+|\s+$/g, ''],
+	const lineReplacers: [RegExp, string][] = [
+		[/[\x01\x1F]/g, '*'],
+		[/\r/g, ' '],
 		[/\s+/g, ' '],
-		[/\f/g, ''],
-		[/[\r\n]+/g, ''],
-		[/^( +)/g, ' '],
 	]
+	const replacers: [RegExp, string][] = [
+		[/\f/g, '\n'],
+		[/\s*\n+\s*/g, '\n'], // Updated regex pattern to match consecutive \r\n
+		[/\n+/g, '\n'], // Updated regex pattern to match consecutive \r\n
+	]
+	for (const replacer of lineReplacers) {
+		output = output.split("\n").map(str => str.replace(replacer[0], replacer[1])).join("\n")
+	}
 	for (const replacer of replacers) {
 		output = output.replace(replacer[0], replacer[1])
 	}
