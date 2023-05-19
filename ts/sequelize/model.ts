@@ -1567,6 +1567,13 @@ export class KishiModel extends Model {
           if (!values[foreignName]) {
             const upsertedAssociation = await Target.Upsert(values[name], options)
             values[foreignName] = upsertedAssociation[0].id
+          } else {
+            const target = await Target.findByPk(values[foreignName])
+            if (!target) {
+              values[foreignName] = null
+              break
+            }
+            await target.Update(values[name], options)
           }
           break;
       }

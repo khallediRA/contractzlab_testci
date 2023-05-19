@@ -1,13 +1,673 @@
 {
   "_type": "export",
   "__export_format": 4,
-  "__export_date": "2022-09-20T16:50:08.236Z",
-  "__export_source": "insomnia.desktop.app:v2022.5.1",
+  "__export_date": "2023-04-22T17:06:21.825Z",
+  "__export_source": "insomnia.desktop.app:v2023.1.0",
   "resources": [
+    {
+      "_id": "req_06dc82dadcec42678b334e3912038d28",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1672681529537,
+      "created": 1672613690454,
+      "url": "https://oauth2.googleapis.com/tokeninfo",
+      "name": "google token info",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [
+        {
+          "id": "pair_86b33244b3f64061818a4168c070b6d6",
+          "name": "access_token",
+          "value": "ya29.a0AX9GBdWpyOl12otoF5RdlnHir5lHZjeECnawT2NKqqbDt--3cyRVjFvcrAiTyrD2yWFC8RYlmgdOcJentArV7OhGp7hX1X5DZgW7UFob7G-0fu6b6XNQ8UnMsD8PCd_EGDo-vOxOqAMzc3xQEfA6XWrMPcjxaPcaCgYKAUgSAQ8SFQHUCsbCuW3DuvOiRFJkWHak97tSyg0166",
+          "description": ""
+        }
+      ],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1672613690454,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "parentId": null,
+      "modified": 1660999444459,
+      "created": 1660999444459,
+      "name": "kishi-node",
+      "description": "",
+      "scope": "collection",
+      "_type": "workspace"
+    },
+    {
+      "_id": "req_2ccf663dc64d47e68886ea3c7d3c4f88",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671547403220,
+      "created": 1671121980600,
+      "url": "https://sommeil.schoolcom.net:3001/",
+      "name": "json",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"john.doe619@yopmail.com\",\n  \"subject\": \"custom subject\",\n  \"text\": \"\",\n  \"birthDate\": \"1991-03-16\",\n  \"size\": 1.6,\n  \"weight\": 67,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"profession\": \"Worker\",\n  \"antecdents\": [\n    \"antécédent 1\",\n    \"antécédent 2\"\n  ],\n  \"treatments\": [\n    \"traitement 1\",\n    \"traitement 2\"\n  ],\n  \"highBloodPressure\": true,\n  \"cholesterol\": true,\n  \"highTriglycerides\": true,\n  \"diabetes\": true,\n  \"timeSinceSymptoms\": \"1ere Octobre\",\n  \"insomnia\": \"midnight\",\n  \"noSleep\": true,\n  \"bedTime\": \"21h\",\n  \"wakeTime\": \"9h\",\n  \"sleepHours\": \"12h\",\n  \"wakeAtNight\": true,\n  \"cafeeCount\": 1,\n  \"teeCount\": 2,\n  \"drugs\": [\n    \"panadol\",\n    \"asprin\"\n  ],\n  \"epworth\": 20,\n  \"eva\": 15,\n  \"HADA\": 1.0,\n  \"HADD\": 2.0,\n  \"beck1\": true,\n  \"beck2\": true,\n\t\"beck1Score\": 12,\n  \"beck2Score\": 13,\n  \"snoring\": true,\n  \"breathPause\": true,\n  \"nocturia\": true,\n  \"morningHeadache\": true,\n  \"jumps\": true,\n  \"sleepParalysis\": true,\n  \"cataplexy\": true,\n  \"hallucinations\": true,\n  \"somnambulism\": true,\n\t\"alcoholic\":true,\n  \"badSun\": true,\n  \"fatigue\": true,\n  \"badConcentration\": true,\n  \"badMemory\": true,\n  \"irritability\": true,\n  \"dayTime\": true,\n  \"drowsyDriving\": true\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1671121980600,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_7d0afaa6163d42e2b2d4482e49e0aa95",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671728826247,
+      "created": 1671547487336,
+      "url": "127.0.0.1:3001/",
+      "name": "json-local",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"john.doe619@yopmail.com\",\n  \"subject\": \"custom subject\",\n  \"text\": \"\",\n  \"birthDate\": \"1991-03-16\",\n  \"size\": 1.6,\n  \"weight\": 67,\n  \"firstName\": \"John\",\n  \"lastName\": \"Doe\",\n  \"profession\": \"Worker\",\n  \"antecdents\": [\n    \"antécédent 1\",\n    \"antécédent 2\"\n  ],\n  \"treatments\": [\n    \"traitement 1\",\n    \"traitement 2\"\n  ],\n  \"highBloodPressure\": true,\n  \"cholesterol\": true,\n  \"highTriglycerides\": true,\n  \"diabetes\": true,\n  \"timeSinceSymptoms\": \"1ere Octobre\",\n  \"insomnia\": \"midnight\",\n  \"noSleep\": true,\n  \"bedTime\": \"21h\",\n  \"wakeTime\": \"9h\",\n  \"sleepHours\": \"12h\",\n  \"wakeAtNight\": true,\n  \"cafeeCount\": 1,\n  \"teeCount\": 2,\n  \"drugs\": [\n    \"panadol\",\n    \"asprin\"\n  ],\n  \"epworth\": 20,\n  \"eva\": 15,\n  \"HADA\": 1.0,\n  \"HADD\": 2.0,\n  \"beck1\": true,\n  \"beck2\": true,\n\t\"beck1Score\": 12,\n  \"beck2Score\": 13,\n  \"snoring\": true,\n  \"breathPause\": true,\n  \"nocturia\": true,\n  \"morningHeadache\": true,\n  \"jumps\": true,\n  \"sleepParalysis\": true,\n  \"cataplexy\": true,\n  \"hallucinations\": true,\n  \"somnambulism\": true,\n\t\"alcoholic\":true,\n  \"badSun\": true,\n  \"fatigue\": true,\n  \"badConcentration\": true,\n  \"badMemory\": true,\n  \"irritability\": true,\n  \"dayTime\": false,\n  \"drowsyDriving\": false\n}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1671063915737.75,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_fe47b6553ac648bcbccde67026214abd",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671467934452,
+      "created": 1671445417254,
+      "url": "https://sommeil.schoolcom.net:3001/",
+      "name": "formData",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "email",
+            "value": "john.doe619@yopmail.com",
+            "id": "pair_0081183d010942b7bfb47f3fb6cf3405"
+          },
+          {
+            "id": "pair_77c32b570ebb45a88b418bbd8c9b5b01",
+            "name": "antecdents",
+            "value": "antecdent1",
+            "description": ""
+          },
+          {
+            "id": "pair_5aadda5f27a647ffaf49d3692c50fac3",
+            "name": "antecdents",
+            "value": "antecdent2",
+            "description": ""
+          },
+          {
+            "id": "pair_d3b10e1f4d294053abc1c47ef5a4441d",
+            "name": "subject",
+            "value": "subject",
+            "description": ""
+          },
+          {
+            "id": "pair_3a7c4578f8a64157a86baaf0d30c30c3",
+            "name": "birthDate",
+            "value": "1991-03-16",
+            "description": ""
+          },
+          {
+            "id": "pair_5cc86a81a5f5458e8fb3b3dcf3c152c5",
+            "name": "size",
+            "value": "1.6",
+            "description": ""
+          },
+          {
+            "id": "pair_c92e2be6aaa0425e9f74a1dffc272a3e",
+            "name": "weight",
+            "value": "67",
+            "description": ""
+          },
+          {
+            "id": "pair_eff834b6aa0149f79bb6b824dc3a09c9",
+            "name": "firstName",
+            "value": "John",
+            "description": ""
+          },
+          {
+            "id": "pair_e492c5e959c448089a8ec3cf0ec5ca63",
+            "name": "lastName",
+            "value": "Doe",
+            "description": ""
+          },
+          {
+            "id": "pair_bd8bd247e07f42f9adc451b6dfa74fd3",
+            "name": "profession",
+            "value": "Worker",
+            "description": ""
+          },
+          {
+            "id": "pair_e8da4696296645f0aac25ba25a229efe",
+            "name": "treatments",
+            "value": "traitement 1",
+            "description": ""
+          },
+          {
+            "id": "pair_6708356ec253468f8b391e51f1308e7a",
+            "name": "treatments",
+            "value": "traitement 2",
+            "description": ""
+          },
+          {
+            "id": "pair_bdbe5801ac0942558ee43a6f328c9a16",
+            "name": "highBloodPressure",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_a68f13c53b894971afe93be1fb9a05c8",
+            "name": "cholesterol",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_7245856ad2a241b689d193a3bc8d111e",
+            "name": "highTriglycerides",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_b14307b81d654efa9b671c07bd45be56",
+            "name": "diabetes",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_23950348fb0d4612868cca16e3690c7d",
+            "name": "timeSinceSymptoms",
+            "value": "1ere Octobre",
+            "description": ""
+          },
+          {
+            "id": "pair_afa63454aa824fff8a46d601d307cd0d",
+            "name": "insomnia",
+            "value": "midnight",
+            "description": ""
+          },
+          {
+            "id": "pair_45da1c11cba04147a189e4b7a81badaa",
+            "name": "noSleep",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_989e50a4ab404bf3a8bb7b63940a5642",
+            "name": "bedTime",
+            "value": "21h",
+            "description": ""
+          },
+          {
+            "id": "pair_a0e9c57bafe4404aad1989d940138960",
+            "name": "wakeTime",
+            "value": "9h",
+            "description": ""
+          },
+          {
+            "id": "pair_ac39b09195bd4420b4a53106c637df16",
+            "name": "sleepHours",
+            "value": "12h",
+            "description": ""
+          },
+          {
+            "id": "pair_c78b23918acd4af08d3853e9d30a83db",
+            "name": "wakeAtNight",
+            "value": "jamais",
+            "description": ""
+          },
+          {
+            "id": "pair_f3ba33905e3d48e2b88ec4e71393dcce",
+            "name": "cafeeCount",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_ea3e0b2aa14847808d5b38d2761fa3a7",
+            "name": "teeCount",
+            "value": "2",
+            "description": ""
+          },
+          {
+            "id": "pair_35099c3564524f67b52b492dde0a3ce5",
+            "name": "drugs",
+            "value": "panadol",
+            "description": ""
+          },
+          {
+            "id": "pair_8f5a5203074041f7b4280d5197fb0365",
+            "name": "drugs",
+            "value": "asprin",
+            "description": ""
+          },
+          {
+            "id": "pair_d5a8d29ddae64bf89263909d18522a1a",
+            "name": "epworth",
+            "value": "20",
+            "description": ""
+          },
+          {
+            "id": "pair_dd9925d51aae4c58adca2e9da677ed2f",
+            "name": "eva",
+            "value": "15",
+            "description": ""
+          },
+          {
+            "id": "pair_15a0e4cff0e84572a617e06f4fd1257a",
+            "name": "HADA",
+            "value": "1.0",
+            "description": ""
+          },
+          {
+            "id": "pair_faea1bfd3411432d994dc9042cd0fc39",
+            "name": "HADD",
+            "value": "2.0",
+            "description": ""
+          },
+          {
+            "id": "pair_371f96e52b9c4c10a17d3ace753d0f82",
+            "name": "beck1",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_41dec10d265243a9b4c949de01eb0ee3",
+            "name": "beck2",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_50c40bf7d72d42bd8c3c70faf113171e",
+            "name": "text",
+            "value": "",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_bd653256f7144cc8af8c90e4c87e3b52",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "disabled": false,
+            "type": "file",
+            "fileName": "F:\\Downloads\\Documents\\Profile.pdf"
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1671005850875.5,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_df5f1c981ea84097b73e515ed89fd62b",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671728921521,
+      "created": 1671459323504,
+      "url": "127.0.0.1:3001/",
+      "name": "formData-local",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "multipart/form-data",
+        "params": [
+          {
+            "name": "email",
+            "value": "john.doe619@yopmail.com",
+            "id": "pair_0081183d010942b7bfb47f3fb6cf3405"
+          },
+          {
+            "id": "pair_77c32b570ebb45a88b418bbd8c9b5b01",
+            "name": "antecdents",
+            "value": "antecdent1",
+            "description": "",
+            "disabled": true
+          },
+          {
+            "id": "pair_5aadda5f27a647ffaf49d3692c50fac3",
+            "name": "antecdents",
+            "value": "antecdent2",
+            "description": "",
+            "disabled": true
+          },
+          {
+            "id": "pair_d3b10e1f4d294053abc1c47ef5a4441d",
+            "name": "subject",
+            "value": "subject",
+            "description": ""
+          },
+          {
+            "id": "pair_3a7c4578f8a64157a86baaf0d30c30c3",
+            "name": "birthDate",
+            "value": "1991-03-16",
+            "description": ""
+          },
+          {
+            "id": "pair_5cc86a81a5f5458e8fb3b3dcf3c152c5",
+            "name": "size",
+            "value": "1.6",
+            "description": ""
+          },
+          {
+            "id": "pair_c92e2be6aaa0425e9f74a1dffc272a3e",
+            "name": "weight",
+            "value": "67",
+            "description": ""
+          },
+          {
+            "id": "pair_eff834b6aa0149f79bb6b824dc3a09c9",
+            "name": "firstName",
+            "value": "John",
+            "description": ""
+          },
+          {
+            "id": "pair_e492c5e959c448089a8ec3cf0ec5ca63",
+            "name": "lastName",
+            "value": "Doe",
+            "description": ""
+          },
+          {
+            "id": "pair_bd8bd247e07f42f9adc451b6dfa74fd3",
+            "name": "profession",
+            "value": "Worker",
+            "description": ""
+          },
+          {
+            "id": "pair_e8da4696296645f0aac25ba25a229efe",
+            "name": "treatments",
+            "value": "traitement 1",
+            "description": "",
+            "disabled": true
+          },
+          {
+            "id": "pair_6708356ec253468f8b391e51f1308e7a",
+            "name": "treatments",
+            "value": "traitement 2",
+            "description": "",
+            "disabled": true
+          },
+          {
+            "id": "pair_bdbe5801ac0942558ee43a6f328c9a16",
+            "name": "highBloodPressure",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_a68f13c53b894971afe93be1fb9a05c8",
+            "name": "cholesterol",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_7245856ad2a241b689d193a3bc8d111e",
+            "name": "highTriglycerides",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_b14307b81d654efa9b671c07bd45be56",
+            "name": "diabetes",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_23950348fb0d4612868cca16e3690c7d",
+            "name": "timeSinceSymptoms",
+            "value": "1ere Octobre",
+            "description": ""
+          },
+          {
+            "id": "pair_afa63454aa824fff8a46d601d307cd0d",
+            "name": "insomnia",
+            "value": "midnight",
+            "description": ""
+          },
+          {
+            "id": "pair_45da1c11cba04147a189e4b7a81badaa",
+            "name": "noSleep",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_989e50a4ab404bf3a8bb7b63940a5642",
+            "name": "bedTime",
+            "value": "21h",
+            "description": ""
+          },
+          {
+            "id": "pair_a0e9c57bafe4404aad1989d940138960",
+            "name": "wakeTime",
+            "value": "9h",
+            "description": ""
+          },
+          {
+            "id": "pair_ac39b09195bd4420b4a53106c637df16",
+            "name": "sleepHours",
+            "value": "12h",
+            "description": ""
+          },
+          {
+            "id": "pair_c78b23918acd4af08d3853e9d30a83db",
+            "name": "wakeAtNight",
+            "value": "jamais",
+            "description": ""
+          },
+          {
+            "id": "pair_f3ba33905e3d48e2b88ec4e71393dcce",
+            "name": "cafeeCount",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_ea3e0b2aa14847808d5b38d2761fa3a7",
+            "name": "teeCount",
+            "value": "2",
+            "description": ""
+          },
+          {
+            "id": "pair_35099c3564524f67b52b492dde0a3ce5",
+            "name": "drugs",
+            "value": "panadol",
+            "description": ""
+          },
+          {
+            "id": "pair_8f5a5203074041f7b4280d5197fb0365",
+            "name": "drugs",
+            "value": "asprin",
+            "description": ""
+          },
+          {
+            "id": "pair_d5a8d29ddae64bf89263909d18522a1a",
+            "name": "epworth",
+            "value": "20",
+            "description": ""
+          },
+          {
+            "id": "pair_dd9925d51aae4c58adca2e9da677ed2f",
+            "name": "eva",
+            "value": "15",
+            "description": ""
+          },
+          {
+            "id": "pair_15a0e4cff0e84572a617e06f4fd1257a",
+            "name": "HADA",
+            "value": "1.0",
+            "description": ""
+          },
+          {
+            "id": "pair_faea1bfd3411432d994dc9042cd0fc39",
+            "name": "HADD",
+            "value": "2.0",
+            "description": ""
+          },
+          {
+            "id": "pair_371f96e52b9c4c10a17d3ace753d0f82",
+            "name": "beck1",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_41dec10d265243a9b4c949de01eb0ee3",
+            "name": "beck2",
+            "value": "",
+            "description": ""
+          },
+          {
+            "id": "pair_50c40bf7d72d42bd8c3c70faf113171e",
+            "name": "text",
+            "value": "",
+            "description": "",
+            "disabled": false
+          },
+          {
+            "id": "pair_bd653256f7144cc8af8c90e4c87e3b52",
+            "name": "file",
+            "value": "",
+            "description": "",
+            "disabled": false,
+            "type": "file",
+            "fileName": "F:\\Downloads\\Documents\\Profile.pdf"
+          },
+          {
+            "id": "pair_4441ea33b83f4891bbf5ce572f3adf8e",
+            "name": "beck1Score",
+            "value": "1",
+            "description": ""
+          },
+          {
+            "id": "pair_75119e55314d40f8a3ce0e73a67ddf02",
+            "name": "beck2Score",
+            "value": "2",
+            "description": ""
+          },
+          {
+            "id": "pair_5e80ba98c0914d8c859a168b85c12154",
+            "name": "alcoholic",
+            "value": "1",
+            "description": ""
+          }
+        ]
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "multipart/form-data"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1670976818444.375,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_6c9a0597330449b1b7597fc89c5ae3df",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671456593810,
+      "created": 1671456572120,
+      "url": "https://sommeil.schoolcom.net:3001/out.log",
+      "name": "out",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1670947786013.25,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
+    {
+      "_id": "req_32e20101046e419aa4f35376cd949228",
+      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
+      "modified": 1671456604817,
+      "created": 1671456602223,
+      "url": "https://sommeil.schoolcom.net:3001/err.log",
+      "name": "err",
+      "description": "",
+      "method": "GET",
+      "body": {},
+      "parameters": [],
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": -1670918753582.125,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "_type": "request"
+    },
     {
       "_id": "req_7ad4e1feb35742368a2a2f114d2204c2",
       "parentId": "fld_3658e8b7f0bf4d1aa868306ebf3a32b0",
-      "modified": 1663595413467,
+      "modified": 1668179239196,
       "created": 1662650243990,
       "url": "{{ _.host }}/utils/jsonToXML",
       "name": "jsonToXML",
@@ -75,29 +735,27 @@
       "_type": "request_group"
     },
     {
-      "_id": "wrk_47af63dac53a4ca788f2401d1bd34089",
-      "parentId": null,
-      "modified": 1660999444459,
-      "created": 1660999444459,
-      "name": "kishi-node",
+      "_id": "req_99251e9e55fd4f49915faaecaf91eec5",
+      "parentId": "fld_e3927db137e3448fb50459ad27a87545",
+      "modified": 1682182737723,
+      "created": 1682182702727,
+      "url": "{{ _.host }}/mail/send",
+      "name": "Send",
       "description": "",
-      "scope": "collection",
-      "_type": "workspace"
-    },
-    {
-      "_id": "req_b4d3116a00154ef9b48ee20d5f6ee469",
-      "parentId": "fld_082a5b9ea61f49cd869e3d37f069dc90",
-      "modified": 1663595201890,
-      "created": 1663594411039,
-      "url": "{{ _.host }}/es/Foo/foo",
-      "name": "/",
-      "description": "",
-      "method": "GET",
-      "body": {},
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"email\":\"fares.manai@etudiant-enit.utm.tn\",\n\t\"subject\":\"Test Node SMTP\",\n\t\"content\":\"Test 001\"\n}"
+      },
       "parameters": [],
-      "headers": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
       "authentication": {},
-      "metaSortKey": -1656400665397.7095,
+      "metaSortKey": -1682182702727,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -108,15 +766,15 @@
       "_type": "request"
     },
     {
-      "_id": "fld_082a5b9ea61f49cd869e3d37f069dc90",
+      "_id": "fld_e3927db137e3448fb50459ad27a87545",
       "parentId": "fld_c839f4dd45d5403799870d0836e87306",
-      "modified": 1663594406292,
-      "created": 1663594393986,
-      "name": "elasticsearch",
+      "modified": 1682182697644,
+      "created": 1682182697644,
+      "name": "Mail",
       "description": "",
       "environment": {},
       "environmentPropertyOrder": null,
-      "metaSortKey": -1662641196644,
+      "metaSortKey": -1682182697644,
       "_type": "request_group"
     },
     {
@@ -132,53 +790,34 @@
       "_type": "request_group"
     },
     {
-      "_id": "req_6d9a1c62e1824bbfb56fffba1bf3c1c2",
-      "parentId": "fld_082a5b9ea61f49cd869e3d37f069dc90",
-      "modified": 1663691824199,
-      "created": 1663691774009,
-      "url": "{{ _.host }}/es/Foo/foo",
-      "name": "/",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_99cd1c68cc4d44acb5f99483367b51f2"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656400665385.2095,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
       "_id": "req_1f759f7df53c400985a5dbb0c2f8d58e",
       "parentId": "fld_f9d563a4f9494fcbb549917a3f7591c4",
-      "modified": 1662642821040,
+      "modified": 1669643773380,
       "created": 1662641641307,
       "url": "{{ _.host }}/auth/",
       "name": "/",
       "description": "",
       "method": "GET",
       "body": {},
-      "parameters": [],
+      "parameters": [
+        {
+          "id": "pair_2aff910b495249098d098525a03342d5",
+          "name": "",
+          "value": "",
+          "description": ""
+        }
+      ],
       "headers": [
         {
           "id": "pair_eafc67c9643f40279561e37f788f708a",
           "name": "user-token",
-          "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjE4LCJkYXRlIjoiMjAyMi0wOS0wOFQxMzoxMzoxOC42NThaIiwiaXAiOiI6OmZmZmY6MTI3LjAuMC4xIiwiaWF0IjoxNjYyNjQyNzk4fQ.IhzgQzrR2cfOAwarfcHbqhg_MAWuHXrKHiVC960KSe4",
+          "value": "{{ _.token }}",
+          "description": ""
+        },
+        {
+          "id": "pair_8692d77ad0164ef8afa0122a3576459a",
+          "name": "",
+          "value": "",
           "description": ""
         }
       ],
@@ -208,7 +847,7 @@
     {
       "_id": "req_ed6e22dc1ab54331a8aac33bf80ef5e6",
       "parentId": "fld_f9d563a4f9494fcbb549917a3f7591c4",
-      "modified": 1663595301349,
+      "modified": 1680741660487,
       "created": 1662641183301,
       "url": "{{ _.host }}/auth/SignIn",
       "name": "/signIn",
@@ -216,7 +855,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\t\"email\": \"003@yopmail.com\",\n\t\t\"password\": \"003@yopmail.com\"\n}"
+        "text": "{\n\t\t\"email\": \"kishi.admin@yopmail.com\",\n\t\t\"password\": \"admin\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -240,7 +879,7 @@
     {
       "_id": "req_22dd0c8ed3a543c59f87b4f8ee03f5ff",
       "parentId": "fld_f9d563a4f9494fcbb549917a3f7591c4",
-      "modified": 1662643230912,
+      "modified": 1671731414071,
       "created": 1662641324313,
       "url": "{{ _.host }}/auth/SignUp",
       "name": "/signUp",
@@ -248,7 +887,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\t\"firstName\": \"Nice\",\n\t\t\"lastName\": \"Person\",\n\t\t\"email\": \"004@yopmail.com\",\n\t\t\"password\": \"123456\",\n\t\t\"UserType\": \"Admin\"\n}"
+        "text": "{\n\t\t\"firstName\": \"Kishi\",\n\t\t\"lastName\": \"Owner\",\n\t\t\"email\": \"kishi.owner@yopmail.com\",\n\t\t\"password\": \"123456\",\n\t\t\"UserType\": \"Owner\"\n}"
       },
       "parameters": [],
       "headers": [
@@ -270,35 +909,33 @@
       "_type": "request"
     },
     {
-      "_id": "req_f96ca38f82ed48f7a891faa7f5d89699",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1663595326216,
-      "created": 1661334207393,
-      "url": "{{ _.host }}/Foo/all",
-      "name": "/all",
+      "_id": "req_e206de9ae3a74e28af4c483342766905",
+      "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
+      "modified": 1669636500118,
+      "created": 1661267204373,
+      "url": "{{ _.host }}/User/",
+      "name": "/",
       "description": "",
       "method": "GET",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t}\n}"
-      },
+      "body": {},
       "parameters": [
         {
           "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
           "name": "schema",
-          "value": "pure",
+          "value": "full",
+          "description": "",
+          "disabled": false
+        },
+        {
+          "id": "pair_d29cef0830cc4c848fae0a65bc380de8",
+          "name": "id",
+          "value": "3660755c-e264-4e2b-b352-992206bf82c3",
           "description": ""
         }
       ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_e2ee016f43f1440b90dacee72ef5c7ef"
-        }
-      ],
+      "headers": [],
       "authentication": {},
-      "metaSortKey": -1658057415917,
+      "metaSortKey": -1658057415967,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -309,499 +946,16 @@
       "_type": "request"
     },
     {
-      "_id": "fld_2c26f1359512495fae7774eb3b27ecfd",
+      "_id": "fld_0485bf873c7148cbadfa73ad5c213040",
       "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
-      "modified": 1661607157160,
-      "created": 1661334207387,
-      "name": "Foo",
+      "modified": 1661267191732,
+      "created": 1660999458584,
+      "name": "User",
       "description": "",
       "environment": {},
       "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458634,
+      "metaSortKey": -1660999458584,
       "_type": "request_group"
-    },
-    {
-      "_id": "req_d28c3014bad6430e816ac0c49a2488da",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1663258859652,
-      "created": 1661267272938,
-      "url": "{{ _.host }}/Foo",
-      "name": "/",
-      "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\n\t\"data\":{\n\t\t\t\"data\": {\n\t\t\t\"date\": 14\n\t\t},\n\t\t\t\t\"days\": [\"Mon\"],\n\t\t\t\t\"geoPoint\": [1,1],\n\n\n\t\"geoPolygon\": [\n\t\t\t\n\t\t\t\t[1,1],\n\t\t\t\t[1,0],\n\t\t\t\t[0,0],\n\t\t\t\t[0,1],\n\t\t\t\t[1,1]\n\t\t\t\n\t\t]\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        },
-        {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "pure",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1657505781318.8125,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_324f303acdc94370b075720dabfc3dac",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1662641251798,
-      "created": 1661334207414,
-      "url": "{{ _.host }}/Foo/Upsert",
-      "name": "/upsert",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n\t\t\"id\": 101,\n\t\t\t\t\t\"dummy\": null,\n\t\t\"data\": {\n\t\t\t\"ora\": \"ora\"\n\t\t},\n\t\t\"createdAt\": \"2022-08-24T09:43:11.000Z\",\n\t\t\"updatedAt\": \"2022-08-24T09:43:11.000Z\",\n\t\t\"userId\": 2\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "2",
-          "description": ""
-        },
-        {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1657161009694.9453,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_addaae0f7f8b4bb79ce0f12fd6857e39",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1663057598927,
-      "created": 1661431181232,
-      "url": "{{ _.host }}/Foo",
-      "name": "/",
-      "description": "",
-      "method": "DELETE",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "2",
-          "description": ""
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1656954146720.625,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_25afa47b801741098d339cb5f6c69741",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1662734642867,
-      "created": 1661506704789,
-      "url": "{{ _.host }}/Foo/file/documents",
-      "name": "/file",
-      "description": "",
-      "method": "PUT",
-      "body": {
-        "mimeType": "multipart/form-data",
-        "params": [
-          {
-            "name": "file",
-            "value": "",
-            "id": "pair_ca0c75c77c774929995b7f246e892c2e",
-            "type": "file",
-            "fileName": "C:\\Users\\fares\\Downloads\\Screenshot 2022-09-01 at 10-43-15 L'Ordre des Ingénieurs Tunisiens.png"
-          },
-          {
-            "id": "pair_9bb4facf8ed04d4cb00ff477b5db3ea9",
-            "name": "file",
-            "value": "",
-            "description": "",
-            "type": "file",
-            "fileName": "C:\\Users\\GAMER\\Documents\\Projects\\kishi-node-lib\\docs\\kishi",
-            "disabled": true
-          },
-          {
-            "id": "pair_0108b89c7e3044e087b05a8a8b3781a9",
-            "name": "file",
-            "value": "",
-            "description": "",
-            "type": "file",
-            "fileName": "C:\\Users\\GAMER\\Documents\\Projects\\kishi-node-lib\\docs\\NAF\\naf2008_5_niveaux.csv",
-            "disabled": true
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
-        },
-        {
-          "id": "pair_97ec280751744c10abb1d165cfd60bcf",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "multipart/form-data",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656402512122.4375,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_d9477e8a196f4ad199cdb7f729c76ff7",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1662734786944,
-      "created": 1662734777741,
-      "url": "{{ _.host }}/Foo",
-      "name": "/",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
-        },
-        {
-          "id": "pair_97ec280751744c10abb1d165cfd60bcf",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1656401588772.5735,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_6d31732beb6146738e0e474425587df4",
-      "parentId": "fld_2c26f1359512495fae7774eb3b27ecfd",
-      "modified": 1663057471411,
-      "created": 1661553444750,
-      "url": "{{ _.host }}/Foo/file/documents",
-      "name": "/file",
-      "description": "",
-      "method": "DELETE",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"file\":  [\n\t\t\t{\n\t\t\t\t\"key\": \"fff57c47-7f5c-4ab7-bc6c-60284c443b4b-Screenshot2022-09-01at1.png\",\n\t\t\t\t\"url\": \"http://127.0.0.1:4000/Foo_documents/fff57c47-7f5c-4ab7-bc6c-60284c443b4b-Screenshot2022-09-01at1.png\"\n\t\t\t}\n\t]\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
-        },
-        {
-          "id": "pair_97ec280751744c10abb1d165cfd60bcf",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1655850877524.25,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_27581683b72e4a129c528fbcd422afbb",
-      "parentId": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "modified": 1663252965814,
-      "created": 1662988616028,
-      "url": "{{ _.host }}/Poo/all",
-      "name": "/all",
-      "description": "",
-      "method": "GET",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "pure",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_e2ee016f43f1440b90dacee72ef5c7ef"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
-      "modified": 1662988616015,
-      "created": 1662988616015,
-      "name": "Poo",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458609,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_19a7d21293d7431b873d06c5bc2f6444",
-      "parentId": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "modified": 1662988624824,
-      "created": 1662988616021,
-      "url": "{{ _.host }}/Poo",
-      "name": "/",
-      "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\n\t\"data\":{\n\t\t\t\t\"days\": [\"Mon\"],\n\t\t\t\t\t\"geoPoint\": [1,1],\n\n\n\t\"geoPolygon\": [\n\t\t\t\n\t\t\t\t[1,1],\n\t\t\t\t[1,0],\n\t\t\t\t[0,0],\n\t\t\t\t[0,1],\n\t\t\t\t[1,1]\n\t\t\t\n\t\t]\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        },
-        {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "pure",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1657505781318.8125,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_fd902ca2a6744b558a28aad1e0c7bfc4",
-      "parentId": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "modified": 1662988627156,
-      "created": 1662988616033,
-      "url": "{{ _.host }}/Poo/Upsert",
-      "name": "/upsert",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n\t\t\"id\": 101,\n\t\t\t\t\t\"dummy\": null,\n\t\t\"data\": {\n\t\t\t\"ora\": \"ora\"\n\t\t},\n\t\t\"createdAt\": \"2022-08-24T09:43:11.000Z\",\n\t\t\"updatedAt\": \"2022-08-24T09:43:11.000Z\",\n\t\t\"userId\": 2\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "2",
-          "description": ""
-        },
-        {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1657161009694.9453,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_0662ced712c94c5ea389593ea5bc5768",
-      "parentId": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "modified": 1662988629324,
-      "created": 1662988616037,
-      "url": "{{ _.host }}/Poo",
-      "name": "/",
-      "description": "",
-      "method": "DELETE",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "2",
-          "description": ""
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1656954146720.625,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_6273d71461174b389cc1ffb467bdd959",
-      "parentId": "fld_7a92574a8c6d4553ab24509b1b975289",
-      "modified": 1662988616051,
-      "created": 1662988616051,
-      "url": "{{ _.host }}/Foo",
-      "name": "/",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
-        },
-        {
-          "id": "pair_97ec280751744c10abb1d165cfd60bcf",
-          "name": "id",
-          "value": "1",
-          "description": ""
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1656401588772.5735,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
     },
     {
       "_id": "req_ceb99185415b452e90a745f154309f20",
@@ -853,21 +1007,9 @@
       "_type": "request"
     },
     {
-      "_id": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
-      "modified": 1661267191732,
-      "created": 1660999458584,
-      "name": "User",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458584,
-      "_type": "request_group"
-    },
-    {
       "_id": "req_9a8cdbb5ff4245ef8902a375e3b86a97",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662652145844,
+      "modified": 1662897666697,
       "created": 1662557545963,
       "url": "{{ _.host }}/User/byDisplay",
       "name": "/byDisplay",
@@ -897,7 +1039,7 @@
         {
           "id": "pair_edca3d38b7a94ea8b62720c6dae52b01",
           "name": "display",
-          "value": "nice",
+          "value": "Nice",
           "description": ""
         }
       ],
@@ -916,7 +1058,7 @@
     {
       "_id": "req_e88b336d8db547b4ac84cefab6019526",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662557535184,
+      "modified": 1669642914157,
       "created": 1661339202798,
       "url": "{{ _.host }}/User/all",
       "name": "/all",
@@ -924,7 +1066,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"where\":\n\t{\n\t\t\"#or\":[\n\t\t\t\n\t\t\t{\"Admin.id\":{\"#not\":null}},\n\t\t\t{\"notifications.id\": {\"#is\":null}}\n\t\t]\n\t}\n}"
+        "text": "{\n\t\"where\":\n\t{\n\t\t\t\n\t\t\t\"followers.id\": \"04e2e310-eb37-40e0-8a72-452786dec409\"\n\t\t\n\t}\n}"
       },
       "parameters": [
         {
@@ -936,7 +1078,7 @@
         {
           "id": "pair_17fc5e9fc9344d2c95a1c39ac6669259",
           "name": "page",
-          "value": "4:2",
+          "value": "4:1",
           "description": "",
           "disabled": false
         },
@@ -1005,7 +1147,7 @@
     {
       "_id": "req_906e3b65b66b4122b62c6289c06c3e5b",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662650275925,
+      "modified": 1668179359449,
       "created": 1661369701760,
       "url": "{{ _.host }}/Foo/all",
       "name": "/count",
@@ -1042,33 +1184,41 @@
       "_type": "request"
     },
     {
-      "_id": "req_e206de9ae3a74e28af4c483342766905",
+      "_id": "req_b4e45c97ba9e4b5da53d2976d8074e1d",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662653107030,
-      "created": 1661267204373,
+      "modified": 1676572589811,
+      "created": 1661283131443,
       "url": "{{ _.host }}/User/",
       "name": "/",
       "description": "",
-      "method": "GET",
-      "body": {},
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n\t\"data\":{\n\t\t\"email\": \"002@yopmail.com\",\n\t\t\"password\": \"123456\",\n\t\t\"firstname\": \"Kishi\",\n\t\t\"lastname\": \"Man\"\n\t}\n}"
+      },
       "parameters": [
         {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": false
+          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+          "name": "id",
+          "value": "2",
+          "description": ""
         },
         {
-          "id": "pair_d29cef0830cc4c848fae0a65bc380de8",
-          "name": "id",
-          "value": "40",
+          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+          "name": "schema",
+          "value": "nested",
           "description": ""
         }
       ],
-      "headers": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json",
+          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+        }
+      ],
       "authentication": {},
-      "metaSortKey": -1658057415867,
+      "metaSortKey": -1656954146689.375,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -1081,7 +1231,7 @@
     {
       "_id": "req_793e53b5b33946a1b156bffc0d16ba39",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662730178964,
+      "modified": 1664819815673,
       "created": 1661195397188,
       "url": "{{ _.host }}/User/",
       "name": "/",
@@ -1118,41 +1268,41 @@
       "_type": "request"
     },
     {
-      "_id": "req_b4e45c97ba9e4b5da53d2976d8074e1d",
+      "_id": "req_827a2fc379de47088b582044f84bce91",
       "parentId": "fld_0485bf873c7148cbadfa73ad5c213040",
-      "modified": 1662650436399,
-      "created": 1661283131443,
-      "url": "{{ _.host }}/User/Upsert",
-      "name": "/upsert",
+      "modified": 1676572607970,
+      "created": 1669636241763,
+      "url": "{{ _.host }}/User/",
+      "name": "/",
       "description": "",
-      "method": "POST",
+      "method": "PATCH",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n\t\t\"email\": \"007@yopmail.com\",\n\t\t\"password\": \"005@yopmail.com\",\n\t\t\"firstname\": \"Kishi\",\n\t\t\"lastname\": \"Man\"\n\t}\n}"
+        "text": "{\n\t\"data\":{\n\t\t\t\t\"followersId\": [\"04e2e310-eb37-40e0-8a72-452786dec409\"]\n\t}\n}"
       },
       "parameters": [
         {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "2",
-          "description": ""
+          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+          "name": "schema",
+          "value": "full",
+          "description": "",
+          "disabled": false
         },
         {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "nested",
+          "id": "pair_d29cef0830cc4c848fae0a65bc380de8",
+          "name": "id",
+          "value": "3660755c-e264-4e2b-b352-992206bf82c3",
           "description": ""
         }
       ],
       "headers": [
         {
           "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+          "value": "application/json"
         }
       ],
       "authentication": {},
-      "metaSortKey": -1653644339131.5,
+      "metaSortKey": -1655850877449.25,
       "isPrivate": false,
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -1214,7 +1364,7 @@
     {
       "_id": "req_59f0b594875d40909dcd3795f85cb45f",
       "parentId": "fld_7de897bbe8cf4c42a7c933976252f5bc",
-      "modified": 1663594380803,
+      "modified": 1662653327002,
       "created": 1661416819463,
       "url": "{{ _.host }}/Notification/all",
       "name": "/all",
@@ -1222,7 +1372,7 @@
       "method": "POST",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t\t\t\t\t\"type\": \"Update\"\n\t}\n}"
+        "text": "{\n\t\"where\":{\n\t\t\"users.id\":{\"#ne\":null},\n\t\t\"users.foos.poos.id\": {\"#is\":null}\n\t}\n}"
       },
       "parameters": [
         {
@@ -1706,14 +1856,16 @@
     {
       "_id": "env_1238e6420eecaa6d5faba075e2a507d72f4b6337",
       "parentId": "wrk_47af63dac53a4ca788f2401d1bd34089",
-      "modified": 1662543198545,
+      "modified": 1676550535801,
       "created": 1660999444463,
       "name": "Base Environment",
       "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmYjBkYjcyLTY5OGEtNDNiMS1iMmM3LWY0MGI1ODAxYmM2YSIsImRhdGUiOjE2NzE3MzE1NjU4NjMsInR5cGUiOiJPd25lciIsImlhdCI6MTY3MTczMTU2NX0.1zl5_kCvh86oMic_XBAQsLyp7JWWrF6GwdeIWNBNhok",
         "host": "127.0.0.1:4000"
       },
       "dataPropertyOrder": {
         "&": [
+          "token",
           "host"
         ]
       },
@@ -1740,6 +1892,27 @@
       "contents": "",
       "contentType": "yaml",
       "_type": "api_spec"
+    },
+    {
+      "_id": "env_da79ce25c5984e47ac8031cc5f77d179",
+      "parentId": "env_1238e6420eecaa6d5faba075e2a507d72f4b6337",
+      "modified": 1680741673757,
+      "created": 1676550525949,
+      "name": "kishi",
+      "data": {
+        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImJhZWViNzQyLWUyYzctNDUzNy1hM2QzLTVlYTlmYmY5ZDcxMSIsImRhdGUiOjE2ODA3NDE2NjI4NzIsInR5cGUiOiJBZG1pbiIsImlhdCI6MTY4MDc0MTY2Mn0.kUY1abO5h5XLkyqLXh1LZsYCHqq6qQ_ZP_Eu8ZjWR8Y",
+        "host": "127.0.0.1:4000"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "token",
+          "host"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": 1676550525949,
+      "_type": "environment"
     }
   ]
 }
