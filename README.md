@@ -1,5 +1,9 @@
 # Kishi-NodeJS
 
+# installation
+libreoffice for utils/docx
+pdftotext for services/pdftotext
+
 Kishi-NodeJS is a backend server template and framework based on MySQL Databases.
 
 ## models
