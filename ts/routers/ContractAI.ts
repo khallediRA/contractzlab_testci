@@ -13,7 +13,7 @@ import { KOp } from "../sequelize";
 import { OpenAIService } from "../services/openAPI";
 import { PDFToTextLib } from "../services/pdfToText";
 import fileUpload from "express-fileupload";
-import { UrlToUploadPath, optimizeStr } from "../utils/string";
+import { UrlToUploadPath, optimizeStr, replaceLast } from "../utils/string";
 import DocxLib from "../utils/docx";
 
 router.use(bodyParser.urlencoded({ extended: false }));
@@ -76,6 +76,8 @@ ${form.map(([clause, text]) => `${clause}:${text}`).join("\n")}
           const extension = file.name.split(".").pop()
           if (extension == "docx") {
             pdfFile = await DocxLib.DocxToPdf(file.data)
+            file.data = pdfFile
+            file.name = replaceLast(file.name, ".docx", ".pdf")
           } else if (extension == "pdf") {
             pdfFile = file.data
           } else {
@@ -93,7 +95,8 @@ ${form.map(([clause, text]) => `${clause}:${text}`).join("\n")}
         const now = Date.now()
         fs.writeFileSync(`tmp/${now}-file.txt`, fileContent)
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
-        return res.send({ fileContent, prompt })
+        //uncomment for debug, use playground 
+        // return res.send({ fileContent, prompt })
         const openAiData = await OpenAIService.ChatCompletion(prompt, "gpt-4")
         fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
         this.processAIResponse(row, openAiData.choices[0].message.content)

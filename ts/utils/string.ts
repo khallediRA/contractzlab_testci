@@ -1,4 +1,14 @@
 import { config } from "../config"
+export function replaceLast(string: string, target: string, replaceBy: string) {
+	const lastIndex = string.lastIndexOf(target);
+	if (lastIndex === -1) {
+		// Target string not found, return the original string
+		return string;
+	}
+	const before = string.substring(0, lastIndex);
+	const after = string.substring(lastIndex + target.length);
+	return before + replaceBy + after;
+}
 
 export function optimizeStr(content: string) {
 	let output = content
