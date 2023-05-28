@@ -1,1500 +1,2190 @@
 {
-  "_type": "export",
-  "__export_format": 4,
-  "__export_date": "2023-04-26T10:53:13.878Z",
-  "__export_source": "insomnia.desktop.app:v2023.1.0",
-  "resources": [
-    {
-      "_id": "req_00d1ce9f1bc14d709becf57aa1d17add",
-      "parentId": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
-      "modified": 1682182657719,
-      "created": 1682182528768,
-      "url": "{{ _.host }}/smtp/send",
-      "name": "New Request",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"email\":\"fares.manai@etudiant-enit.utm.tn\",\n\t\"subject\":\"Test Node SMTP\",\n\t\"content\":\"Test 001\"\n}"
-      },
-      "parameters": [],
-      "headers": [
+    "_type": "export",
+    "__export_format": 4,
+    "__export_date": "2023-05-28T14:10:37.401Z",
+    "__export_source": "insomnia.desktop.app:v2023.2.2",
+    "resources": [
         {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1682182528768,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
-      "parentId": "fld_8912aa302ece41728efcac1357d01fea",
-      "modified": 1682182521066,
-      "created": 1682182521066,
-      "name": "Mail",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1682182521066,
-      "_type": "request_group"
-    },
-    {
-      "_id": "fld_8912aa302ece41728efcac1357d01fea",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564213,
-      "created": 1678129564213,
-      "name": "Services",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1662641171616,
-      "_type": "request_group"
-    },
-    {
-      "_id": "wrk_7f2ddf427d824065a2147b705c194052",
-      "parentId": null,
-      "modified": 1678129564068,
-      "created": 1678129564068,
-      "name": "contractzlab",
-      "description": "",
-      "scope": "collection",
-      "_type": "workspace"
-    },
-    {
-      "_id": "req_447c309a09714969957f325eaf517a26",
-      "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "modified": 1679317519160,
-      "created": 1678129564230,
-      "url": "{{ _.host }}/auth/",
-      "name": "authenticated user",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_2aff910b495249098d098525a03342d5",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_eafc67c9643f40279561e37f788f708a",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "req_ca2ccc2b02ce401f8908f0ed8718661f",
+            "parentId": "fld_0ccdee58d1044d5ca8138d0d4e029818",
+            "modified": 1683801266893,
+            "created": 1683467198991,
+            "url": "https://api.openai.com/v1/models",
+            "name": "models",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [],
+            "headers": [
+                {
+                    "id": "pair_26e47623d6e7432b831439bd78c8e80f",
+                    "name": "Authorization",
+                    "value": "Bearer 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",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1683467198991,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_8692d77ad0164ef8afa0122a3576459a",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656400665422.7095,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "parentId": "fld_8912aa302ece41728efcac1357d01fea",
-      "modified": 1678129564215,
-      "created": 1678129564215,
-      "name": "UserAuth",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1662641196594,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_af6d149e880c403992f03e30d29620b3",
-      "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "modified": 1679067096871,
-      "created": 1678129763319,
-      "url": "{{ _.host }}/auth/SignIn",
-      "name": "user sign in (admin)",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\t\"email\": \"contractzlab.admin@yopmail.com\",\n\t\t\"password\": \"admin\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656400665397.7095,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_b9aca71a896c4e72af1e29413b063f3c",
-      "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "modified": 1682505631596,
-      "created": 1678129564218,
-      "url": "{{ _.host }}/auth/SignIn",
-      "name": "user sign in",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\t\"email\": \"john.doe@yopmail.com\",\n\t\t\"password\": \"123456\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656400665372.7095,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_4dfba028568840469cd3b19ad14897e7",
-      "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
-      "modified": 1679067082215,
-      "created": 1678129564225,
-      "url": "{{ _.host }}/auth/SignUp",
-      "name": "user sign up",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\t\"firstName\": \"John\",\n\t\t\"lastName\": \"Doe\",\n\t\t\"email\": \"john.doe@yopmail.com\",\n\t\t\"password\": \"123456\",\n\t\t\"UserType\": \"Client\"\n}"
-      },
-      "parameters": [],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1656399741997.8455,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_31275c657a9d46218035681e29fd80ed",
-      "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
-      "modified": 1679067123143,
-      "created": 1678129564105,
-      "url": "{{ _.host }}/User/",
-      "name": "user by id",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "full",
-          "description": "",
-          "disabled": false
+            "_id": "fld_0ccdee58d1044d5ca8138d0d4e029818",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1683467184699,
+            "created": 1683467184699,
+            "name": "openAI",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1683467184699,
+            "_type": "request_group"
         },
         {
-          "id": "pair_d29cef0830cc4c848fae0a65bc380de8",
-          "name": "id",
-          "value": "fa675321-5360-4a05-884f-04892fb0438b",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_998d5659bacf418792197f3594a033c3",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415967,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_499ea26ae6004ef78ce163eb1a6ef258",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564092,
-      "created": 1678129564092,
-      "name": "User",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458584,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_78d365774dcc4fc99e32796c1c222e16",
-      "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
-      "modified": 1679067128767,
-      "created": 1678129564095,
-      "url": "{{ _.host }}/User/all",
-      "name": "all users",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
+            "_id": "wrk_7f2ddf427d824065a2147b705c194052",
+            "parentId": null,
+            "modified": 1678129564068,
+            "created": 1678129564068,
+            "name": "contractzlab",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
+            "_id": "req_00d1ce9f1bc14d709becf57aa1d17add",
+            "parentId": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
+            "modified": 1682182657719,
+            "created": 1682182528768,
+            "url": "{{ _.host }}/smtp/send",
+            "name": "New Request",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"email\":\"fares.manai@etudiant-enit.utm.tn\",\n\t\"subject\":\"Test Node SMTP\",\n\t\"content\":\"Test 001\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1682182528768,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_4940e08b5daf414aa5ea4f3a52f9fac8",
-          "name": "orderBy",
-          "value": "id:DESC",
-          "description": ""
+            "_id": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
+            "parentId": "fld_8912aa302ece41728efcac1357d01fea",
+            "modified": 1682182521066,
+            "created": 1682182521066,
+            "name": "Mail",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1682182521066,
+            "_type": "request_group"
         },
         {
-          "id": "pair_edca3d38b7a94ea8b62720c6dae52b01",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_866b1cedbdb9452db042837d9c6888c8",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_0f1682ae7f3947e0b05bd4a12baf3324",
-      "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
-      "modified": 1679067143303,
-      "created": 1678129564130,
-      "url": "{{ _.host }}/User/byDisplay",
-      "name": "search user by text",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
+            "_id": "fld_8912aa302ece41728efcac1357d01fea",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1678129564213,
+            "created": 1678129564213,
+            "name": "Services",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1662641171616,
+            "_type": "request_group"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
+            "_id": "req_447c309a09714969957f325eaf517a26",
+            "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
+            "modified": 1679317519160,
+            "created": 1678129564230,
+            "url": "{{ _.host }}/auth/",
+            "name": "authenticated user",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_2aff910b495249098d098525a03342d5",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_eafc67c9643f40279561e37f788f708a",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8692d77ad0164ef8afa0122a3576459a",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1656400665422.7095,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_4940e08b5daf414aa5ea4f3a52f9fac8",
-          "name": "orderBy",
-          "value": "id:DESC",
-          "description": ""
+            "_id": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
+            "parentId": "fld_8912aa302ece41728efcac1357d01fea",
+            "modified": 1678129564215,
+            "created": 1678129564215,
+            "name": "UserAuth",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1662641196594,
+            "_type": "request_group"
         },
         {
-          "id": "pair_edca3d38b7a94ea8b62720c6dae52b01",
-          "name": "display",
-          "value": "john",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_eeb3e585d1dd43538ed8d9ac106ec7a0",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415904.5,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_de0abd00bc7345afabd0c02455cc5494",
-      "parentId": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
-      "modified": 1679067164432,
-      "created": 1678129564173,
-      "url": "{{ _.host }}/Notification/all",
-      "name": "all notification",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
+            "_id": "req_af6d149e880c403992f03e30d29620b3",
+            "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
+            "modified": 1679067096871,
+            "created": 1678129763319,
+            "url": "{{ _.host }}/auth/SignIn",
+            "name": "user sign in (admin)",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\t\"email\": \"contractzlab.admin@yopmail.com\",\n\t\t\"password\": \"admin\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1656400665397.7095,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_8d8e309655394595aa7d64a8393ca920",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564170,
-      "created": 1678129564170,
-      "name": "Notification",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458571.5,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_9798ee17411d4409bac5898a2adecc8f",
-      "parentId": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
-      "modified": 1679066170978,
-      "created": 1678129564183,
-      "url": "{{ _.host }}/Notification/",
-      "name": "/",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
+            "_id": "req_b9aca71a896c4e72af1e29413b063f3c",
+            "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
+            "modified": 1682505631596,
+            "created": 1678129564218,
+            "url": "{{ _.host }}/auth/SignIn",
+            "name": "user sign in",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\t\"email\": \"john.doe@yopmail.com\",\n\t\t\"password\": \"123456\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1656400665372.7095,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
-          "name": "id",
-          "value": "2",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_c900f4dd9e6b4a8695891ce924082017",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415867,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_f73fe2f497cd42d29d1924d160ca8204",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1680558508356,
-      "created": 1678129839074,
-      "url": "{{ _.host }}/ContractTemplate/all",
-      "name": "all templates",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": false
+            "_id": "req_4dfba028568840469cd3b19ad14897e7",
+            "parentId": "fld_022ab8cf0b9f49e48b12809f8ab66f70",
+            "modified": 1679067082215,
+            "created": 1678129564225,
+            "url": "{{ _.host }}/auth/SignUp",
+            "name": "user sign up",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\t\"firstName\": \"John\",\n\t\t\"lastName\": \"Doe\",\n\t\t\"email\": \"john.doe@yopmail.com\",\n\t\t\"password\": \"123456\",\n\t\t\"UserType\": \"Client\"\n}"
+            },
+            "parameters": [],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1656399741997.8455,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1679067364953,
-      "created": 1678129839070,
-      "name": "Contract Template",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458562.125,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_4f05e74ed5ed4bed98d5bad77196d59b",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1682089330542,
-      "created": 1678129839086,
-      "url": "{{ _.host }}/ContractTemplate/",
-      "name": "a template",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "full",
-          "description": "",
-          "disabled": false
+            "_id": "req_31275c657a9d46218035681e29fd80ed",
+            "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
+            "modified": 1679067123143,
+            "created": 1678129564105,
+            "url": "{{ _.host }}/User/",
+            "name": "user by id",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_d29cef0830cc4c848fae0a65bc380de8",
+                    "name": "id",
+                    "value": "fa675321-5360-4a05-884f-04892fb0438b",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_998d5659bacf418792197f3594a033c3",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415967,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
-          "name": "id",
-          "value": "4",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415867,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_9fff8f4ec08a41baa176371876498e06",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1680558657006,
-      "created": 1680558291855,
-      "url": "{{ _.host }}/ContractTemplate/all",
-      "name": "all templates by level3 name",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t\t\"level3.name\": \"Logiciel Saas\"\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": false
+            "_id": "fld_499ea26ae6004ef78ce163eb1a6ef258",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1678129564092,
+            "created": 1678129564092,
+            "name": "User",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458584,
+            "_type": "request_group"
         },
         {
-          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
-          "name": "id",
-          "value": "3",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
-          "name": "",
-          "value": "",
-          "description": ""
+            "_id": "req_78d365774dcc4fc99e32796c1c222e16",
+            "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
+            "modified": 1679067128767,
+            "created": 1678129564095,
+            "url": "{{ _.host }}/User/all",
+            "name": "all users",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_4940e08b5daf414aa5ea4f3a52f9fac8",
+                    "name": "orderBy",
+                    "value": "id:DESC",
+                    "description": ""
+                },
+                {
+                    "id": "pair_edca3d38b7a94ea8b62720c6dae52b01",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_866b1cedbdb9452db042837d9c6888c8",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415817,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_ff236529213e46c0a152baf695cfcbdd",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1680558682372,
-      "created": 1680558639518,
-      "url": "{{ _.host }}/ContractTemplate/all",
-      "name": "all templates by level3 id",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t\t\"level3Id\": 2\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": false
+            "_id": "req_0f1682ae7f3947e0b05bd4a12baf3324",
+            "parentId": "fld_499ea26ae6004ef78ce163eb1a6ef258",
+            "modified": 1679067143303,
+            "created": 1678129564130,
+            "url": "{{ _.host }}/User/byDisplay",
+            "name": "search user by text",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_4940e08b5daf414aa5ea4f3a52f9fac8",
+                    "name": "orderBy",
+                    "value": "id:DESC",
+                    "description": ""
+                },
+                {
+                    "id": "pair_edca3d38b7a94ea8b62720c6dae52b01",
+                    "name": "display",
+                    "value": "john",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_eeb3e585d1dd43538ed8d9ac106ec7a0",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415904.5,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
-          "name": "id",
-          "value": "3",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
-          "name": "",
-          "value": "",
-          "description": ""
+            "_id": "req_de0abd00bc7345afabd0c02455cc5494",
+            "parentId": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
+            "modified": 1679067164432,
+            "created": 1678129564173,
+            "url": "{{ _.host }}/Notification/all",
+            "name": "all notification",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_8d8e309655394595aa7d64a8393ca920",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415792,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_b58e6ec522ba4678aa830ad3c169d0b8",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679839105308,
-      "created": 1678129839080,
-      "url": "{{ _.host }}/ContractTemplate/",
-      "name": "create a template",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n    \"language\": \"en\",\n    \"name\": \"template name 1\",\n    \"level3\": {\n      \"name\": \"level3-11\",\n      \"level2\": {\n        \"name\": \"level2-11\", \"level1\": { \"name\": \"level1-11\" }\n      }\n    },\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 1\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 1\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": false\n\t\t\t\t}\n\t\t\t}\n\t\t]\n  }\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1678129564170,
+            "created": 1678129564170,
+            "name": "Notification",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458571.5,
+            "_type": "request_group"
         },
         {
-          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "req_9798ee17411d4409bac5898a2adecc8f",
+            "parentId": "fld_0ccf7bbb0ba64e7a9e30ef2c1def375c",
+            "modified": 1679066170978,
+            "created": 1678129564183,
+            "url": "{{ _.host }}/Notification/",
+            "name": "/",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "2",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c900f4dd9e6b4a8695891ce924082017",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415867,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415767,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_0a77839b13884269aa58e50f42469084",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1679067023271,
-      "created": 1678129839091,
-      "url": "{{ _.host }}/ContractTemplate",
-      "name": "update a template",
-      "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n\t\t\"language\": \"en\",\n\t\t\"code\": null,\n\t\t\"name\": \"template name 2\",\n\t\t\"level3Id\": 3,\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"id\": 6,\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 11\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"id\": 76,\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 11\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"id\": 71,\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": true\n\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "3",
-          "description": ""
+            "_id": "req_f73fe2f497cd42d29d1924d160ca8204",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1683814887889,
+            "created": 1678129839074,
+            "url": "{{ _.host }}/ContractTemplate/all",
+            "name": "all templates",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1679067364953,
+            "created": 1678129839070,
+            "name": "Contract Template",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458562.125,
+            "_type": "request_group"
         },
         {
-          "id": "pair_4b23175607a943998aa0690be3a1e260",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415742,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_e63dc91a98584ba093c5d98c2f480c13",
-      "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-      "modified": 1681253975650,
-      "created": 1678365068633,
-      "url": "{{ _.host }}/report/importContractTemplate",
-      "name": "import template from csv or xlsx",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "multipart/form-data",
-        "params": [
-          {
-            "name": "file",
-            "value": "",
-            "id": "pair_9616102c4823496f8693bc497b7ce7f0",
-            "type": "file",
-            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\main_table-updated.xlsx"
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
+            "_id": "req_4f05e74ed5ed4bed98d5bad77196d59b",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1683570118552,
+            "created": 1678129839086,
+            "url": "{{ _.host }}/ContractTemplate/",
+            "name": "a template",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": " 4",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415867,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_17fc5e9fc9344d2c95a1c39ac6669259",
-          "name": "page",
-          "value": "4:1",
-          "description": "",
-          "disabled": false
+            "_id": "req_9fff8f4ec08a41baa176371876498e06",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1680558657006,
+            "created": 1680558291855,
+            "url": "{{ _.host }}/ContractTemplate/all",
+            "name": "all templates by level3 name",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\"level3.name\": \"Logiciel Saas\"\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415817,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_78b4f3b6176b451280a25011198d9d5a",
-          "name": "group",
-          "value": "email",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "multipart/form-data",
-          "id": "pair_64288574c1264cf791e87bff3d973a7f"
+            "_id": "req_ff236529213e46c0a152baf695cfcbdd",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1680558682372,
+            "created": 1680558639518,
+            "url": "{{ _.host }}/ContractTemplate/all",
+            "name": "all templates by level3 id",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\"level3Id\": 2\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415792,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_a32781ed245e48ddb7b18a406c6f9ad7",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1655850877436.75,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_4db78d78bf9043b2a59988bad36447e2",
-      "parentId": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
-      "modified": 1682499068879,
-      "created": 1682498635053,
-      "url": "{{ _.host }}/TypeLevel1/all",
-      "name": "all type levels",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": false
+            "_id": "req_b58e6ec522ba4678aa830ad3c169d0b8",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1679839105308,
+            "created": 1678129839080,
+            "url": "{{ _.host }}/ContractTemplate/",
+            "name": "create a template",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"data\":{\n    \"language\": \"en\",\n    \"name\": \"template name 1\",\n    \"level3\": {\n      \"name\": \"level3-11\",\n      \"level2\": {\n        \"name\": \"level2-11\", \"level1\": { \"name\": \"level1-11\" }\n      }\n    },\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 1\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 1\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": false\n\t\t\t\t}\n\t\t\t}\n\t\t]\n  }\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415767,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1682499089575,
-      "created": 1682498635049,
-      "name": "TypeLevel",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458559.7812,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_2c162c0f3f0b4511a512c0c148813e17",
-      "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679416382563,
-      "created": 1679266574013,
-      "url": "{{ _.host }}/Contract/all",
-      "name": "all contracts",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
+            "_id": "req_0a77839b13884269aa58e50f42469084",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1679067023271,
+            "created": 1678129839091,
+            "url": "{{ _.host }}/ContractTemplate",
+            "name": "update a template",
+            "description": "",
+            "method": "PATCH",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"data\":{\n\t\t\"language\": \"en\",\n\t\t\"code\": null,\n\t\t\"name\": \"template name 2\",\n\t\t\"level3Id\": 3,\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"id\": 6,\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 11\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"id\": 76,\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 11\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"id\": 71,\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": true\n\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415742,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415917,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_ecd4669925924733976c3df18145b39d",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1679266574008,
-      "created": 1679266574008,
-      "name": "Contract",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458557.4375,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_87ce718eedd24df58c80ec9444fd2b34",
-      "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679602487668,
-      "created": 1679602389687,
-      "url": "{{ _.host }}/Contract/all",
-      "name": "filter contracts",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"where\":{\n\t\t\t\"status\": \"in-progress\"\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
+            "_id": "req_e63dc91a98584ba093c5d98c2f480c13",
+            "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
+            "modified": 1683814823259,
+            "created": 1678365068633,
+            "url": "{{ _.host }}/report/importContractTemplate",
+            "name": "import template from csv or xlsx",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_9616102c4823496f8693bc497b7ce7f0",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\ContractTemplate.xlsx"
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_17fc5e9fc9344d2c95a1c39ac6669259",
+                    "name": "page",
+                    "value": "4:1",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_78b4f3b6176b451280a25011198d9d5a",
+                    "name": "group",
+                    "value": "email",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_64288574c1264cf791e87bff3d973a7f"
+                },
+                {
+                    "id": "pair_a32781ed245e48ddb7b18a406c6f9ad7",
+                    "name": "user-token",
+                    "value": "{{ _.admin_token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1655850877436.75,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "req_4db78d78bf9043b2a59988bad36447e2",
+            "parentId": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
+            "modified": 1682499068879,
+            "created": 1682498635053,
+            "url": "{{ _.host }}/TypeLevel1/all",
+            "name": "all type levels",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "name": "Content-Type",
-          "value": "application/json"
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415913.875,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_4e3de50ef5334d7aa5dff0530ec48ae8",
-      "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679417036990,
-      "created": 1679266574025,
-      "url": "{{ _.host }}/Contract/",
-      "name": "a contract",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "full",
-          "description": "",
-          "disabled": false
+            "_id": "fld_95c4286e8c5a4b56b7ad9adf8ad84a01",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1682499089575,
+            "created": 1682498635049,
+            "name": "TypeLevel",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458559.7812,
+            "_type": "request_group"
         },
         {
-          "id": "pair_615d230587f14f8d979756ce6e93c5b7",
-          "name": "id",
-          "value": "9",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415867,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_b33f038397b54eea9e1709a7e96d57d9",
-      "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679418171677,
-      "created": 1679266574019,
-      "url": "{{ _.host }}/Contract/",
-      "name": "create a contract",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"data\": {\n    \"templateId\": 2,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"status\": \"draft\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "req_2c162c0f3f0b4511a512c0c148813e17",
+            "parentId": "fld_ecd4669925924733976c3df18145b39d",
+            "modified": 1679416382563,
+            "created": 1679266574013,
+            "url": "{{ _.host }}/Contract/all",
+            "name": "all contracts",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "fld_ecd4669925924733976c3df18145b39d",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1679266574008,
+            "created": 1679266574008,
+            "name": "Contract",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458557.4375,
+            "_type": "request_group"
         },
         {
-          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
-          "name": "",
-          "value": "",
-          "description": ""
+            "_id": "req_87ce718eedd24df58c80ec9444fd2b34",
+            "parentId": "fld_ecd4669925924733976c3df18145b39d",
+            "modified": 1679602487668,
+            "created": 1679602389687,
+            "url": "{{ _.host }}/Contract/all",
+            "name": "filter contracts",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\t\"status\": \"in-progress\"\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415913.875,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415767,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_c39341ffb02349e18933a776a2b07883",
-      "parentId": "fld_ecd4669925924733976c3df18145b39d",
-      "modified": 1679418325233,
-      "created": 1679266574030,
-      "url": "{{ _.host }}/Contract",
-      "name": "update a contract",
-      "description": "",
-      "method": "PATCH",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n  \"data\": {\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": false\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n\t\t\"status\": \"in-progress\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-          "name": "id",
-          "value": "11",
-          "description": ""
+            "_id": "req_4e3de50ef5334d7aa5dff0530ec48ae8",
+            "parentId": "fld_ecd4669925924733976c3df18145b39d",
+            "modified": 1679417036990,
+            "created": 1679266574025,
+            "url": "{{ _.host }}/Contract/",
+            "name": "a contract",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "9",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415867,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "req_b33f038397b54eea9e1709a7e96d57d9",
+            "parentId": "fld_ecd4669925924733976c3df18145b39d",
+            "modified": 1679418171677,
+            "created": 1679266574019,
+            "url": "{{ _.host }}/Contract/",
+            "name": "create a contract",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"data\": {\n    \"templateId\": 2,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"status\": \"draft\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415767,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_4b23175607a943998aa0690be3a1e260",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1658057415742,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_4047c612b16b485ba7215ccc9414221b",
-      "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
-      "modified": 1679602646935,
-      "created": 1679602588338,
-      "url": "{{ _.host }}/Document/all",
-      "name": "all documents",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
+            "_id": "req_c39341ffb02349e18933a776a2b07883",
+            "parentId": "fld_ecd4669925924733976c3df18145b39d",
+            "modified": 1679418325233,
+            "created": 1679266574030,
+            "url": "{{ _.host }}/Contract",
+            "name": "update a contract",
+            "description": "",
+            "method": "PATCH",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"data\": {\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": false\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n\t\t\"status\": \"in-progress\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "11",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415742,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1660999458482.4375,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_f901bac5323741e4aaf9e23c46a2b095",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1679602581026,
-      "created": 1679602570800,
-      "name": "Document",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458532.4375,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_013f218dbfdb4970a8f7442491f75e24",
-      "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
-      "modified": 1679606667636,
-      "created": 1679602744640,
-      "url": "{{ _.host }}/Document/",
-      "name": "create a document",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "multipart/form-data",
-        "params": [
-          {
-            "name": "file",
-            "value": "",
-            "id": "pair_2eba2fd3f45e4eb6b1ee7d58d323cc0b",
-            "type": "file",
-            "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\Insomnia.json"
-          },
-          {
-            "id": "pair_4384d69f9d594da9a2ac9469693ee361",
-            "name": "name",
-            "value": "my document",
-            "description": ""
-          }
-        ]
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "multipart/form-data",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "req_53136da8d8694fdfa6fded47e7de645e",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1683050349129,
+            "created": 1683050343085,
+            "url": "{{ _.host }}/ContractAIForm/all",
+            "name": "all templates",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1683466297741,
+            "created": 1683050343080,
+            "name": "ContractAIForm",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458556.2656,
+            "_type": "request_group"
         },
         {
-          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
-          "name": "",
-          "value": "",
-          "description": ""
+            "_id": "req_feeb7599987b40d4a41d6b25972ed6aa",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1683050352883,
+            "created": 1683050343099,
+            "url": "{{ _.host }}/ContractAIForm/",
+            "name": "a template",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "5",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415867,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1660263947853.5781,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "req_42d70b080f5f4eb1bcdc8b5fc4dd983d",
-      "parentId": "fld_25d420506f1345768ed19897fa62e913",
-      "modified": 1682505783232,
-      "created": 1682505408124,
-      "url": "{{ _.host }}/Beneficial/all",
-      "name": "all beneficials",
-      "description": "",
-      "method": "GET",
-      "body": {},
-      "parameters": [
-        {
-          "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
-          "name": "schema",
-          "value": "nested",
-          "description": "",
-          "disabled": true
+            "_id": "req_3f13690cf12241b5a38465b645ce87e8",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1685282822937,
+            "created": 1685282809949,
+            "url": "{{ _.host }}/ContractAIForm/all",
+            "name": "all forms by level3 name",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\"level3.name\": \"Logiciel Saas\"\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415817,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_895a7a55d5d941f09a31007204e84762",
-          "name": "page",
-          "value": "50:1",
-          "description": "",
-          "disabled": true
-        }
-      ],
-      "headers": [
-        {
-          "id": "pair_070c8d59e29d42688e9ceedc885b937c",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1660999458482.4375,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "fld_25d420506f1345768ed19897fa62e913",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1682505408120,
-      "created": 1682505408120,
-      "name": "Beneficial",
-      "description": "",
-      "environment": {},
-      "environmentPropertyOrder": null,
-      "metaSortKey": -1660999458482.4375,
-      "_type": "request_group"
-    },
-    {
-      "_id": "req_64cec69d368c48e3bd80e846c7612c89",
-      "parentId": "fld_25d420506f1345768ed19897fa62e913",
-      "modified": 1682506346473,
-      "created": 1682505408130,
-      "url": "{{ _.host }}/Beneficial/",
-      "name": "create a beneficial",
-      "description": "",
-      "method": "POST",
-      "body": {
-        "mimeType": "application/json",
-        "text": "{\n\t\"data\":{\n\t\t\"name\": \"My company co founder Janna\",\n\t\t\"email\": \"janna.doe@yopmail.com\",\n\t\t\"jobTitle\": \"CEO\",\n\t\t\"passport\": \"XY123456\",\n\t\t\"cin\": \"12345678\",\n\t\t\"firstName\": \"Janna\",\n\t\t\"lastName\": \"Doe\",\n\t\t\"dateOfBirth\": \"1991/01/01\",\n\t\t\"placeOfBirth\": \"Tunis\",\n\t\t\"address\": {\n\t\t\t\"addressLine\": \"2 rue Pablo Picasco\",\n\t\t\t\"postalCode\": \"94000\",\n\t\t\t\"city\": \"Creteil\",\n\t\t\t\"country\": \"FR\"\n\t\t}\n\t}\n}"
-      },
-      "parameters": [
-        {
-          "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-          "name": "schema",
-          "value": "nested",
-          "description": ""
-        }
-      ],
-      "headers": [
-        {
-          "name": "Content-Type",
-          "value": "application/json",
-          "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+            "_id": "req_434899163dbd4732a0ab7e54d645d7d5",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1685282849695,
+            "created": 1685282835485,
+            "url": "{{ _.host }}/ContractAIForm/all",
+            "name": "all forms by level3 id",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\"level3Id\": 2\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415792,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
-          "name": "user-token",
-          "value": "{{ _.token }}",
-          "description": ""
+            "_id": "req_c9df01db71af4c709063f737b02b6bfe",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1685282867865,
+            "created": 1683050343093,
+            "url": "{{ _.host }}/ContractAIForm/",
+            "name": "create form",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"data\":{\n\t\t\"language\": \"fr\",\n\t\t\"name\": \"test form 3\",\n\t\t\"level3Id\": 2,\n\t\t\"form\": [\n  [\"Objet\", \"Quel est l'objet du contrat, les services demandés\"],\n  [\"DOCUMENTS CONTRACTUELS\", \"Quels documents composent ce contrat ?\"],\n  [\"PRISE D’EFFET – DUREE/Date d'effet\", \"Quand est-ce que ce contrat entre en vigueur ?\"],\n  [\"PRISE D’EFFET – DUREE/Durée\", \"Quelle est la durée du contrat ?\"],\n  [\"PRISE D’EFFET – DUREE/Reconduction\", \"La reconduction est-elle tacite ? Quels sont les délais ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Support\", \"Quels sont les conditions d'accés et d'intervention du support ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Disponiblité\", \"La disponibilité du service et ses exception\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance préventive\", \"Faut-il prévoir une maintenance préventive ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance Corrective\", \"Les conditions de la maintenance corrective, champ de couverture et exceptions,\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance évolutive - Mises à jour & Evolutions (Updates & Upgrades)\", \"La mainteneance évolutive est-elle payante ?\"],\n  [\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES/LOCALISATION DES DONNEES S\", \"Ou sont les données hébergées ?\"],\n  [\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES/Propriéte des données\", \"Qui est propriétaire des données fournies par le client ?\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Obligation de loyauté\", \"\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Obligation de Collaboration\", \"\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Suivi du contrat\", \"Les conséquences de désignation d'un correspondant\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Réunion de suivi\", \"Quelle est la périodicité et l'objet des réunions ? \"],\n  [\"Obligation du prestataire/Conseil\", \"Quelues sont les obligations du prestataire en matiére de conseil\"],\n  [\"Obligations générales\", \"\"],\n  [\"Stipulations générales liées à la propriété intellectuelle\", \"\"],\n  [\"Obligation de Collaboration\", \"\"],\n  [\"Propriété intellectuelle/Stipulations générales liées à la propriété intellectuelle\", \"Qui est proprietaire du logicel\"],\n  [\"Propriété intellectuelle/Droit d’utilisation du Service Hébergé\", \"Quelles sont les obligations du client ddans l'utilisation des services heberges\"]\n]\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.admin_token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415767,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
-          "name": "",
-          "value": "",
-          "description": ""
+            "_id": "req_f701f82d69f44a548a6d13caff315a2f",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1683050372570,
+            "created": 1683050343106,
+            "url": "{{ _.host }}/ContractAIForm",
+            "name": "update a template",
+            "description": "",
+            "method": "PATCH",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"data\":{\n\t\t\"language\": \"en\",\n\t\t\"code\": null,\n\t\t\"name\": \"template name 2\",\n\t\t\"level3Id\": 3,\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"id\": 6,\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 11\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"id\": 76,\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 11\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"id\": 71,\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": true\n\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415742,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
         },
         {
-          "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
-          "name": "",
-          "value": "",
-          "description": ""
-        }
-      ],
-      "authentication": {},
-      "metaSortKey": -1660263947853.5781,
-      "isPrivate": false,
-      "settingStoreCookies": true,
-      "settingSendCookies": true,
-      "settingDisableRenderRequestBody": false,
-      "settingEncodeUrl": true,
-      "settingRebuildPath": true,
-      "settingFollowRedirects": "global",
-      "_type": "request"
-    },
-    {
-      "_id": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564070,
-      "created": 1678129564070,
-      "name": "Base Environment",
-      "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmYjBkYjcyLTY5OGEtNDNiMS1iMmM3LWY0MGI1ODAxYmM2YSIsImRhdGUiOjE2NzE3MzE1NjU4NjMsInR5cGUiOiJPd25lciIsImlhdCI6MTY3MTczMTU2NX0.1zl5_kCvh86oMic_XBAQsLyp7JWWrF6GwdeIWNBNhok",
-        "host": "127.0.0.1:4000"
-      },
-      "dataPropertyOrder": {
-        "&": [
-          "token",
-          "host"
-        ]
-      },
-      "color": null,
-      "isPrivate": false,
-      "metaSortKey": 1660999444463,
-      "_type": "environment"
-    },
-    {
-      "_id": "jar_742c24ac9d4840199fb543ca3a204b6d",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1679355387301,
-      "created": 1678129564081,
-      "name": "Default Jar",
-      "cookies": [
+            "_id": "req_be8598661d1e47928fa6ed8850f5a4f4",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1683052267492,
+            "created": 1683052256659,
+            "url": "{{ _.host }}/ContractAI/all",
+            "name": "all contracts",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
         {
-          "key": "__cf_bm",
-          "value": "kZhngetVIewA6uEh6RC6_iZ9MwponTPNarU_7vp09ag-1679355426-0-AXI2IwSuiZOqlYGmA82WTl0sf/7yF+D1v67m5nY62sGLJ1IsoC5rLnDIBo9tmSWZO6L6n0TRbpZ+CjQWcU/1AMz8nkLm5rB3X5IOUjtsMz3T",
-          "expires": "2023-03-21T00:07:06.000Z",
-          "domain": "turo.com",
-          "path": "/",
-          "secure": true,
-          "httpOnly": true,
-          "extensions": [
-            "SameSite=None"
-          ],
-          "hostOnly": false,
-          "creation": "2023-03-20T23:36:27.300Z",
-          "lastAccessed": "2023-03-20T23:36:27.300Z",
-          "id": "9856642309529908"
+            "_id": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1683052256654,
+            "created": 1683052256654,
+            "name": "ContractAI",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458555.0938,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_3cf120bf78224e048b4dba0d5838024e",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1685099604794,
+            "created": 1683052256672,
+            "url": "{{ _.host }}/ContractAI/",
+            "name": "a contract",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "full",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_615d230587f14f8d979756ce6e93c5b7",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_c1a7562196704ea9be41afc9ca348aa3",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415867,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_5a6108ebd2c84913a25aefbfed13eb38",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1685099468351,
+            "created": 1683052256666,
+            "url": "{{ _.host }}/ContractAI/",
+            "name": "create a contract",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n  \"data\": {\n    \"formId\": 4,\n    \"status\": \"draft\",\n    \"name\": \"Contract AI Name 4\"\n  }\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415767,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_c3a0d5c7f0234d42afb3077ab190a62e",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1685282879676,
+            "created": 1685282681230,
+            "url": "{{ _.host }}/ContractAI",
+            "name": "create with file",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_b49b99a63b124406b96811fba40fc087",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\Contrat saas.docx"
+                    },
+                    {
+                        "id": "pair_210b05bfa3be4cee8416bca9909fa93a",
+                        "name": "name",
+                        "value": "contract 2",
+                        "description": ""
+                    },
+                    {
+                        "id": "pair_2d84af9328ed4a18a2e5c0668fd5f81a",
+                        "name": "formId",
+                        "value": "4",
+                        "description": ""
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415760.75,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_38025b4e85084e6889e2395a2ad33982",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1685282887956,
+            "created": 1683052256678,
+            "url": "{{ _.host }}/ContractAI",
+            "name": "update with file",
+            "description": "",
+            "method": "PATCH",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_b49b99a63b124406b96811fba40fc087",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\Contrat saas.docx"
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415742,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_c517646aa0054dfe9da6d32a47709090",
+            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
+            "modified": 1685282891178,
+            "created": 1682983633932,
+            "url": "{{ _.host }}/ContractAI/generateAIResponse",
+            "name": "prompt",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_09b4301c3ed845f6b4dc61a993e76472",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\PROJET AVENANT 2022 CONTRAT DE VENTE LTT.pdf"
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
+                    "name": "id",
+                    "value": "3",
+                    "description": ""
+                },
+                {
+                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_4b23175607a943998aa0690be3a1e260",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415692,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_4047c612b16b485ba7215ccc9414221b",
+            "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
+            "modified": 1679602646935,
+            "created": 1679602588338,
+            "url": "{{ _.host }}/Document/all",
+            "name": "all documents",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1660999458482.4375,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_f901bac5323741e4aaf9e23c46a2b095",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1679602581026,
+            "created": 1679602570800,
+            "name": "Document",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458532.4375,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_013f218dbfdb4970a8f7442491f75e24",
+            "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
+            "modified": 1679606667636,
+            "created": 1679602744640,
+            "url": "{{ _.host }}/Document/",
+            "name": "create a document",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_2eba2fd3f45e4eb6b1ee7d58d323cc0b",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\Insomnia.json"
+                    },
+                    {
+                        "id": "pair_4384d69f9d594da9a2ac9469693ee361",
+                        "name": "name",
+                        "value": "my document",
+                        "description": ""
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1660263947853.5781,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_42d70b080f5f4eb1bcdc8b5fc4dd983d",
+            "parentId": "fld_25d420506f1345768ed19897fa62e913",
+            "modified": 1682505783232,
+            "created": 1682505408124,
+            "url": "{{ _.host }}/Beneficial/all",
+            "name": "all beneficials",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": true
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1660999458482.4375,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_25d420506f1345768ed19897fa62e913",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1682505408120,
+            "created": 1682505408120,
+            "name": "Beneficial",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458482.4375,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_64cec69d368c48e3bd80e846c7612c89",
+            "parentId": "fld_25d420506f1345768ed19897fa62e913",
+            "modified": 1682506346473,
+            "created": 1682505408130,
+            "url": "{{ _.host }}/Beneficial/",
+            "name": "create a beneficial",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"data\":{\n\t\t\"name\": \"My company co founder Janna\",\n\t\t\"email\": \"janna.doe@yopmail.com\",\n\t\t\"jobTitle\": \"CEO\",\n\t\t\"passport\": \"XY123456\",\n\t\t\"cin\": \"12345678\",\n\t\t\"firstName\": \"Janna\",\n\t\t\"lastName\": \"Doe\",\n\t\t\"dateOfBirth\": \"1991/01/01\",\n\t\t\"placeOfBirth\": \"Tunis\",\n\t\t\"address\": {\n\t\t\t\"addressLine\": \"2 rue Pablo Picasco\",\n\t\t\t\"postalCode\": \"94000\",\n\t\t\t\"city\": \"Creteil\",\n\t\t\t\"country\": \"FR\"\n\t\t}\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "application/json",
+                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
+                },
+                {
+                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                },
+                {
+                    "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
+                    "name": "",
+                    "value": "",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1660263947853.5781,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "env_2d1e9f08beac4e3d9ba056c774240c29",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1678129564070,
+            "created": 1678129564070,
+            "name": "Base Environment",
+            "data": {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjdmYjBkYjcyLTY5OGEtNDNiMS1iMmM3LWY0MGI1ODAxYmM2YSIsImRhdGUiOjE2NzE3MzE1NjU4NjMsInR5cGUiOiJPd25lciIsImlhdCI6MTY3MTczMTU2NX0.1zl5_kCvh86oMic_XBAQsLyp7JWWrF6GwdeIWNBNhok",
+                "host": "127.0.0.1:4000"
+            },
+            "dataPropertyOrder": {
+                "&": [
+                    "token",
+                    "host"
+                ]
+            },
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1660999444463,
+            "_type": "environment"
+        },
+        {
+            "_id": "jar_742c24ac9d4840199fb543ca3a204b6d",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1679355387301,
+            "created": 1678129564081,
+            "name": "Default Jar",
+            "cookies": [
+                {
+                    "key": "__cf_bm",
+                    "value": "kZhngetVIewA6uEh6RC6_iZ9MwponTPNarU_7vp09ag-1679355426-0-AXI2IwSuiZOqlYGmA82WTl0sf/7yF+D1v67m5nY62sGLJ1IsoC5rLnDIBo9tmSWZO6L6n0TRbpZ+CjQWcU/1AMz8nkLm5rB3X5IOUjtsMz3T",
+                    "expires": "2023-03-21T00:07:06.000Z",
+                    "domain": "turo.com",
+                    "path": "/",
+                    "secure": true,
+                    "httpOnly": true,
+                    "extensions": [
+                        "SameSite=None"
+                    ],
+                    "hostOnly": false,
+                    "creation": "2023-03-20T23:36:27.300Z",
+                    "lastAccessed": "2023-03-20T23:36:27.300Z",
+                    "id": "9856642309529908"
+                }
+            ],
+            "_type": "cookie_jar"
+        },
+        {
+            "_id": "spc_1519033a002d4ca78e0bc8f7df8236f8",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1678129564294,
+            "created": 1678129564087,
+            "fileName": "contractzlab",
+            "contents": "",
+            "contentType": "yaml",
+            "_type": "api_spec"
+        },
+        {
+            "_id": "env_fb7cebd80cc64393a80e16db1fcf5b2f",
+            "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
+            "modified": 1683052318443,
+            "created": 1678129564072,
+            "name": "kishi",
+            "data": {
+                "admin_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImVjYzQzZGU4LWM2MzMtNDZhNi1iOWUxLTk0ZjY1YWVkOTJjMiIsImRhdGUiOjE2Nzk4MzkxMjMyODgsInR5cGUiOiJBZG1pbiIsImlhdCI6MTY3OTgzOTEyM30.aVFaEOOGiiLupAD2FMxUKUCjVOAw1Rvo8zt7l9cVWqM",
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWMzOTQ0LWFkZTItNDEwNC05YmU0LTJlOGM2ZjkwZWRhNCIsImRhdGUiOjE2ODMwNTIzMDQ4MzUsInR5cGUiOiJDbGllbnQiLCJpYXQiOjE2ODMwNTIzMDR9.SrcKBhszUgOXq19Gxod76kVfpYt0wd9u0Q7Aj30y7h4",
+                "host": "127.0.0.1:4001"
+            },
+            "dataPropertyOrder": {
+                "&": [
+                    "admin_token",
+                    "token",
+                    "host"
+                ]
+            },
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1676550525949,
+            "_type": "environment"
+        },
+        {
+            "_id": "env_e8aac122b99b404ba7e9def8cc3009e3",
+            "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
+            "modified": 1678129610405,
+            "created": 1678129610405,
+            "name": "New Environment",
+            "data": {},
+            "dataPropertyOrder": null,
+            "color": null,
+            "isPrivate": false,
+            "metaSortKey": 1678129610405,
+            "_type": "environment"
         }
-      ],
-      "_type": "cookie_jar"
-    },
-    {
-      "_id": "spc_1519033a002d4ca78e0bc8f7df8236f8",
-      "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-      "modified": 1678129564294,
-      "created": 1678129564087,
-      "fileName": "contractzlab",
-      "contents": "",
-      "contentType": "yaml",
-      "_type": "api_spec"
-    },
-    {
-      "_id": "env_fb7cebd80cc64393a80e16db1fcf5b2f",
-      "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "modified": 1682505764540,
-      "created": 1678129564072,
-      "name": "kishi",
-      "data": {
-        "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlYWMzOTQ0LWFkZTItNDEwNC05YmU0LTJlOGM2ZjkwZWRhNCIsImRhdGUiOjE2ODI1MDU3NDE0NTksInR5cGUiOiJDbGllbnQiLCJpYXQiOjE2ODI1MDU3NDF9.iBLClP4RC4-qJuDrWXAunNMx2sfaViwotsikji8s-OI",
-        "host": "127.0.0.1:4001"
-      },
-      "dataPropertyOrder": {
-        "&": [
-          "token",
-          "host"
-        ]
-      },
-      "color": null,
-      "isPrivate": false,
-      "metaSortKey": 1676550525949,
-      "_type": "environment"
-    },
-    {
-      "_id": "env_e8aac122b99b404ba7e9def8cc3009e3",
-      "parentId": "env_2d1e9f08beac4e3d9ba056c774240c29",
-      "modified": 1678129610405,
-      "created": 1678129610405,
-      "name": "New Environment",
-      "data": {},
-      "dataPropertyOrder": null,
-      "color": null,
-      "isPrivate": false,
-      "metaSortKey": 1678129610405,
-      "_type": "environment"
-    }
-  ]
+    ]
 }

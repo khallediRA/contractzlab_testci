@@ -45,18 +45,19 @@ export class FileType implements KishiDataType {
       if (typeof file == "string") {
         return this.setDataValue(attributeName, `url://${file}`)
       }
-      file.name = `${randomUUID()}-${file.name.replace(/[^a-zA-Z0-9-_\.]/g, '')}`
-      if (file.name.length > length) {
-        const ext = Path.extname(file.name)
+      let fileName = `${randomUUID()}-${file.name.replace(/[^a-zA-Z0-9-_\.]/g, '')}`
+      if (fileName.length > length) {
+        const ext = Path.extname(fileName)
         if (ext.length < (length - 38))
-          file.name = file.name.slice(0, length - ext.length) + ext
+          fileName = fileName.slice(0, length - ext.length) + ext
         else
-          file.name = file.name.slice(0, length)
+          fileName = fileName.slice(0, length)
       }
       if (this as KishiModel) {
         (this as KishiModel).files[attributeName] = file
       }
-      this.setDataValue(attributeName, file.name)
+      FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${fileName}`)
+      this.setDataValue(attributeName, fileName)
     }
   }
   Hook(Model: typeof KishiModel): void {
@@ -71,10 +72,6 @@ export class FileType implements KishiDataType {
     })
     Model.afterCreate(async (instance, options) => {
       if (instance.get(attributeName) && instance.files[attributeName]) {
-        const file = instance.files[attributeName] as AbstractFile
-        //save file
-        FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${file.name}`)
-        //always delete from files Record after save to avoid resetting
         delete instance.files[attributeName]
       }
     })
@@ -85,14 +82,11 @@ export class FileType implements KishiDataType {
         const blob = response.data as Blob
         instance.set(attributeName, { name: response.headers["content-type"].replace("/", "."), data: blob })
       }
-      if (instance.files[attributeName]) {
-        //updated file with the same name
-        const file = instance.files[attributeName] as AbstractFile
-        FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${file.name}`)
-        delete instance.files[attributeName]
-      }
     })
     Model.afterUpdate(async (instance, options) => {
+      if (instance.get(attributeName) && instance.files[attributeName]) {
+        delete instance.files[attributeName]
+      }
       if (options.fields?.includes(attributeName)) {
         const previous = instance.previous(attributeName)
         if (previous) {

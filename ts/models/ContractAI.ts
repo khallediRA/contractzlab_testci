@@ -2,6 +2,10 @@ import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
 import { IUser } from "../interfaces";
+import { AbstractFile } from "../utils/file";
+import { PDFLib } from "../utils/pdf";
+import { replaceLast } from "../utils/string";
+import DocxLib from "../utils/docx";
 
 export class ContractAI extends KishiModel {
 
@@ -32,10 +36,10 @@ export class ContractAI extends KishiModel {
     name: {
       type: KishiDataTypes.STRING,
     },
-    content: {
-      type: KishiDataTypes.TEXT(),
-    },
     file: {
+      type: new KishiDataTypes.FILE(),
+    },
+    textFile: {
       type: new KishiDataTypes.FILE(),
     },
     summarySheet: {
@@ -87,6 +91,26 @@ export class ContractAI extends KishiModel {
     async beforeCreate(attributes, options) {
       const user = (options as any).user as IUser
       attributes.set("clientId", user?.id)
+
+    },
+    async beforeUpdate(instance, options) {
+      if (instance.files["file"]) {
+        let file = instance.files["file"] as AbstractFile
+        const name = file.name
+        const extension = file.name.split(".").pop()
+        if (extension == "docx") {
+          file.name = replaceLast(name, ".docx", ".pdf")
+          file.data = await DocxLib.DocxToPdf(file.data)
+          instance.set("file", file)
+        } else if (extension != "pdf") {
+          throw `Unsupported file type ${extension}`
+        }
+        const textFile = {
+          name: replaceLast(name, `.${extension}`, ".txt"),
+          data: await PDFLib.PdfToText(file.data)
+        }
+        instance.set("textFile", textFile)
+      }
     },
     async afterSync(options) {
     },

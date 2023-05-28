@@ -96,7 +96,7 @@ ${form.map(([clause, text]) => `${clause}:${text}`).join("\n")}
         fs.writeFileSync(`tmp/${now}-file.txt`, fileContent)
         fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
         //uncomment for debug, use playground 
-        // return res.send({ fileContent, prompt })
+        return res.send({ fileContent, prompt })
         const openAiData = await OpenAIService.ChatCompletion(prompt, "gpt-4")
         fs.writeFileSync(`tmp/${now}-ai.txt`, openAiData.choices[0].message.content)
         this.processAIResponse(row, openAiData.choices[0].message.content)

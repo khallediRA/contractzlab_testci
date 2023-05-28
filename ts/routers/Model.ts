@@ -204,6 +204,11 @@ export class ModelRouter {
       let user = req.middleData.user as IUser
       let data = Model.fromView(req.middleData.reqData) as any
       let created: KishiModel | null = null
+      // for (const attributeName in req.files) {
+      //   const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
+      //   if (!fileType?.isFile) continue
+      //   data[attributeName] = req.files[attributeName]
+      // }
       if (Model.parentOptions) {
         const type = data[Model.parentOptions.descriminator] as string
         if (!Model.parentOptions.models.includes(type))
@@ -215,7 +220,7 @@ export class ModelRouter {
       }
       for (const attributeName in req.files) {
         const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
-        if (!fileType?.isFile)continue
+        if (!fileType?.isFile) continue
         created.set(attributeName, req.files[attributeName])
       }
       await created.save()
@@ -234,6 +239,11 @@ export class ModelRouter {
       if (!toUpdate)
         throw { message: `Instance Not Found` }
       let data = Model.fromView(req.middleData.reqData) as any
+      for (const attributeName in req.files) {
+        const fileType = this.Model.rawAttributes[attributeName].type as KishiDataType
+        if (!fileType?.isFile) continue
+        data[attributeName] = req.files[attributeName]
+      }
       await toUpdate.Update(data, { user } as any)
       const schema: string = (req.query["schema"] || "pure") as string
       const findOptions = Model.SchemaToFindOptions(schema, true)
