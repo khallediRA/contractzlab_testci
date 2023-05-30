@@ -1,7 +1,7 @@
 {
     "_type": "export",
     "__export_format": 4,
-    "__export_date": "2023-05-28T14:10:37.401Z",
+    "__export_date": "2023-05-30T14:06:09.525Z",
     "__export_source": "insomnia.desktop.app:v2023.2.2",
     "resources": [
         {
@@ -1353,7 +1353,7 @@
         {
             "_id": "req_434899163dbd4732a0ab7e54d645d7d5",
             "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1685282849695,
+            "modified": 1685372220447,
             "created": 1685282835485,
             "url": "{{ _.host }}/ContractAIForm/all",
             "name": "all forms by level3 id",
@@ -1404,7 +1404,7 @@
         {
             "_id": "req_c9df01db71af4c709063f737b02b6bfe",
             "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1685282867865,
+            "modified": 1685453119518,
             "created": 1683050343093,
             "url": "{{ _.host }}/ContractAIForm/",
             "name": "create form",
@@ -1412,7 +1412,7 @@
             "method": "POST",
             "body": {
                 "mimeType": "application/json",
-                "text": "{\n\t\"data\":{\n\t\t\"language\": \"fr\",\n\t\t\"name\": \"test form 3\",\n\t\t\"level3Id\": 2,\n\t\t\"form\": [\n  [\"Objet\", \"Quel est l'objet du contrat, les services demandés\"],\n  [\"DOCUMENTS CONTRACTUELS\", \"Quels documents composent ce contrat ?\"],\n  [\"PRISE D’EFFET – DUREE/Date d'effet\", \"Quand est-ce que ce contrat entre en vigueur ?\"],\n  [\"PRISE D’EFFET – DUREE/Durée\", \"Quelle est la durée du contrat ?\"],\n  [\"PRISE D’EFFET – DUREE/Reconduction\", \"La reconduction est-elle tacite ? Quels sont les délais ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Support\", \"Quels sont les conditions d'accés et d'intervention du support ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Disponiblité\", \"La disponibilité du service et ses exception\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance préventive\", \"Faut-il prévoir une maintenance préventive ?\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance Corrective\", \"Les conditions de la maintenance corrective, champ de couverture et exceptions,\"],\n  [\"SUPPORT – DISPONIBILITE - MAINTENANCE/Maintenance évolutive - Mises à jour & Evolutions (Updates & Upgrades)\", \"La mainteneance évolutive est-elle payante ?\"],\n  [\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES/LOCALISATION DES DONNEES S\", \"Ou sont les données hébergées ?\"],\n  [\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES/Propriéte des données\", \"Qui est propriétaire des données fournies par le client ?\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Obligation de loyauté\", \"\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Obligation de Collaboration\", \"\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Suivi du contrat\", \"Les conséquences de désignation d'un correspondant\"],\n  [\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS/Réunion de suivi\", \"Quelle est la périodicité et l'objet des réunions ? \"],\n  [\"Obligation du prestataire/Conseil\", \"Quelues sont les obligations du prestataire en matiére de conseil\"],\n  [\"Obligations générales\", \"\"],\n  [\"Stipulations générales liées à la propriété intellectuelle\", \"\"],\n  [\"Obligation de Collaboration\", \"\"],\n  [\"Propriété intellectuelle/Stipulations générales liées à la propriété intellectuelle\", \"Qui est proprietaire du logicel\"],\n  [\"Propriété intellectuelle/Droit d’utilisation du Service Hébergé\", \"Quelles sont les obligations du client ddans l'utilisation des services heberges\"]\n]\n\t}\n}"
+                "text": "{\n\t\"data\":{\n\t\t\"language\": \"fr\",\n\t\t\"name\": \"test form 7\",\n\t\t\"level3Id\": 2,\n\t\t\"form\": [\n\t\t\t[\n\t\t\t\t\"Objet\",\n\t\t\t\t\"\",\n\t\t\t\t\"Quel est l'objet du contrat, les services demandés\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"DOCUMENTS CONTRACTUELS\",\n\t\t\t\t\"\",\n\t\t\t\t\"Quels documents composent ce contrat ?\"\n\t\t\t],\n\t\t\t[\n\t\t\t\t\"PRISE D’EFFET – DUREE\",\n\t\t\t\t\"Date d'effet\",\n\t\t\t\t\"Quand est-ce que ce contrat entre en vigueur ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"PRISE D’EFFET – DUREE\",\n\t\t\t\t\"Durée\",\n\t\t\t\t\"Quelle est la durée du contrat ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"PRISE D’EFFET – DUREE\",\n\t\t\t\t\"Reconduction\",\n\t\t\t\t\"La reconduction est-elle tacite ? Quels sont les délais ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"SUPPORT – DISPONIBILITE - MAINTENANCE\",\n\t\t\t\t\"Support\",\n\t\t\t\t\"Quels sont les conditions d'accés et d'intervention du support ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"SUPPORT – DISPONIBILITE - MAINTENANCE\",\n\t\t\t\t\"Disponiblité\",\n\t\t\t\t\"La disponibilité du service et ses exception\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"SUPPORT – DISPONIBILITE - MAINTENANCE\",\n\t\t\t\t\"Maintenance préventive\",\n\t\t\t\t\"Faut-il prévoir une maintenance préventive ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"SUPPORT – DISPONIBILITE - MAINTENANCE\",\n\t\t\t\t\"Maintenance Corrective\",\n\t\t\t\t\"Les conditions de la maintenance corrective, champ de couverture et exceptions,\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"SUPPORT – DISPONIBILITE - MAINTENANCE\",\n\t\t\t\t\"Maintenance évolutive - Mises à jour & Evolutions (Updates & Upgrades)\",\n\t\t\t\t\"La mainteneance évolutive est-elle payante ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES\",\n\t\t\t\t\"LOCALISATION DES DONNEES S\",\n\t\t\t\t\"Ou sont les données hébergées ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"LOCALISATION DES DONNEES ET PROPRIETE DES DONNEES\",\n\t\t\t\t\"Propriéte des données\",\n\t\t\t\t\"Qui est propriétaire des données fournies par le client ?\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS\",\n\t\t\t\t\"Obligation de loyauté\",\n\t\t\t\t\"\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS\",\n\t\t\t\t\"Obligation de Collaboration\",\n\t\t\t\t\"\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS\",\n\t\t\t\t\"Suivi du contrat\",\n\t\t\t\t\"Les conséquences de désignation d'un correspondant\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"COORDINATION DU CONTRAT ET SUIVI DES PRESTATIONS\",\n\t\t\t\t\"Réunion de suivi\",\n\t\t\t\t\"Quelle est la périodicité et l'objet des réunions ? \"\t\t\t],\n\t\t\t[\n\t\t\t\t\"Obligation du prestataire\",\n\t\t\t\t\"Conseil\",\n\t\t\t\t\"Quelues sont les obligations du prestataire en matiére de conseil\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"Obligations générales\",\n\t\t\t\t\"\",\n\t\t\t\t\"\"\n\t\t\t],\n\t\t\t[\n\t\t\t\t\"Stipulations générales liées à la propriété intellectuelle\",\n\t\t\t\t\"\",\n\t\t\t\t\"\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"Obligation de Collaboration\",\n\t\t\t\t\"\",\n\t\t\t\t\"\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"Propriété intellectuelle\",\n\t\t\t\t\"Stipulations générales liées à la propriété intellectuelle\",\n\t\t\t\t\"Qui est proprietaire du logicel\"\t\t\t],\n\t\t\t[\n\t\t\t\t\"Propriété intellectuelle\",\n\t\t\t\t\"Droit d’utilisation du Service Hébergé\",\n\t\t\t\t\"Quelles sont les obligations du client ddans l'utilisation des services heberges\"\t\t\t]\n\t\t]\n\t}\n}"
             },
             "parameters": [
                 {
@@ -1443,57 +1443,6 @@
             ],
             "authentication": {},
             "metaSortKey": -1658057415767,
-            "isPrivate": false,
-            "settingStoreCookies": true,
-            "settingSendCookies": true,
-            "settingDisableRenderRequestBody": false,
-            "settingEncodeUrl": true,
-            "settingRebuildPath": true,
-            "settingFollowRedirects": "global",
-            "_type": "request"
-        },
-        {
-            "_id": "req_f701f82d69f44a548a6d13caff315a2f",
-            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1683050372570,
-            "created": 1683050343106,
-            "url": "{{ _.host }}/ContractAIForm",
-            "name": "update a template",
-            "description": "",
-            "method": "PATCH",
-            "body": {
-                "mimeType": "application/json",
-                "text": "{\n\t\"data\":{\n\t\t\"language\": \"en\",\n\t\t\"code\": null,\n\t\t\"name\": \"template name 2\",\n\t\t\"level3Id\": 3,\n\t\t\"clauses\": [\n\t\t\t{\n\t\t\t\t\"id\": 6,\n\t\t\t\t\"code\": \"C1\",\n\t\t\t\t\"name\": \"clause 11\",\n\t\t\t\t\"params\": null,\n\t\t\t\t\"rawText\": [],\n\t\t\t\t\"subClauses\": [\n\t\t\t\t\t{\n\t\t\t\t\t\t\"id\": 76,\n\t\t\t\t\t\t\"index\": \"1.1\",\n\t\t\t\t\t\t\"name\": \"Sub Clause 11\",\n\t\t\t\t\t\t\"isOptional\": true,\n\t\t\t\t\t\t\"params\": [\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param1\",\n\t\t\t\t\t\t\t\t\"label\": \"yes or no\",\n\t\t\t\t\t\t\t\t\"type\": \"yes/no\"\n\t\t\t\t\t\t\t},\n\t\t\t\t\t\t\t{\n\t\t\t\t\t\t\t\t\"name\": \"param2\",\n\t\t\t\t\t\t\t\t\"label\": \"date\",\n\t\t\t\t\t\t\t\t\"type\": \"date\"\n\t\t\t\t\t\t\t}\n\t\t\t\t\t\t],\n\t\t\t\t\t\t\"rawText\": [\n\t\t\t\t\t\t\t\"first answer $param1, second answer $param2\"\n\t\t\t\t\t\t]\n\t\t\t\t\t}\n\t\t\t\t],\n\t\t\t\t\"ContractTemplate_Clause\": {\n\t\t\t\t\t\"id\": 71,\n\t\t\t\t\t\"index\": \"1\",\n\t\t\t\t\t\"isOptional\": true\n\n\t\t\t\t}\n\t\t\t}\n\t\t]\n\t}\n}"
-            },
-            "parameters": [
-                {
-                    "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
-                    "name": "id",
-                    "value": "3",
-                    "description": ""
-                },
-                {
-                    "id": "pair_8669b67b51244fe792ebc6e0dccea37e",
-                    "name": "schema",
-                    "value": "nested",
-                    "description": ""
-                }
-            ],
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json",
-                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-                },
-                {
-                    "id": "pair_4b23175607a943998aa0690be3a1e260",
-                    "name": "user-token",
-                    "value": "{{ _.token }}",
-                    "description": ""
-                }
-            ],
-            "authentication": {},
-            "metaSortKey": -1658057415742,
             "isPrivate": false,
             "settingStoreCookies": true,
             "settingSendCookies": true,
@@ -1563,7 +1512,7 @@
         {
             "_id": "req_3cf120bf78224e048b4dba0d5838024e",
             "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685099604794,
+            "modified": 1685373559290,
             "created": 1683052256672,
             "url": "{{ _.host }}/ContractAI/",
             "name": "a contract",
@@ -1581,7 +1530,7 @@
                 {
                     "id": "pair_615d230587f14f8d979756ce6e93c5b7",
                     "name": "id",
-                    "value": "3",
+                    "value": "2",
                     "description": ""
                 }
             ],
@@ -1664,7 +1613,7 @@
         {
             "_id": "req_c3a0d5c7f0234d42afb3077ab190a62e",
             "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685282879676,
+            "modified": 1685453135885,
             "created": 1685282681230,
             "url": "{{ _.host }}/ContractAI",
             "name": "create with file",
@@ -1678,18 +1627,18 @@
                         "value": "",
                         "id": "pair_b49b99a63b124406b96811fba40fc087",
                         "type": "file",
-                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\Contrat saas.docx"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\PROJET AVENANT 2022 CONTRAT DE VENTE LTT.pdf"
                     },
                     {
                         "id": "pair_210b05bfa3be4cee8416bca9909fa93a",
                         "name": "name",
-                        "value": "contract 2",
+                        "value": "PROJET AVENANT",
                         "description": ""
                     },
                     {
                         "id": "pair_2d84af9328ed4a18a2e5c0668fd5f81a",
                         "name": "formId",
-                        "value": "4",
+                        "value": "8",
                         "description": ""
                     }
                 ]
@@ -1794,7 +1743,7 @@
         {
             "_id": "req_c517646aa0054dfe9da6d32a47709090",
             "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685282891178,
+            "modified": 1685371540777,
             "created": 1682983633932,
             "url": "{{ _.host }}/ContractAI/generateAIResponse",
             "name": "prompt",
@@ -1808,7 +1757,8 @@
                         "value": "",
                         "id": "pair_09b4301c3ed845f6b4dc61a993e76472",
                         "type": "file",
-                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\PROJET AVENANT 2022 CONTRAT DE VENTE LTT.pdf"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\PROJET AVENANT 2022 CONTRAT DE VENTE LTT.pdf",
+                        "disabled": true
                     }
                 ]
             },
@@ -1816,7 +1766,7 @@
                 {
                     "id": "pair_4854aceedb5e4cf7a1c4154c4dc08e3f",
                     "name": "id",
-                    "value": "3",
+                    "value": "5",
                     "description": ""
                 },
                 {
