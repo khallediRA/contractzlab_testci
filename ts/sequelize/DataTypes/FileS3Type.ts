@@ -45,8 +45,7 @@ export class FileS3Type implements KishiDataType {
           file.name = file.name.slice(0, length)
       }
       if (this as KishiModel) {
-        (this as KishiModel).files = (this as KishiModel).files || {};
-        (this as KishiModel).files[attributeName] = file
+        (this as KishiModel).setFile(attributeName, file)
       }
     }
   }

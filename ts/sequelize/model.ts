@@ -46,6 +46,10 @@ export class KishiModel extends Model {
 
   static initialOptions: KishiModelOptions = {};
   files: Record<string, AbstractFile | AbstractFile[]>
+  setFile(key: string, file: AbstractFile | AbstractFile[]) {
+    this.files = this.files || {}
+    this.files[key] = file
+  }
   constructor(...args: any[]) {
     super(...args)
     this.files = (this as any).files || {}

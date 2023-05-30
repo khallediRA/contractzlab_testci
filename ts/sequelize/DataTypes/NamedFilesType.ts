@@ -58,8 +58,8 @@ export class NamedFilesType implements KishiDataType {
         fileItems.push([key, fileName])
       }
       if (this instanceof KishiModel) {
-        (this as KishiModel).files = (this as KishiModel).files || {};
-        (this as KishiModel).files[attributeName] = _files
+        (this as KishiModel).setFile(attributeName, _files)
+
       }
       this.setDataValue(attributeName, JSON.stringify(fileItems))
     }
