@@ -45,7 +45,12 @@ export class KishiModel extends Model {
   static finalAssociations: { [key: string]: FinalAssociation } = {};
 
   static initialOptions: KishiModelOptions = {};
-  files: Record<string, AbstractFile | AbstractFile[]> = {}
+  files: Record<string, AbstractFile | AbstractFile[]>
+  constructor(...args: any[]) {
+    super(...args)
+    this.files = (this as any).files || {}
+  }
+
   static AfterView?: (row: KishiModel, view: any) => any;
   static PreInit?: (sequelize: Sequelize, models: Record<string, typeof KishiModel>) => any;
   static AfterSync?: (sequelize: Sequelize) => Promise<void>;
@@ -1227,7 +1232,7 @@ export class KishiModel extends Model {
     if ((this as any)[associationName] != undefined) {
       return this
     }
-    const paths = [`${associationName}.*`]
+    const paths = ["id", `${associationName}.*`]
     let findOptions = this.Model.PathsToFindOptions(paths)
     if (where) {
       //TODO

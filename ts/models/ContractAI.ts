@@ -1,11 +1,14 @@
+import fs from "fs"
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { IUser } from "../interfaces";
+import { IContractAI, IUser } from "../interfaces";
 import { AbstractFile } from "../utils/file";
 import { PDFLib } from "../utils/pdf";
-import { replaceLast } from "../utils/string";
+import { optimizeStr, replaceLast } from "../utils/string";
 import DocxLib from "../utils/docx";
+import { OpenAIService, chatCompletion } from "../services/openAPI";
+import { ContractAIForm } from "./ContractAIForm";
 
 export class ContractAI extends KishiModel {
 
@@ -24,6 +27,68 @@ export class ContractAI extends KishiModel {
   get display() {
     return this.get("name") as string
   }
+  static generateAIPrompt(row: IContractAI, fileContent: string): string {
+    const form = row.form?.form!
+    let prompt = `Generate a Legal Document based on the draft pdf file and a desired output.
+Match the output format provided in clauses and subclaues
+Expand each clause and subclause into a comprehensive legal document format
+Language: Deduct from file.
+[pdf file]
+${optimizeStr(fileContent)}
+[/pdf file]
+[output]
+${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join("\n")}
+[/output]
+    `
+    return prompt
+  }
+  static processAIResponse(row: IContractAI, completion: chatCompletion): any {
+    const content = completion.choices[0].message.content as string
+    const lines = content.split("\n").filter((str) => str?.indexOf(":") > 0).map(str => str.trim())
+    const answers = lines.map((line) => line.split(":").map(str => str.trim()).pop())
+    const summarySheet = answers.map((answer, idx) => {
+      const item = row.form?.form?.[idx]!
+      try {
+        return [...item, answer || ""]
+
+      } catch (error) {
+        return []
+      }
+    })
+    row.summarySheet = summarySheet as any
+    row.openAIId = completion.id
+    return summarySheet
+  }
+  async handleNewFile() {
+    (this as any)["form"] = await ContractAIForm.findByPk(this.get("formId") as any)
+    if (!(this as any)["form"]) {
+      throw `formId ${(this as any).formId} not found`
+    }
+    let file = this.files["file"] as AbstractFile
+    const name = file.name
+    const extension = file.name.split(".").pop()
+    if (extension == "docx") {
+      file.name = replaceLast(name, ".docx", ".pdf")
+      file.data = await DocxLib.DocxToPdf(file.data)
+      this.set("file", file)
+    } else if (extension != "pdf") {
+      throw `Unsupported file type ${extension}`
+    }
+    let textData = await PDFLib.PdfToText(file.data)
+    const textFile = {
+      name: replaceLast(name, `.${extension}`, ".txt"),
+      data: textData
+    }
+    this.set("textFile", textFile)
+    const prompt = await ContractAI.generateAIPrompt(this, textData)
+    const now = Date.now()
+    fs.writeFileSync(`tmp/${now}-file.txt`, textData)
+    fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
+    const completion = await OpenAIService.ChatCompletion(prompt, "gpt-4")
+    fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion))
+    ContractAI.processAIResponse(this, completion)
+  }
+
   static initialAttributes: KishiModelAttributes = {
     id: {
       type: KishiDataTypes.INTEGER,
@@ -42,9 +107,12 @@ export class ContractAI extends KishiModel {
     textFile: {
       type: new KishiDataTypes.FILE(),
     },
+    openAIId: {
+      type: KishiDataTypes.STRING,
+    },
     summarySheet: {
       type: new KishiDataTypes.TEXT(),
-      ts_typeStr: "[string, string][]",
+      ts_typeStr: "[string, string, string, string][]",
       get() {
         return JSON.parse(this.getDataValue("summarySheet") || "[]")
       },
@@ -88,28 +156,16 @@ export class ContractAI extends KishiModel {
     },
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
-    async beforeCreate(attributes, options) {
+    async beforeCreate(instance: ContractAI, options) {
       const user = (options as any).user as IUser
-      attributes.set("clientId", user?.id)
-
-    },
-    async beforeUpdate(instance, options) {
+      instance.set("clientId", user?.id)
       if (instance.files["file"]) {
-        let file = instance.files["file"] as AbstractFile
-        const name = file.name
-        const extension = file.name.split(".").pop()
-        if (extension == "docx") {
-          file.name = replaceLast(name, ".docx", ".pdf")
-          file.data = await DocxLib.DocxToPdf(file.data)
-          instance.set("file", file)
-        } else if (extension != "pdf") {
-          throw `Unsupported file type ${extension}`
-        }
-        const textFile = {
-          name: replaceLast(name, `.${extension}`, ".txt"),
-          data: await PDFLib.PdfToText(file.data)
-        }
-        instance.set("textFile", textFile)
+        await instance.handleNewFile()
+      }
+    },
+    async beforeUpdate(instance: ContractAI, options) {
+      if (options.fields?.includes("file") && instance.files["file"]) {
+        await instance.handleNewFile()
       }
     },
     async afterSync(options) {

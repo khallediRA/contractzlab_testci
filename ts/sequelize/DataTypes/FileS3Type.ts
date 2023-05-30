@@ -23,7 +23,7 @@ export class FileS3Type implements KishiDataType {
     this.length = length
     return this;
   }
-  Init(Model: typeof KishiModel,attribute: KishiModelAttributeColumnOptions): void {
+  Init(Model: typeof KishiModel, attribute: KishiModelAttributeColumnOptions): void {
     const { attributeName, length } = this
     attribute.fromView = false
     attribute.get = function get() {
@@ -45,6 +45,7 @@ export class FileS3Type implements KishiDataType {
           file.name = file.name.slice(0, length)
       }
       if (this as KishiModel) {
+        (this as KishiModel).files = (this as KishiModel).files || {};
         (this as KishiModel).files[attributeName] = file
       }
     }

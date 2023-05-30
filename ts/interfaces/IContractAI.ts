@@ -6,9 +6,10 @@ export interface IContractAI {
 	id?: number;
 	status?: string;
 	name?: string;
-	content?: string;
 	file?: { key: string, url: string };
-	summarySheet?: [string, string][];
+	textFile?: { key: string, url: string };
+	openAIId?: string;
+	summarySheet?: [string, string, string, string][];
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;

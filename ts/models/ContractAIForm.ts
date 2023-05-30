@@ -37,11 +37,11 @@ export class ContractAIForm extends KishiModel {
     },
     form: {
       type: new KishiDataTypes.TEXT(),
-      ts_typeStr: "[string, string][]",
+      ts_typeStr: "[string, string, string][]",
       get() {
         return JSON.parse(this.getDataValue("form") || "[]")
       },
-      set(value: string | [string, string][]) {
+      set(value: [string, string, string][]) {
         value = value || []
         const data = Array.isArray(value) ? value : [value]
         this.setDataValue("form", JSON.stringify(data))

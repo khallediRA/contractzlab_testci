@@ -54,6 +54,7 @@ export class FileType implements KishiDataType {
           fileName = fileName.slice(0, length)
       }
       if (this as KishiModel) {
+        (this as KishiModel).files = (this as KishiModel).files || {};
         (this as KishiModel).files[attributeName] = file
       }
       FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${fileName}`)

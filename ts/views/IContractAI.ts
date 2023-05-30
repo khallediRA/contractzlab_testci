@@ -6,9 +6,10 @@ export type IContractAI = {
 	id?: number;
 	status?: string;
 	name?: string;
-	content?: string;
 	file?: { key: string, url: string };
-	summarySheet?: [string, string][];
+	textFile?: { key: string, url: string };
+	openAIId?: string;
+	summarySheet?: [string, string, string, string][];
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
@@ -20,4 +21,4 @@ export type IContractAI = {
 	client?: Omit<IClient, "ContractAI_as_client" | "ContractAI_as_clientId">;
 
 }
-export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "content", "file", "summarySheet", "clientId", "createdAt", "updatedAt", "formId", "display", "form", "responses", "responsesId", "client"]
+export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "file", "textFile", "openAIId", "summarySheet", "clientId", "createdAt", "updatedAt", "formId", "display", "form", "responses", "responsesId", "client"]
