@@ -45,6 +45,7 @@ export let config = {
   redis: {
     url: process.env.REDIS_URL || "",
   },
+  openAIApiKey: process.env.OPENAI_API_KEY,
   zoom: {
     sdkKey: process.env.ZOOM_SDK_KEY || "",
     sdkSecret: process.env.ZOOM_SDK_SECRET || "",

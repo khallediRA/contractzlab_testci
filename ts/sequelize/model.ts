@@ -23,7 +23,7 @@ import { KArray } from "../utils/array";
 import { AbstractFile } from "../utils/file";
 import { pathConcat, pathHead } from "../utils/string";
 import { KishiDataTypes } from "./DataTypes";
-import { AttributeBinder, initDataType, KishiAssociation, typesOfKishiAssociationOptions, KishiBelongsTo, KishiBelongsToMany, KishiBelongsToManyOptions, KishiBelongsToOptions, KishiDataType, KishiHasMany, KishiHasManyOptions, KishiHasOne, KishiHasOneOptions, KishiModelAttributeColumnOptions, KishiModelAttributes, KishiModelOptions, KOp, SplitAssociationPoint, CrudOptions, CrudOption, FinalAssociation, isPCIR, isPI } from "./types";
+import { initDataType, KishiAssociation, typesOfKishiAssociationOptions, KishiBelongsTo, KishiBelongsToMany, KishiBelongsToManyOptions, KishiBelongsToOptions, KishiDataType, KishiHasMany, KishiHasManyOptions, KishiHasOne, KishiHasOneOptions, KishiModelAttributeColumnOptions, KishiModelAttributes, KishiModelOptions, KOp, SplitAssociationPoint, CrudOptions, CrudOption, FinalAssociation, isPCIR, isPI } from "./types";
 
 export class KishiModel extends Model {
   static parentOptions?: {
@@ -43,10 +43,18 @@ export class KishiModel extends Model {
   static initialAttributes: KishiModelAttributes = {};
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {};
   static finalAssociations: { [key: string]: FinalAssociation } = {};
-  static binders?: AttributeBinder[]
 
   static initialOptions: KishiModelOptions = {};
-  files: Record<string, AbstractFile | AbstractFile[]> = {}
+  files: Record<string, AbstractFile | AbstractFile[]>
+  setFile(key: string, file: AbstractFile | AbstractFile[]) {
+    this.files = this.files || {}
+    this.files[key] = file
+  }
+  constructor(...args: any[]) {
+    super(...args)
+    this.files = (this as any).files || {}
+  }
+
   static AfterView?: (row: KishiModel, view: any) => any;
   static PreInit?: (sequelize: Sequelize, models: Record<string, typeof KishiModel>) => any;
   static AfterSync?: (sequelize: Sequelize) => Promise<void>;
@@ -399,7 +407,7 @@ export class KishiModel extends Model {
       }
       attribute = attribute as KishiModelAttributeColumnOptions
       initDataType(this, attributeName, attribute)
-      if (attribute.binder) {
+      if (attribute.binder?.hardBind) {
         attribute.fromView = false
       }
       this.initialAttributes[attributeName] = attribute;
@@ -929,14 +937,16 @@ export class KishiModel extends Model {
               if (targetId) {
                 target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
               }
-              await this.update({ [sourceField]: target?.getDataValue(targetField) || null }, { where: { [sourceKey]: targetId } })
+              if (target || attribute.binder?.hardBind)
+                await this.update({ [sourceField]: target?.getDataValue(targetField) || null }, { where: { [sourceKey]: targetId } })
             })
           }
           if (targetId) {
             const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
             value = target?.getDataValue(targetField) || null
           }
-          instance.setDataValue(sourceField, value)
+          if (value || attribute.binder?.hardBind)
+            instance.setDataValue(sourceField, value)
         }
 
         this.beforeCreate(async (instance, options) => {
@@ -974,9 +984,10 @@ export class KishiModel extends Model {
           }
         })
 
-        Target.afterBulkDestroy(async (options) => {
-          await this.update({ [sourceField]: null }, { where: { [sourceKey]: null }, transaction: options.transaction })
-        })
+        if (attribute.binder?.hardBind)
+          Target.afterBulkDestroy(async (options) => {
+            await this.update({ [sourceField]: null }, { where: { [sourceKey]: null }, transaction: options.transaction })
+          })
       }
     }
   }
@@ -1225,7 +1236,7 @@ export class KishiModel extends Model {
     if ((this as any)[associationName] != undefined) {
       return this
     }
-    const paths = [`${associationName}.*`]
+    const paths = ["id", `${associationName}.*`]
     let findOptions = this.Model.PathsToFindOptions(paths)
     if (where) {
       //TODO
