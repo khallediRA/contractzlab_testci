@@ -1,8 +1,8 @@
-import { PDFToTextLib } from "../services/pdfToText";
+import { PDFLib } from "../utils/pdf";
 
 
 async function test() {
-  const text = await PDFToTextLib.PdfToText("docs/lorem.pdf")
+  const text = await PDFLib.PdfToText("docs/lorem.pdf")
   console.log(text);
 }
 test()
