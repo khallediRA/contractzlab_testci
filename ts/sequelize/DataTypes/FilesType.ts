@@ -63,6 +63,8 @@ export class FilesType implements KishiDataType {
       if (this as KishiModel) {
         (this as KishiModel).setFile(attributeName, _files)
       }
+      for (const file of _files)
+        FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${file.name}`)
       this.setDataValue(attributeName, JSON.stringify(fileNames))
     }
   }
@@ -71,21 +73,7 @@ export class FilesType implements KishiDataType {
     Model.afterCreate(async (instance, options) => {
       if (instance.get(attributeName) && instance.files[attributeName]) {
         const files = instance.files[attributeName] as AbstractFile[]
-        //save file
-        for (const file of files)
-          FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${file.name}`)
         //always delete from files Record after save to avoid resetting
-        delete instance.files[attributeName]
-      }
-    })
-    Model.beforeUpdate(async (instance, options) => {
-
-      if (instance.files[attributeName]) {
-        //updated file with the same name
-        const files = instance.files[attributeName] as AbstractFile[]
-        for (const file of files) {
-          FileLib.mv(file, `${uploadPath}/${modelName}_${attributeName}/${file.name}`)
-        }
         delete instance.files[attributeName]
       }
     })
