@@ -84,7 +84,7 @@ ${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join
     const now = Date.now()
     fs.writeFileSync(`tmp/${now}-file.txt`, textData)
     fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
-    const completion = await OpenAIService.ChatCompletion(prompt, "gpt-4")
+    const completion = await OpenAIService.ChatCompletion(prompt, "gpt-4-32k")
     fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion))
     ContractAI.processAIResponse(this, completion)
   }

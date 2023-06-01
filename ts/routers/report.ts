@@ -9,12 +9,13 @@ import { MiddlewareRequest } from "../utils/middleware";
 import { ModelRouter } from "./Model";
 import { FindOptions } from "sequelize";
 import { ContractTemplate } from "../models/ContractTemplate";
-import { IContractTemplate, ISubClause, ITypeLevel1 } from "../interfaces";
+import { IContractAIForm, IContractTemplate, ISubClause, ITypeLevel1 } from "../interfaces";
 import fileUpload from "express-fileupload";
 import { randomUUID } from "crypto";
 import { CSVLib } from "../utils/csv";
 import { KishiModel } from "../sequelize";
 import { TypeLevel1 } from "../models/typeLevels";
+import { ContractAIForm } from "../models/ContractAIForm";
 
 router.use(bodyParser.urlencoded({ extended: false }));
 router.use(bodyParser.json());
@@ -23,6 +24,78 @@ export class ReportRouter {
 
   static Route(): Router {
     let router: Router = Router();
+    router.post("/importContractAIForm", async (req, res) => {
+      const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractAIForm)
+
+      try {
+        let _req = req as MiddlewareRequest
+        _req.middleData = {}
+        await verifyUser(_req, res)
+        await verifyCrud("create")(_req, res)
+        let file = req.files?.["file"] as fileUpload.UploadedFile
+        if (!req.files?.["file"])
+          throw "missing file"
+        file = Array.isArray(file) ? file[0] : file
+
+        let recordsPerContractAIForm
+        const extension = file.name.split(".").pop()
+        if (extension == "xlsx") {
+          recordsPerContractAIForm = CSVLib.XlsxToRecords(file)
+        } else if (extension == "csv") {
+          const records = await CSVLib.CsvToRecords(file, "utf8")
+          recordsPerContractAIForm = [records]
+        } else {
+          throw `Unspported file extension '${extension}'`
+        }
+
+        let rows: KishiModel[] = []
+        let datas: IContractAIForm[] = []
+        for (const records of recordsPerContractAIForm) {
+          let data: IContractAIForm = {
+            code: records[0]["code"],
+            name: records[0]["name"],
+            // language: records[0]["language"],
+            // prompt: records[0]["prompt"],
+          }
+          const level1Data: ITypeLevel1 = {
+            name: records[0]["type_level1"],
+            levels2: records[0]["type_level2"] && [{
+              name: records[0]["type_level2"],
+              levels3: records[0]["type_level3"] && [{
+                name: records[0]["type_level3"],
+              }] || []
+            }] || []
+          }
+
+          const [level1Upserted] = await TypeLevel1.Upsert(level1Data)
+          const options = TypeLevel1.SchemaToFindOptions("full")
+          const level1 = await TypeLevel1.findByPk(level1Upserted.id, options) as ITypeLevel1
+          const level2 = level1.levels2?.find(({ name }) => name == records[0]["type_level2"])
+          const level3 = level2?.levels3?.find(({ name }) => name == records[0]["type_level3"])
+          data.level1Id = level1?.id
+          data.level2Id = level2?.id || null as any
+          data.level3Id = level3?.id || null as any
+
+          let lastClause = ""
+          data.form = []
+          let rejected = []
+          for (const record of records) {
+            if (record["clause"]) {
+              lastClause = record["clause"]
+            }
+            if (record["clause"] || record["sub_clause"]) {
+              data.form.push([lastClause, record["sub_clause"] || "", record["question"] || ""])
+            } else {
+              rejected.push(record)
+            }
+          }
+          const [upserted, newRecord] = await ContractAIForm.Upsert(data)
+          rows.push(upserted)
+          datas.push(data)
+        }
+        res.send({ recordsPerContractAIForm, datas, rows: ContractAIForm.toView(rows) })
+      } catch (error) { console.error(error); res.status((error as any)?.status || 400).send(error) }
+    })
     router.post("/importContractTemplate", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractTemplate)
 

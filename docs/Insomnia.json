@@ -1,7 +1,7 @@
 {
     "_type": "export",
     "__export_format": 4,
-    "__export_date": "2023-05-30T14:06:09.525Z",
+    "__export_date": "2023-06-01T19:20:44.209Z",
     "__export_source": "insomnia.desktop.app:v2023.2.2",
     "resources": [
         {
@@ -1208,10 +1208,10 @@
         {
             "_id": "req_53136da8d8694fdfa6fded47e7de645e",
             "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1683050349129,
+            "modified": 1685646880536,
             "created": 1683050343085,
             "url": "{{ _.host }}/ContractAIForm/all",
-            "name": "all templates",
+            "name": "all forms",
             "description": "",
             "method": "GET",
             "body": {},
@@ -1258,10 +1258,10 @@
         {
             "_id": "req_feeb7599987b40d4a41d6b25972ed6aa",
             "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1683050352883,
+            "modified": 1685646894083,
             "created": 1683050343099,
             "url": "{{ _.host }}/ContractAIForm/",
-            "name": "a template",
+            "name": "a form",
             "description": "",
             "method": "GET",
             "body": {},
@@ -1276,7 +1276,7 @@
                 {
                     "id": "pair_615d230587f14f8d979756ce6e93c5b7",
                     "name": "id",
-                    "value": "5",
+                    "value": "9",
                     "description": ""
                 }
             ],
@@ -1443,6 +1443,73 @@
             ],
             "authentication": {},
             "metaSortKey": -1658057415767,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_ececaf7044c34ef19c0645b494280f77",
+            "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
+            "modified": 1685645931774,
+            "created": 1685645842998,
+            "url": "{{ _.host }}/report/importContractAIForm",
+            "name": "import form from csv or xlsx",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "multipart/form-data",
+                "params": [
+                    {
+                        "name": "file",
+                        "value": "",
+                        "id": "pair_9616102c4823496f8693bc497b7ce7f0",
+                        "type": "file",
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\docs\\ContractAIForm.xlsx"
+                    }
+                ]
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": ""
+                },
+                {
+                    "id": "pair_17fc5e9fc9344d2c95a1c39ac6669259",
+                    "name": "page",
+                    "value": "4:1",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_78b4f3b6176b451280a25011198d9d5a",
+                    "name": "group",
+                    "value": "email",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "name": "Content-Type",
+                    "value": "multipart/form-data",
+                    "id": "pair_64288574c1264cf791e87bff3d973a7f"
+                },
+                {
+                    "id": "pair_a32781ed245e48ddb7b18a406c6f9ad7",
+                    "name": "user-token",
+                    "value": "{{ _.admin_token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415717,
             "isPrivate": false,
             "settingStoreCookies": true,
             "settingSendCookies": true,
