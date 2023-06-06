@@ -30,6 +30,8 @@ const { uploadPath } = config;
 export let router = express.Router();
 export let app = express().use(router);
 export const dbSync = sequelize.sync()
+if (!fs.existsSync("tmp")) { fs.mkdirSync("tmp"); }
+if (!fs.existsSync(uploadPath)) { fs.mkdirSync(uploadPath); }
 
 dbSync.then(async sequelize => {
   try {
@@ -87,7 +89,7 @@ for (const name in models) {
   router.use(`/${name}`, modelRouter.Route())
 }
 router.use(`/utils`, UtilsRouter.Route())
-router.use("/osm",  OSMRouter.Route())
+router.use("/osm", OSMRouter.Route())
 router.use("/report", ReportRouter.Route())
 
 
