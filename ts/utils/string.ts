@@ -1,4 +1,9 @@
 import { config } from "../config"
+import unorm from "unorm"
+export function startsWithIncensitive(str: string, searchStr: string): boolean {
+	const normalizedSearch = unorm.nfd(searchStr.toLowerCase());
+	return unorm.nfd(str.toLowerCase()).startsWith(normalizedSearch)
+}
 export function replaceLast(string: string, target: string, replaceBy: string) {
 	const lastIndex = string.lastIndexOf(target);
 	if (lastIndex === -1) {

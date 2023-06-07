@@ -5,10 +5,11 @@ import { isOfType } from "../utils/user";
 import { IContractAI, IUser } from "../interfaces";
 import { AbstractFile } from "../utils/file";
 import { PDFLib } from "../utils/pdf";
-import { optimizeStr, replaceLast } from "../utils/string";
+import { optimizeStr, replaceLast, startsWithIncensitive } from "../utils/string";
 import DocxLib from "../utils/docx";
 import { OpenAIService, chatCompletion } from "../services/openAPI";
 import { ContractAIForm } from "./ContractAIForm";
+import { cloneDeep } from "lodash";
 
 export class ContractAI extends KishiModel {
 
@@ -45,16 +46,20 @@ ${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join
   static processAIResponse(row: IContractAI, completion: chatCompletion): any {
     const content = completion.choices[0].message.content as string
     const lines = content.split("\n").filter((str) => str?.indexOf(":") > 0).map(str => str.trim())
-    const answers = lines.map((line) => line.split(":").map(str => str.trim()).pop())
-    const summarySheet = answers.map((answer, idx) => {
-      const item = row.form?.form?.[idx]!
-      try {
-        return [...item, answer || ""]
-
-      } catch (error) {
-        return []
+    console.log({ lines });
+    let answers = cloneDeep(row.form?.form)?.map((question) => {
+      const [clause, subClause, text] = question
+      let answer: string
+      const str = `${subClause || clause}:`
+      answer = lines.find((line) => startsWithIncensitive(line, str))!
+      answer = answer?.slice(str.length) || ""
+      if (answer) {
+      } else {
+        console.warn("question not found :", question);
       }
+      return [...question, answer]
     })
+    const summarySheet = answers
     row.summarySheet = summarySheet as any
     row.openAIId = completion.id
     return summarySheet
