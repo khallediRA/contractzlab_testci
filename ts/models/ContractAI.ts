@@ -2,7 +2,7 @@ import fs from "fs"
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { IContractAI, IUser } from "../interfaces";
+import { IContractAI, IContractAIForm, IUser } from "../interfaces";
 import { AbstractFile } from "../utils/file";
 import { PDFLib } from "../utils/pdf";
 import { optimizeStr, replaceLast, startsWithIncensitive } from "../utils/string";
@@ -10,8 +10,19 @@ import DocxLib from "../utils/docx";
 import { OpenAIService, chatCompletion } from "../services/openAPI";
 import { ContractAIForm } from "./ContractAIForm";
 import { cloneDeep } from "lodash";
+import { CSVLib } from "../utils/csv";
 
 export class ContractAI extends KishiModel {
+  static getPromptSurvey(form: IContractAIForm) {
+    const records = form.form?.map(([clause, subClause, question], idx) => {
+      return {
+        id: String(idx + 1),
+        clause, subClause, question,
+        answer: ""
+      }
+    }) || []
+    return CSVLib.RecordsToCSVString(records)
+  }
 
   static crudOptions: CrudOptions = {
     "create": (user) => (isOfType(user, "Client")),
@@ -29,30 +40,31 @@ export class ContractAI extends KishiModel {
     return this.get("name") as string
   }
   static generateAIPrompt(row: IContractAI, fileContent: string): string {
-    const form = row.form?.form!
+    const optimizedContent = optimizeStr(fileContent)
+    const promptSurvey = this.getPromptSurvey(row.form!)
     let prompt = `Generate a Legal Document based on the draft pdf file and a desired output.
 Match the output format provided in clauses and subclaues
 Expand each clause and subclause into a comprehensive legal document format
 Language: Deduct from file.
 [pdf file]
-${optimizeStr(fileContent)}
+${optimizedContent}
 [/pdf file]
 [output]
-${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join("\n")}
+${promptSurvey}
 [/output]
     `
     return prompt
   }
-  static processAIResponse(row: IContractAI, completion: chatCompletion): any {
+  static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
-    const lines = content.split("\n").filter((str) => str?.indexOf(":") > 0).map(str => str.trim())
-    console.log({ lines });
-    let answers = cloneDeep(row.form?.form)?.map((question) => {
-      const [clause, subClause, text] = question
+    const [first, ...lines] = content.split("\n")
+    const records = CSVLib.ParseLines(lines).map(([id, clause, subClause, question, answer]) => {
+      return { id, clause, subClause, question, answer }
+    })
+    let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
       let answer: string
-      const str = `${subClause || clause}:`
-      answer = lines.find((line) => startsWithIncensitive(line, str))!
-      answer = answer?.slice(str.length) || ""
+      const record = records.find((record) => record.id == String(idx + 1))!
+      answer = record?.answer
       if (answer) {
       } else {
         console.warn("question not found :", question);
@@ -62,7 +74,6 @@ ${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join
     const summarySheet = answers
     row.summarySheet = summarySheet as any
     row.openAIId = completion.id
-    return summarySheet
   }
   async handleNewFile() {
     (this as any)["form"] = await ContractAIForm.findByPk(this.get("formId") as any)
@@ -91,7 +102,7 @@ ${form.map(([clause, subClause, text]) => `${clause}/${subClause}:${text}`).join
     fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
     const completion = await OpenAIService.ChatCompletion(prompt, "gpt-4")
     fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion))
-    ContractAI.processAIResponse(this, completion)
+    await ContractAI.processAIResponse(this, completion)
   }
 
   static initialAttributes: KishiModelAttributes = {
