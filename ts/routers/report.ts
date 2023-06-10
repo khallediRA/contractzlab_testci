@@ -26,7 +26,6 @@ export class ReportRouter {
     let router: Router = Router();
     router.post("/importContractAIForm", async (req, res) => {
       const { verifyUser, verifyCrud, parseFindOptions } = new ModelRouter(ContractAIForm)
-
       try {
         let _req = req as MiddlewareRequest
         _req.middleData = {}
@@ -55,7 +54,8 @@ export class ReportRouter {
             code: records[0]["code"],
             name: records[0]["name"],
             // language: records[0]["language"],
-            // prompt: records[0]["prompt"],
+            systemPrompt: records[0]["system_prompt"],
+            userPrompt: records[0]["user_prompt"],
           }
           const level1Data: ITypeLevel1 = {
             name: records[0]["type_level1"],

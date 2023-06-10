@@ -8,6 +8,8 @@ export type IContractAIForm = {
 	language?: 'en' | 'fr';
 	code?: string;
 	name?: string;
+	systemPrompt?: string;
+	userPrompt?: string;
 	form?: [string, string, string][];
 	level1Id?: number;
 	level2Id?: number;
@@ -22,4 +24,4 @@ export type IContractAIForm = {
 	ContractAI_as_formId?: (number)[];
 
 }
-export const keysofIContractAIForm: (keyof IContractAIForm)[] = ["id", "language", "code", "name", "form", "level1Id", "level2Id", "createdAt", "updatedAt", "level3Id", "display", "level3", "level2", "level1", "ContractAI_as_form", "ContractAI_as_formId"]
+export const keysofIContractAIForm: (keyof IContractAIForm)[] = ["id", "language", "code", "name", "systemPrompt", "userPrompt", "form", "level1Id", "level2Id", "createdAt", "updatedAt", "level3Id", "display", "level3", "level2", "level1", "ContractAI_as_form", "ContractAI_as_formId"]

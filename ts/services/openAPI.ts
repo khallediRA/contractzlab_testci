@@ -28,14 +28,14 @@ const chatCompletionExampleResponse = {
     }
   ]
 }
-export type chatCompletion=typeof chatCompletionExampleResponse
+export type chatCompletion = typeof chatCompletionExampleResponse
 export class OpenAIService {
-  static async ChatCompletion(prompt: string, model: string): Promise<chatCompletion> {
+  static async ChatCompletion(messages: { role: "user" | "system", content: string }[], model: string): Promise<chatCompletion> {
     try {
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
       const response = await axios.post(apiUrl, {
         model,
-        messages: [{ role: 'system', content: prompt }],
+        messages,
         temperature: 0
       }, {
         headers: {

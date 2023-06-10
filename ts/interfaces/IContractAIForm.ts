@@ -8,6 +8,8 @@ export interface IContractAIForm {
 	language?: 'en' | 'fr';
 	code?: string;
 	name?: string;
+	systemPrompt?: string;
+	userPrompt?: string;
 	form?: [string, string, string][];
 	level1Id?: number;
 	level2Id?: number;

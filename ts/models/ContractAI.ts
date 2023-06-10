@@ -39,21 +39,15 @@ export class ContractAI extends KishiModel {
   get display() {
     return this.get("name") as string
   }
-  static generateAIPrompt(row: IContractAI, fileContent: string): string {
+  static generateAIPrompts(row: IContractAI, fileContent: string): [string, string] {
     const optimizedContent = optimizeStr(fileContent)
     const promptSurvey = this.getPromptSurvey(row.form!)
-    let prompt = `Generate a Legal Document based on the draft pdf file and a desired output.
-Match the output format provided in clauses and subclaues
-Expand each clause and subclause into a comprehensive legal document format
-Language: Deduct from file.
-[pdf file]
-${optimizedContent}
-[/pdf file]
-[output]
-${promptSurvey}
-[/output]
-    `
-    return prompt
+    let systemPrompt = row.form?.systemPrompt?.replace("${pdfFile}", optimizedContent)
+      ?.replace("${form}", promptSurvey)!
+    let userPrompt = row.form?.userPrompt?.replace("${pdfFile}", optimizedContent)
+      ?.replace("${form}", promptSurvey)!
+    systemPrompt += "\nOUTPUT MUST BE IN CSV FORMAT"
+    return [systemPrompt, userPrompt]
   }
   static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
@@ -96,12 +90,17 @@ ${promptSurvey}
       data: textData
     }
     this.set("textFile", textFile)
-    const prompt = await ContractAI.generateAIPrompt(this, textData)
+    const [systemPrompt, userPrompt] = await ContractAI.generateAIPrompts(this, textData)
     const now = Date.now()
     fs.writeFileSync(`tmp/${now}-file.txt`, textData)
-    fs.writeFileSync(`tmp/${now}-prompt.txt`, prompt)
-    const completion = await OpenAIService.ChatCompletion(prompt, "gpt-4")
-    fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion))
+    fs.writeFileSync(`tmp/${now}-prompt.txt`, `System:\n${systemPrompt}\nUser:\n${userPrompt}`)
+    let messages: any = []
+    if (systemPrompt)
+      messages.push({ role: "system", content: systemPrompt })
+    if (userPrompt)
+      messages.push({ role: "user", content: userPrompt })
+    const completion = await OpenAIService.ChatCompletion(messages, "gpt-4")
+    fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion, null, "\t"))
     await ContractAI.processAIResponse(this, completion)
   }
 

@@ -35,6 +35,12 @@ export class ContractAIForm extends KishiModel {
     name: {
       type: KishiDataTypes.STRING,
     },
+    systemPrompt: {
+      type: KishiDataTypes.STRING,
+    },
+    userPrompt: {
+      type: KishiDataTypes.STRING,
+    },
     form: {
       type: new KishiDataTypes.TEXT(),
       ts_typeStr: "[string, string, string][]",
