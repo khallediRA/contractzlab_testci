@@ -1,5 +1,24 @@
 import { config } from "../config"
 import unorm from "unorm"
+export function splitByMax(target: string, maxSize: number, separator: string): string[] {
+	const result = [];
+	let currentString = '';
+
+	const parts = target.split(separator);
+	for (let i = 0; i < parts.length; i++) {
+		const part = parts[i];
+		if (currentString.length + part.length <= maxSize) {
+			currentString += (currentString.length > 0 ? separator : '') + part;
+		} else {
+			result.push(currentString);
+			currentString = part;
+		}
+	}
+	if (currentString.length > 0) {
+		result.push(currentString);
+	}
+	return result
+}
 export function startsWithIncensitive(str: string, searchStr: string): boolean {
 	const normalizedSearch = unorm.nfd(searchStr.toLowerCase());
 	return unorm.nfd(str.toLowerCase()).startsWith(normalizedSearch)

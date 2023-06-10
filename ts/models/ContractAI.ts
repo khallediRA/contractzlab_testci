@@ -5,13 +5,14 @@ import { isOfType } from "../utils/user";
 import { IContractAI, IContractAIForm, IUser } from "../interfaces";
 import { AbstractFile } from "../utils/file";
 import { PDFLib } from "../utils/pdf";
-import { optimizeStr, replaceLast, startsWithIncensitive } from "../utils/string";
+import { optimizeStr, replaceLast, splitByMax, startsWithIncensitive } from "../utils/string";
 import DocxLib from "../utils/docx";
 import { OpenAIService, chatCompletion } from "../services/openAPI";
 import { ContractAIForm } from "./ContractAIForm";
 import { cloneDeep } from "lodash";
 import { CSVLib } from "../utils/csv";
 
+const userPromptMaxLength = 8192
 export class ContractAI extends KishiModel {
   static getPromptSurvey(form: IContractAIForm) {
     const records = form.form?.map(([clause, subClause, question], idx) => {
@@ -42,12 +43,48 @@ export class ContractAI extends KishiModel {
   static generateAIPrompts(row: IContractAI, fileContent: string): [string, string] {
     const optimizedContent = optimizeStr(fileContent)
     const promptSurvey = this.getPromptSurvey(row.form!)
-    let systemPrompt = row.form?.systemPrompt?.replace("${pdfFile}", optimizedContent)
+    let systemPrompt = row.form?.systemPrompt
       ?.replace("${form}", promptSurvey)!
+    systemPrompt += "\nOUTPUT MUST BE IN CSV FORMAT\nLEAVE ANSWER EMPTY IF MISSING"
     let userPrompt = row.form?.userPrompt?.replace("${pdfFile}", optimizedContent)
       ?.replace("${form}", promptSurvey)!
-    systemPrompt += "\nOUTPUT MUST BE IN CSV FORMAT"
     return [systemPrompt, userPrompt]
+  }
+  static async processAIResponses(row: IContractAI, completions: chatCompletion[]): Promise<void> {
+    let recordsMap: Record<string, {
+      id: string;
+      clause: string;
+      subClause: string;
+      question: string;
+      answer: string;
+      options: string[];
+    }> = {}
+    for (const completion of completions) {
+      const content = completion.choices[0].message.content as string
+      const [first, ...lines] = content.split("\n")
+      CSVLib.ParseLines(lines).map(([id, clause, subClause, question, answer]) => {
+        const record = { id, clause, subClause, question, answer, options: [answer] }
+        if (!recordsMap[id]?.answer)
+          recordsMap[id] = record
+        else if (record.answer) {
+          recordsMap[id].options.push(record.answer)
+        }
+      })
+    }
+    const records = Object.values(recordsMap)
+    let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
+      let answer: string
+      const record = records.find((record) => record.id == String(idx + 1))!
+      answer = record?.answer
+      if (answer) {
+      } else {
+        console.warn("question not found :", question);
+      }
+      return [...question, answer, record.options.filter(o => o)]
+    })
+    const summarySheet = answers
+    row.summarySheet = summarySheet as any
+    row.openAIId = completions[0].id
   }
   static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
@@ -93,15 +130,32 @@ export class ContractAI extends KishiModel {
     const [systemPrompt, userPrompt] = await ContractAI.generateAIPrompts(this, textData)
     const now = Date.now()
     fs.writeFileSync(`tmp/${now}-file.txt`, textData)
-    fs.writeFileSync(`tmp/${now}-prompt.txt`, `System:\n${systemPrompt}\nUser:\n${userPrompt}`)
-    let messages: any = []
-    if (systemPrompt)
-      messages.push({ role: "system", content: systemPrompt })
-    if (userPrompt)
-      messages.push({ role: "user", content: userPrompt })
-    const completion = await OpenAIService.ChatCompletion(messages, "gpt-4")
-    fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion, null, "\t"))
-    await ContractAI.processAIResponse(this, completion)
+    if (userPrompt.length > userPromptMaxLength) {
+      let multiMessages = []
+      const userPromptParts = splitByMax(userPrompt, userPromptMaxLength, "\n")
+      multiMessages = userPromptParts.map((userPromptPart, idx) => {
+        const systemPrompt_=systemPrompt+`\nPART ${idx + 1}/${userPromptParts.length}:`
+        fs.writeFileSync(`tmp/${now}-prompt-${idx}.txt`, `System:\n${systemPrompt_}\nUser:\n${userPromptPart}`)
+        return [{ role: "system", content: systemPrompt_ }, { role: "user", content: userPromptPart }]
+      })
+      const completions = await OpenAIService.MultiChatCompletion(multiMessages as any, "gpt-4")
+      await completions.map(async (completion, idx) => {
+        fs.writeFileSync(`tmp/${now}-ai-${idx}.json`, JSON.stringify(completion, null, "\t"))
+        fs.writeFileSync(`tmp/${now}-ai-${idx}.text`, completion.choices[0].message.content as string)
+      })
+      await ContractAI.processAIResponses(this, completions)
+    } else {
+      let messages: any = []
+      if (systemPrompt)
+        messages.push({ role: "system", content: systemPrompt })
+      if (userPrompt)
+        messages.push({ role: "user", content: userPrompt })
+      fs.writeFileSync(`tmp/${now}-prompt.txt`, `System:\n${systemPrompt}\nUser:\n${userPrompt}`)
+      const completion = await OpenAIService.ChatCompletion(messages, "gpt-4")
+      fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion, null, "\t"))
+      fs.writeFileSync(`tmp/${now}-ai.text`, completion.choices[0].message.content as string)
+      await ContractAI.processAIResponse(this, completion)
+    }
   }
 
   static initialAttributes: KishiModelAttributes = {

@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { config } from '../config'
 import { Configuration, OpenAIApi } from "openai";
+import { randomUUID } from "crypto";
 
 const { openAIApiKey } = config
 const configuration = new Configuration({
@@ -30,6 +31,39 @@ const chatCompletionExampleResponse = {
 }
 export type chatCompletion = typeof chatCompletionExampleResponse
 export class OpenAIService {
+  static async MultiChatCompletion(multiMessages: { role: "user" | "system", content: string }[][], model: string): Promise<chatCompletion[]> {
+    try {
+
+      const apiUrl = 'https://api.openai.com/v1/chat/completions';
+      let user = randomUUID()
+      let completions: chatCompletion[] = []
+      for (const messages of multiMessages) {
+        const response = await axios.post(apiUrl, {
+          user,
+          model,
+          messages,
+          temperature: 0
+        }, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${openAIApiKey}`
+          }
+        })
+        const completion = response.data as chatCompletion
+        completions.push(completion)
+      }
+      return completions
+
+    } catch (error: any) {
+      if (error.response?.data) {
+        console.error(error.response.status, error.response.data);
+        throw error.response.data
+      } else {
+        console.error(`Error with OpenAI API request: ${error.message}`);
+        throw error.message
+      }
+    }
+  }
   static async ChatCompletion(messages: { role: "user" | "system", content: string }[], model: string): Promise<chatCompletion> {
     try {
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
