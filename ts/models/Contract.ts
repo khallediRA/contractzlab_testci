@@ -1,7 +1,9 @@
 import { ModelHooks } from "sequelize/types/hooks";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, KOp, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
-import { IUser } from "../interfaces";
+import { IUser, IContract, IDocument } from "../interfaces";
+import { Document } from "./Document";
+import { Op } from "sequelize";
 
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -44,6 +46,14 @@ export class Contract extends KishiModel {
     },
     annexes: {
       type: new KishiDataTypes.NAMEDFILES(),
+      fromView: false,
+    },
+    fileNames: {
+      type: KishiDataTypes.VIRTUAL,
+      fromView: false,
+      get() {
+        return this.dataValues["fileNames"] || {}
+      },
     },
     clientId: {
       type: KishiDataTypes.UUID,
@@ -73,6 +83,28 @@ export class Contract extends KishiModel {
     async beforeCreate(attributes, options) {
       const user = (options as any).user as IUser
       attributes.set("clientId", user?.id)
+    },
+    async afterFind(instancesOrInstance, options) {
+      const paths = Contract.FindOptionsToPaths(options)
+      if (!Array.isArray(instancesOrInstance) && paths.includes("template.clauses.subClauses.params")) {
+        let fileFields: string[] = []
+        let fileIds: number[] = []
+        let instance = instancesOrInstance as KishiModel & IContract
+        instance.template?.clauses?.forEach((clause) => {
+          fileFields.push(...(clause.params?.filter(param => param.type == "file")?.map(param => param.name) || []))
+          clause.subClauses?.forEach(subClause => {
+            fileFields.push(...(subClause.params?.filter(param => param.type == "file")?.map(param => param.name) || []))
+          });
+        })
+        const paramValues = instance.paramValues! as any
+        fileIds = fileFields.map(field => paramValues[field]).filter(id => id)
+        const files = await Document.findAll({ where: { id: { [Op.in]: fileIds } } }) as IDocument[]
+        const fileNames = {} as any
+        for (const file of files) {
+          fileNames[file.id!] = file.name as string
+        }
+        instance.dataValues["fileNames"] = fileNames
+      }
     },
     async afterSync(options) {
     },

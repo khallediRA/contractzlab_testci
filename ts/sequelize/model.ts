@@ -1076,7 +1076,11 @@ export class KishiModel extends Model {
       const { as } = _include
       const association = this.finalAssociations[as || ""]
       const model = (_include.model || (_include.association as Association<KishiModel, KishiModel>).target) as typeof KishiModel
+      if (!model)
+        continue
       const includePaths = model.FindOptionsToPaths(_include)
+      if (!association)
+        continue
       if (!includePaths.includes("id"))
         includePaths.push("id")
       if (association.type == "belongsToMany") {
