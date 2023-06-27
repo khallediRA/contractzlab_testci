@@ -12,7 +12,7 @@ import { ContractAIForm } from "./ContractAIForm";
 import { cloneDeep } from "lodash";
 import { CSVLib } from "../utils/csv";
 
-const userPromptMaxLength = 8192
+const userPromptMaxLength = 8192 * 2
 export class ContractAI extends KishiModel {
   static getPromptSurvey(form: IContractAIForm) {
     const records = form.form?.map(([clause, subClause, question], idx) => {
@@ -107,10 +107,18 @@ export class ContractAI extends KishiModel {
     row.openAIId = completion.id
   }
   async handleNewFile() {
-    (this as any)["form"] = await ContractAIForm.findByPk(this.get("formId") as any)
+    let instance = this as ContractAI & IContractAI
+    const formPaths = ["*", "level1.name", "level2.name", "level3.name"];
+    const form = await ContractAIForm.findByPk(instance.formId, ContractAIForm.PathsToFindOptions(formPaths)) as IContractAIForm
+    (this as any)["form"] = form
     if (!(this as any)["form"]) {
       throw `formId ${(this as any).formId} not found`
     }
+    const level1Name = form.level1?.name
+    const level2Name = form.level2?.name
+    const level3Name = form.level3?.name
+    const levels = [level1Name, level2Name, level3Name].filter(name => name).join("-")
+    const sessionId = `${instance.clientId}-${levels}-${instance.name}`
     let file = this.files["file"] as AbstractFile
     const name = file.name
     const extension = file.name.split(".").pop()
@@ -134,7 +142,7 @@ export class ContractAI extends KishiModel {
       let multiMessages = []
       const userPromptParts = splitByMax(userPrompt, userPromptMaxLength, "\n")
       multiMessages = userPromptParts.map((userPromptPart, idx) => {
-        const systemPrompt_=systemPrompt+`\nPART ${idx + 1}/${userPromptParts.length}:`
+        const systemPrompt_ = systemPrompt + `\nPART ${idx + 1}/${userPromptParts.length}:`
         fs.writeFileSync(`tmp/${now}-prompt-${idx}.txt`, `System:\n${systemPrompt_}\nUser:\n${userPromptPart}`)
         return [{ role: "system", content: systemPrompt_ }, { role: "user", content: userPromptPart }]
       })
@@ -151,7 +159,7 @@ export class ContractAI extends KishiModel {
       if (userPrompt)
         messages.push({ role: "user", content: userPrompt })
       fs.writeFileSync(`tmp/${now}-prompt.txt`, `System:\n${systemPrompt}\nUser:\n${userPrompt}`)
-      const completion = await OpenAIService.ChatCompletion(messages, "gpt-4")
+      const completion = await OpenAIService.ChatCompletion(messages, "gpt-4", sessionId)
       fs.writeFileSync(`tmp/${now}-ai.json`, JSON.stringify(completion, null, "\t"))
       fs.writeFileSync(`tmp/${now}-ai.text`, completion.choices[0].message.content as string)
       await ContractAI.processAIResponse(this, completion)
@@ -228,6 +236,11 @@ export class ContractAI extends KishiModel {
     async beforeCreate(instance: ContractAI, options) {
       const user = (options as any).user as IUser
       instance.set("clientId", user?.id)
+      const { clientId, name } = (instance as any)
+      const existing = await ContractAI.findOne({ where: { clientId, name } })
+      if (existing) {
+        throw "ContractAI already exist"
+      }
       if (instance.files["file"]) {
         await instance.handleNewFile()
       }
@@ -242,6 +255,7 @@ export class ContractAI extends KishiModel {
   }
   static initialOptions: KishiModelOptions = {
     indexes: [
+      { fields: ["name", "clientId"], unique: true, name: "ContractAI_name" }
     ],
   }
 }

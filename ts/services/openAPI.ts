@@ -30,12 +30,14 @@ const chatCompletionExampleResponse = {
   ]
 }
 export type chatCompletion = typeof chatCompletionExampleResponse
+export type message={ role: "user" | "system", content: string }
 export class OpenAIService {
-  static async MultiChatCompletion(multiMessages: { role: "user" | "system", content: string }[][], model: string): Promise<chatCompletion[]> {
+  static async MultiChatCompletion(multiMessages: message[][], model: string, user?: string): Promise<chatCompletion[]> {
     try {
 
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
-      let user = randomUUID()
+      if (!user)
+        user = randomUUID()
       let completions: chatCompletion[] = []
       for (const messages of multiMessages) {
         const response = await axios.post(apiUrl, {
@@ -64,10 +66,11 @@ export class OpenAIService {
       }
     }
   }
-  static async ChatCompletion(messages: { role: "user" | "system", content: string }[], model: string): Promise<chatCompletion> {
+  static async ChatCompletion(messages: message[], model: string, user?: string): Promise<chatCompletion> {
     try {
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
       const response = await axios.post(apiUrl, {
+        user,
         model,
         messages,
         temperature: 0
