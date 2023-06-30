@@ -50,7 +50,7 @@ export class ContractAI extends KishiModel {
       ?.replace("${form}", promptSurvey)!
     return [systemPrompt, userPrompt]
   }
-  static async processAIResponses(row: IContractAI, completions: chatCompletion[]): Promise<void> {
+  static async processAIMultiCallResponse(row: IContractAI, completions: chatCompletion[]): Promise<void> {
     let recordsMap: Record<string, {
       id: string;
       clause: string;
@@ -75,16 +75,16 @@ export class ContractAI extends KishiModel {
     let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
       let answer: string
       const record = records.find((record) => record.id == String(idx + 1))!
-      answer = record?.answer
+      let options = [...new Set(record.options.filter(o => o))].sort((a, b) => a.length - b.length)
+      answer = record.options[0]
       if (answer) {
       } else {
         console.warn("question not found :", question);
       }
-      return [...question, answer, record.options.filter(o => o)]
+      return [...question, answer, options]
     })
     const summarySheet = answers
     row.summarySheet = summarySheet as any
-    row.openAIId = completions[0].id
   }
   static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
@@ -104,7 +104,6 @@ export class ContractAI extends KishiModel {
     })
     const summarySheet = answers
     row.summarySheet = summarySheet as any
-    row.openAIId = completion.id
   }
   async handleNewFile() {
     let instance = this as ContractAI & IContractAI
@@ -135,25 +134,26 @@ export class ContractAI extends KishiModel {
       data: textData
     }
     this.set("textFile", textFile)
+    this.set("openAIId", sessionId)
     const [systemPrompt, userPrompt] = await ContractAI.generateAIPrompts(this, textData)
     const now = Date.now()
     fs.writeFileSync(`tmp/${now}-file.txt`, textData)
     if (userPrompt.length > userPromptMaxLength) {
-      let multiMessages = []
+      let multiMessages: any[][] = []
       const userPromptParts = splitByMax(userPrompt, userPromptMaxLength, "\n")
       multiMessages = userPromptParts.map((userPromptPart, idx) => {
         const systemPrompt_ = systemPrompt + `\nPART ${idx + 1}/${userPromptParts.length}:`
         fs.writeFileSync(`tmp/${now}-prompt-${idx}.txt`, `System:\n${systemPrompt_}\nUser:\n${userPromptPart}`)
         return [{ role: "system", content: systemPrompt_ }, { role: "user", content: userPromptPart }]
       })
-      const completions = await OpenAIService.MultiChatCompletion(multiMessages as any, "gpt-4")
+      const completions = await OpenAIService.MultiChatCompletion(multiMessages, "gpt-4", sessionId)
       await completions.map(async (completion, idx) => {
         fs.writeFileSync(`tmp/${now}-ai-${idx}.json`, JSON.stringify(completion, null, "\t"))
         fs.writeFileSync(`tmp/${now}-ai-${idx}.text`, completion.choices[0].message.content as string)
       })
-      await ContractAI.processAIResponses(this, completions)
+      await ContractAI.processAIMultiCallResponse(this, completions)
     } else {
-      let messages: any = []
+      let messages: any[] = []
       if (systemPrompt)
         messages.push({ role: "system", content: systemPrompt })
       if (userPrompt)
@@ -246,6 +246,13 @@ export class ContractAI extends KishiModel {
       }
     },
     async beforeUpdate(instance: ContractAI, options) {
+      if (options.fields?.includes("name")) {
+        const { clientId, name } = (instance as any)
+        const existing = await ContractAI.findOne({ where: { clientId, name } })
+        if (existing) {
+          throw "ContractAI already exist"
+        }
+      }
       if (options.fields?.includes("file") && instance.files["file"]) {
         await instance.handleNewFile()
       }
@@ -255,7 +262,9 @@ export class ContractAI extends KishiModel {
   }
   static initialOptions: KishiModelOptions = {
     indexes: [
-      { fields: ["name", "clientId"], unique: true, name: "ContractAI_name" }
+      //commented due to migration errors if duplicates already exist
+      //uncomment for new database
+      // { fields: ["name", "clientId"], unique: true, name: "ContractAI_name" }
     ],
   }
 }
