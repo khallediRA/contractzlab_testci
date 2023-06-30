@@ -1,3 +1,4 @@
+export * from "./IOpenAIResponseLog";
 export * from "./IExternalToken";
 export * from "./IUser";
 export * from "./IAdmin";

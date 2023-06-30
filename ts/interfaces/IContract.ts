@@ -8,6 +8,7 @@ export interface IContract {
 	excludedClauses?: number[];
 	excludedSubClauses?: number[];
 	annexes?: { key: string, fileName:string, url: string }[];
+	fileNames?: any;
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;

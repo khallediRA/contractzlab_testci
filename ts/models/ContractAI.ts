@@ -5,7 +5,7 @@ import { isOfType } from "../utils/user";
 import { IContractAI, IContractAIForm, IUser } from "../interfaces";
 import { AbstractFile } from "../utils/file";
 import { PDFLib } from "../utils/pdf";
-import { optimizeStr, replaceLast, splitByMax, startsWithIncensitive } from "../utils/string";
+import { optimizeStr, replaceLast, splitByMax } from "../utils/string";
 import DocxLib from "../utils/docx";
 import { OpenAIService, chatCompletion } from "../services/openAPI";
 import { ContractAIForm } from "./ContractAIForm";
@@ -53,30 +53,30 @@ export class ContractAI extends KishiModel {
   static async processAIMultiCallResponse(row: IContractAI, completions: chatCompletion[]): Promise<void> {
     let recordsMap: Record<string, {
       id: string;
-      clause: string;
-      subClause: string;
-      question: string;
       answer: string;
       options: string[];
     }> = {}
     for (const completion of completions) {
       const content = completion.choices[0].message.content as string
-      const [first, ...lines] = content.split("\n")
-      CSVLib.ParseLines(lines).map(([id, clause, subClause, question, answer]) => {
-        const record = { id, clause, subClause, question, answer, options: [answer] }
-        if (!recordsMap[id]?.answer)
-          recordsMap[id] = record
-        else if (record.answer) {
-          recordsMap[id].options.push(record.answer)
-        }
-      })
+      const lines = content.split("\n")
+      for (const line of lines) {
+        try {
+          const [id, answer] = CSVLib.ParseLine(line)
+          const record = { id, answer, options: [answer] }
+          if (!recordsMap[id])
+            recordsMap[id] = record
+          else if (record.answer) {
+            recordsMap[id].options.push(record.answer)
+          }
+        } catch (error) { }
+      }
     }
     const records = Object.values(recordsMap)
     let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
       let answer: string
       const record = records.find((record) => record.id == String(idx + 1))!
       let options = [...new Set(record.options.filter(o => o))].sort((a, b) => a.length - b.length)
-      answer = record.options[0]
+      answer = record.options[0] || ""
       if (answer) {
       } else {
         console.warn("question not found :", question);

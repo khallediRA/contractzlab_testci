@@ -8,6 +8,7 @@ export type IContract = {
 	excludedClauses?: number[];
 	excludedSubClauses?: number[];
 	annexes?: { key: string, fileName:string, url: string }[];
+	fileNames?: any;
 	clientId?: string;
 	createdAt?: Date;
 	updatedAt?: Date;
@@ -17,4 +18,4 @@ export type IContract = {
 	client?: Omit<IClient, "contracts" | "contractsId">;
 
 }
-export const keysofIContract: (keyof IContract)[] = ["id", "status", "name", "paramValues", "excludedClauses", "excludedSubClauses", "annexes", "clientId", "createdAt", "updatedAt", "templateId", "display", "template", "client"]
+export const keysofIContract: (keyof IContract)[] = ["id", "status", "name", "paramValues", "excludedClauses", "excludedSubClauses", "annexes", "fileNames", "clientId", "createdAt", "updatedAt", "templateId", "display", "template", "client"]

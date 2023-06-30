@@ -47,6 +47,8 @@ import { ContractAIResponse } from "./ContractAIResponse";
 import { Beneficial } from "./Beneficial";
 import { Document } from "./Document";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
+import { OpenAIResponseLog } from "./OpenAIResponseLog";
+export { OpenAIResponseLog } from "./OpenAIResponseLog";
 
 export { User } from "./User";
 export { ExternalToken } from "./ExternalToken";
@@ -56,6 +58,7 @@ export { Event, Event_User } from "./Event";
 export const models: {
   [name: string]: typeof KishiModel;
 } = {
+  OpenAIResponseLog,
   ExternalToken,
   User,
   Admin,
@@ -69,7 +72,7 @@ export const models: {
   Beneficial,
   Document,
   ContractTemplate, ContractTemplate_Clause,
-  ContractAI, ContractAIForm,ContractAIResponse,
+  ContractAI, ContractAIForm, ContractAIResponse,
   Event, Event_User,
 };
 for (const name in models) {

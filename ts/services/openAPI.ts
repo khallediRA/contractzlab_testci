@@ -2,6 +2,8 @@ import axios, { AxiosResponse } from "axios";
 import { config } from '../config'
 import { Configuration, OpenAIApi } from "openai";
 import { randomUUID } from "crypto";
+import { OpenAIResponseLog } from "../models";
+import { IOpenAIResponseLog } from "../interfaces";
 
 const { openAIApiKey } = config
 const configuration = new Configuration({
@@ -30,11 +32,27 @@ const chatCompletionExampleResponse = {
   ]
 }
 export type chatCompletion = typeof chatCompletionExampleResponse
-export type message={ role: "user" | "system", content: string }
+export type message = { role: "user" | "system", content: string }
 export class OpenAIService {
+  static async SaveLogToDataBase(completion: chatCompletion, user?: string): Promise<OpenAIResponseLog> {
+    const data: IOpenAIResponseLog = {
+      id: completion.id,
+      user: user,
+      object: completion.object,
+      created: new Date(completion.created),
+      model: completion.model,
+      prompt_tokens: completion.usage.prompt_tokens,
+      completion_tokens: completion.usage.completion_tokens,
+      total_tokens: completion.usage.total_tokens,
+      role: completion.choices[0].message.role,
+      content: completion.choices[0].message.content,
+      finish_reason: completion.choices[0].finish_reason,
+      index: completion.choices[0].index,
+    }
+    return await OpenAIResponseLog.create(data as any)
+  }
   static async MultiChatCompletion(multiMessages: message[][], model: string, user?: string): Promise<chatCompletion[]> {
     try {
-
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
       if (!user)
         user = randomUUID()
@@ -52,6 +70,7 @@ export class OpenAIService {
           }
         })
         const completion = response.data as chatCompletion
+        await this.SaveLogToDataBase(completion, user)
         completions.push(completion)
       }
       return completions
@@ -68,6 +87,8 @@ export class OpenAIService {
   }
   static async ChatCompletion(messages: message[], model: string, user?: string): Promise<chatCompletion> {
     try {
+      if (!user)
+        user = randomUUID()
       const apiUrl = 'https://api.openai.com/v1/chat/completions';
       const response = await axios.post(apiUrl, {
         user,
@@ -80,8 +101,9 @@ export class OpenAIService {
           'Authorization': `Bearer ${openAIApiKey}`
         }
       })
-      console.log(response.data.choices[0].message.content);
-      return response.data
+      const completion = response.data as chatCompletion
+      await this.SaveLogToDataBase(completion, user)
+      return completion
 
     } catch (error: any) {
       if (error.response?.data) {
