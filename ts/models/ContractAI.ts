@@ -16,10 +16,13 @@ const userPromptMaxLength = 8192 * 2
 export class ContractAI extends KishiModel {
   static getPromptSurvey(form: IContractAIForm) {
     const records = form.form?.map(([clause, subClause, question], idx) => {
+      if (question)
+        return {
+          id: String(idx + 1), question, answer: ""
+        }
+      const _question = [clause, subClause].filter(i => i).join(" - ") + "?"
       return {
-        id: String(idx + 1),
-        clause, subClause, question,
-        answer: ""
+        id: String(idx + 1), question: _question, answer: ""
       }
     }) || []
     return CSVLib.RecordsToCSVString(records)
@@ -61,7 +64,7 @@ export class ContractAI extends KishiModel {
       const lines = content.split("\n")
       for (const line of lines) {
         try {
-          const [id, answer] = CSVLib.ParseLine(line)
+          const [id, question, answer] = CSVLib.ParseLine(line)
           const record = { id, answer, options: [answer] }
           if (!recordsMap[id])
             recordsMap[id] = record
@@ -75,7 +78,7 @@ export class ContractAI extends KishiModel {
     let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
       let answer: string
       const record = records.find((record) => record.id == String(idx + 1))!
-      let options = [...new Set(record.options.filter(o => o))].sort((a, b) => a.length - b.length)
+      let options = [...new Set(record.options.filter(o => o))].sort((a, b) => b.length - a.length)
       answer = record.options[0] || ""
       if (answer) {
       } else {
@@ -88,10 +91,17 @@ export class ContractAI extends KishiModel {
   }
   static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
-    const [first, ...lines] = content.split("\n")
-    const records = CSVLib.ParseLines(lines).map(([id, clause, subClause, question, answer]) => {
-      return { id, clause, subClause, question, answer }
-    })
+    const lines = content.split("\n")
+    let records: any[] = []
+    for (const line of lines) {
+      try {
+        let [id, question, answer] = CSVLib.ParseLine(line)
+        answer = answer || question
+        const record = { id, answer, options: [answer] }
+        if (id)
+          records.push(record)
+      } catch (error) { }
+    }
     let answers = cloneDeep(row.form?.form)?.map((question, idx) => {
       let answer: string
       const record = records.find((record) => record.id == String(idx + 1))!
