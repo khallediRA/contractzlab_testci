@@ -161,7 +161,11 @@ export class ReportRouter {
               })
             }
             let params: ISubClause["params"] = []
-            for (const idx of [1, 2, 3, 4]) {
+            let paramIndesxes = []
+            for (let i = 1; i <= 20; i++) {
+              paramIndesxes.push(i);
+            }
+            for (const idx of paramIndesxes) {
               if (!record[`Param${idx}`] || !record[`Param${idx}_type`]) continue
               params.push({
                 name: record[`Param${idx}`],
