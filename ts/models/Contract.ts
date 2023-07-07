@@ -4,6 +4,7 @@ import { isOfType } from "../utils/user";
 import { IUser, IContract, IDocument } from "../interfaces";
 import { Document } from "./Document";
 import { Op } from "sequelize";
+import { intersectionWith } from "lodash";
 
 export class Contract extends KishiModel {
   static crudOptions: CrudOptions = {
@@ -81,6 +82,18 @@ export class Contract extends KishiModel {
     },
     clientId: {
       type: KishiDataTypes.UUID,
+    },
+    level: {
+      type: KishiDataTypes.VIRTUAL,
+      fromView: false,
+      get() {
+        if (intersectionWith(Object.keys(this.dataValues), ["level1Id", "level2Id", "level3Id"]).length < 3)
+          return undefined
+        return this.dataValues["level3Id"] && 3 ||
+          this.dataValues["level2Id"] && 2 ||
+          this.dataValues["level1Id"] && 1 ||
+          0
+      },
     }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
@@ -135,7 +148,7 @@ export class Contract extends KishiModel {
       const user = (options as any).user as IUser
       attributes.set("clientId", user?.id)
     },
-    afterCreate(instance){
+    afterCreate(instance) {
 
     },
     async afterFind(instancesOrInstance, options) {

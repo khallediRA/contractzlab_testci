@@ -1,61 +1,9 @@
 {
     "_type": "export",
     "__export_format": 4,
-    "__export_date": "2023-06-01T19:20:44.209Z",
-    "__export_source": "insomnia.desktop.app:v2023.2.2",
+    "__export_date": "2023-07-07T19:49:49.943Z",
+    "__export_source": "insomnia.desktop.app:v2023.4.0",
     "resources": [
-        {
-            "_id": "req_ca2ccc2b02ce401f8908f0ed8718661f",
-            "parentId": "fld_0ccdee58d1044d5ca8138d0d4e029818",
-            "modified": 1683801266893,
-            "created": 1683467198991,
-            "url": "https://api.openai.com/v1/models",
-            "name": "models",
-            "description": "",
-            "method": "GET",
-            "body": {},
-            "parameters": [],
-            "headers": [
-                {
-                    "id": "pair_26e47623d6e7432b831439bd78c8e80f",
-                    "name": "Authorization",
-                    "value": "Bearer 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",
-                    "description": ""
-                }
-            ],
-            "authentication": {},
-            "metaSortKey": -1683467198991,
-            "isPrivate": false,
-            "settingStoreCookies": true,
-            "settingSendCookies": true,
-            "settingDisableRenderRequestBody": false,
-            "settingEncodeUrl": true,
-            "settingRebuildPath": true,
-            "settingFollowRedirects": "global",
-            "_type": "request"
-        },
-        {
-            "_id": "fld_0ccdee58d1044d5ca8138d0d4e029818",
-            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
-            "modified": 1683467184699,
-            "created": 1683467184699,
-            "name": "openAI",
-            "description": "",
-            "environment": {},
-            "environmentPropertyOrder": null,
-            "metaSortKey": -1683467184699,
-            "_type": "request_group"
-        },
-        {
-            "_id": "wrk_7f2ddf427d824065a2147b705c194052",
-            "parentId": null,
-            "modified": 1678129564068,
-            "created": 1678129564068,
-            "name": "contractzlab",
-            "description": "",
-            "scope": "collection",
-            "_type": "workspace"
-        },
         {
             "_id": "req_00d1ce9f1bc14d709becf57aa1d17add",
             "parentId": "fld_fb6b1febdaed462c81fb46fac3cb2e24",
@@ -110,6 +58,16 @@
             "environmentPropertyOrder": null,
             "metaSortKey": -1662641171616,
             "_type": "request_group"
+        },
+        {
+            "_id": "wrk_7f2ddf427d824065a2147b705c194052",
+            "parentId": null,
+            "modified": 1678129564068,
+            "created": 1678129564068,
+            "name": "contractzlab",
+            "description": "",
+            "scope": "collection",
+            "_type": "workspace"
         },
         {
             "_id": "req_447c309a09714969957f325eaf517a26",
@@ -582,7 +540,7 @@
         {
             "_id": "req_4f05e74ed5ed4bed98d5bad77196d59b",
             "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-            "modified": 1683570118552,
+            "modified": 1688568318629,
             "created": 1678129839086,
             "url": "{{ _.host }}/ContractTemplate/",
             "name": "a template",
@@ -830,7 +788,7 @@
         {
             "_id": "req_e63dc91a98584ba093c5d98c2f480c13",
             "parentId": "fld_98910d9e629f4322bb62adabb3bdb687",
-            "modified": 1683814823259,
+            "modified": 1687804508367,
             "created": 1678365068633,
             "url": "{{ _.host }}/report/importContractTemplate",
             "name": "import template from csv or xlsx",
@@ -844,7 +802,7 @@
                         "value": "",
                         "id": "pair_9616102c4823496f8693bc497b7ce7f0",
                         "type": "file",
-                        "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\ContractTemplate.xlsx"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\docs\\ContractTemplate.xlsx"
                     }
                 ]
             },
@@ -1056,7 +1014,7 @@
         {
             "_id": "req_4e3de50ef5334d7aa5dff0530ec48ae8",
             "parentId": "fld_ecd4669925924733976c3df18145b39d",
-            "modified": 1679417036990,
+            "modified": 1687805459329,
             "created": 1679266574025,
             "url": "{{ _.host }}/Contract/",
             "name": "a contract",
@@ -1074,7 +1032,7 @@
                 {
                     "id": "pair_615d230587f14f8d979756ce6e93c5b7",
                     "name": "id",
-                    "value": "9",
+                    "value": "4",
                     "description": ""
                 }
             ],
@@ -1100,7 +1058,7 @@
         {
             "_id": "req_b33f038397b54eea9e1709a7e96d57d9",
             "parentId": "fld_ecd4669925924733976c3df18145b39d",
-            "modified": 1679418171677,
+            "modified": 1687805434591,
             "created": 1679266574019,
             "url": "{{ _.host }}/Contract/",
             "name": "create a contract",
@@ -1108,7 +1066,7 @@
             "method": "POST",
             "body": {
                 "mimeType": "application/json",
-                "text": "{\n  \"data\": {\n    \"templateId\": 2,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"status\": \"draft\",\n    \"name\": \"Contract Name 2\"\n  }\n}"
+                "text": "{\n  \"data\": {\n    \"templateId\": 5,\n    \"paramValues\": {\n      \"bilingMethod\": \"License\",\n      \"Personelle\": \"non personnel\",\n      \"text12\": \"12\",\n      \"text13\": \"13\",\n      \"date\": \"2023-03-09\",\n\t\t\t\"SH\":1,\n      \"tacite\": true\n    },\n    \"excludedSubClauses\": [],\n    \"excludedClauses\": [],\n    \"status\": \"draft\",\n    \"name\": \"Contract Name 3\"\n  }\n}"
             },
             "parameters": [
                 {
@@ -1196,6 +1154,115 @@
             ],
             "authentication": {},
             "metaSortKey": -1658057415742,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "req_143a7840fdd2443aad02b16921f6dc58",
+            "parentId": "fld_046a715a14aa4e9aa49e25e37e9b6282",
+            "modified": 1688759103523,
+            "created": 1688759048340,
+            "url": "{{ _.host }}/ContractUnion/all",
+            "name": "all contractUnions",
+            "description": "",
+            "method": "GET",
+            "body": {},
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415917,
+            "isPrivate": false,
+            "settingStoreCookies": true,
+            "settingSendCookies": true,
+            "settingDisableRenderRequestBody": false,
+            "settingEncodeUrl": true,
+            "settingRebuildPath": true,
+            "settingFollowRedirects": "global",
+            "_type": "request"
+        },
+        {
+            "_id": "fld_046a715a14aa4e9aa49e25e37e9b6282",
+            "parentId": "wrk_7f2ddf427d824065a2147b705c194052",
+            "modified": 1688759048336,
+            "created": 1688759048336,
+            "name": "ContractUnion",
+            "description": "",
+            "environment": {},
+            "environmentPropertyOrder": null,
+            "metaSortKey": -1660999458556.8516,
+            "_type": "request_group"
+        },
+        {
+            "_id": "req_5167f24d3d284d06995da69ebd755d84",
+            "parentId": "fld_046a715a14aa4e9aa49e25e37e9b6282",
+            "modified": 1688759338043,
+            "created": 1688759048378,
+            "url": "{{ _.host }}/ContractUnion/all",
+            "name": "filter contractUnions",
+            "description": "",
+            "method": "POST",
+            "body": {
+                "mimeType": "application/json",
+                "text": "{\n\t\"where\":{\n\t\t\t\"level1Id\": 2\n\t}\n}"
+            },
+            "parameters": [
+                {
+                    "id": "pair_f556f8b94d824e6ebc07d875a0dce577",
+                    "name": "schema",
+                    "value": "nested",
+                    "description": "",
+                    "disabled": false
+                },
+                {
+                    "id": "pair_895a7a55d5d941f09a31007204e84762",
+                    "name": "page",
+                    "value": "50:1",
+                    "description": "",
+                    "disabled": true
+                }
+            ],
+            "headers": [
+                {
+                    "id": "pair_070c8d59e29d42688e9ceedc885b937c",
+                    "name": "user-token",
+                    "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "name": "Content-Type",
+                    "value": "application/json"
+                }
+            ],
+            "authentication": {},
+            "metaSortKey": -1658057415913.875,
             "isPrivate": false,
             "settingStoreCookies": true,
             "settingSendCookies": true,
@@ -1455,7 +1522,7 @@
         {
             "_id": "req_ececaf7044c34ef19c0645b494280f77",
             "parentId": "fld_ebdf262661b54d0f99fc713b21e558e9",
-            "modified": 1685645931774,
+            "modified": 1688421745758,
             "created": 1685645842998,
             "url": "{{ _.host }}/report/importContractAIForm",
             "name": "import form from csv or xlsx",
@@ -1469,7 +1536,7 @@
                         "value": "",
                         "id": "pair_9616102c4823496f8693bc497b7ce7f0",
                         "type": "file",
-                        "fileName": "F:\\Projects\\contractzlab\\backend\\docs\\ContractAIForm.xlsx"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\ContractAIForm.xlsx"
                     }
                 ]
             },
@@ -1579,7 +1646,7 @@
         {
             "_id": "req_3cf120bf78224e048b4dba0d5838024e",
             "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685373559290,
+            "modified": 1686246394043,
             "created": 1683052256672,
             "url": "{{ _.host }}/ContractAI/",
             "name": "a contract",
@@ -1607,6 +1674,12 @@
                     "name": "user-token",
                     "value": "{{ _.token }}",
                     "description": ""
+                },
+                {
+                    "id": "pair_d280ec6f6c62455d87233511d7c594bf",
+                    "name": "",
+                    "value": "",
+                    "description": ""
                 }
             ],
             "authentication": {},
@@ -1621,66 +1694,9 @@
             "_type": "request"
         },
         {
-            "_id": "req_5a6108ebd2c84913a25aefbfed13eb38",
-            "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685099468351,
-            "created": 1683052256666,
-            "url": "{{ _.host }}/ContractAI/",
-            "name": "create a contract",
-            "description": "",
-            "method": "POST",
-            "body": {
-                "mimeType": "application/json",
-                "text": "{\n  \"data\": {\n    \"formId\": 4,\n    \"status\": \"draft\",\n    \"name\": \"Contract AI Name 4\"\n  }\n}"
-            },
-            "parameters": [
-                {
-                    "id": "pair_545efb00428f4dcc87bf565be7f3c311",
-                    "name": "schema",
-                    "value": "nested",
-                    "description": ""
-                }
-            ],
-            "headers": [
-                {
-                    "name": "Content-Type",
-                    "value": "application/json",
-                    "id": "pair_2a60cc4c18e442dea3b90561c7d7b1d6"
-                },
-                {
-                    "id": "pair_bbd3037fdee1467b8c4662f5ebb15a3e",
-                    "name": "user-token",
-                    "value": "{{ _.token }}",
-                    "description": ""
-                },
-                {
-                    "id": "pair_42692ec0bbbb4cc293b3e9e8177b4a9e",
-                    "name": "",
-                    "value": "",
-                    "description": ""
-                },
-                {
-                    "id": "pair_7f0752f5586d46dbb11840fc82f03a6f",
-                    "name": "",
-                    "value": "",
-                    "description": ""
-                }
-            ],
-            "authentication": {},
-            "metaSortKey": -1658057415767,
-            "isPrivate": false,
-            "settingStoreCookies": true,
-            "settingSendCookies": true,
-            "settingDisableRenderRequestBody": false,
-            "settingEncodeUrl": true,
-            "settingRebuildPath": true,
-            "settingFollowRedirects": "global",
-            "_type": "request"
-        },
-        {
             "_id": "req_c3a0d5c7f0234d42afb3077ab190a62e",
             "parentId": "fld_5cfef9030c3443d2ad7f26ef24960f8d",
-            "modified": 1685453135885,
+            "modified": 1688425773091,
             "created": 1685282681230,
             "url": "{{ _.host }}/ContractAI",
             "name": "create with file",
@@ -1694,18 +1710,18 @@
                         "value": "",
                         "id": "pair_b49b99a63b124406b96811fba40fc087",
                         "type": "file",
-                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\PROJET AVENANT 2022 CONTRAT DE VENTE LTT.pdf"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\confidential\\Contrat saas.docx"
                     },
                     {
                         "id": "pair_210b05bfa3be4cee8416bca9909fa93a",
                         "name": "name",
-                        "value": "PROJET AVENANT",
+                        "value": "CONTRAT-SAAS-48",
                         "description": ""
                     },
                     {
                         "id": "pair_2d84af9328ed4a18a2e5c0668fd5f81a",
                         "name": "formId",
-                        "value": "8",
+                        "value": "10",
                         "description": ""
                     }
                 ]
@@ -1734,6 +1750,12 @@
                     "id": "pair_4b23175607a943998aa0690be3a1e260",
                     "name": "user-token",
                     "value": "{{ _.token }}",
+                    "description": ""
+                },
+                {
+                    "id": "pair_a56983b76825463bbfa45fa8e4c978bc",
+                    "name": "",
+                    "value": "",
                     "description": ""
                 }
             ],
@@ -1928,7 +1950,7 @@
         {
             "_id": "req_013f218dbfdb4970a8f7442491f75e24",
             "parentId": "fld_f901bac5323741e4aaf9e23c46a2b095",
-            "modified": 1679606667636,
+            "modified": 1687805344891,
             "created": 1679602744640,
             "url": "{{ _.host }}/Document/",
             "name": "create a document",
@@ -1942,7 +1964,7 @@
                         "value": "",
                         "id": "pair_2eba2fd3f45e4eb6b1ee7d58d323cc0b",
                         "type": "file",
-                        "fileName": "F:\\Projects\\node\\Contractzlab-api\\docs\\Insomnia.json"
+                        "fileName": "F:\\Projects\\contractzlab\\backend\\docs\\Screenshot0.png"
                     },
                     {
                         "id": "pair_4384d69f9d594da9a2ac9469693ee361",

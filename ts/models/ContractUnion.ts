@@ -1,3 +1,4 @@
+import { intersectionWith } from "lodash";
 import { KishiModel, KishiModelAttributes, KishiDataTypes, typesOfKishiAssociationOptions, CrudOptions, KishiModelOptions } from "../sequelize";
 import { isOfType } from "../utils/user";
 import { Contract } from "./Contract";
@@ -46,6 +47,18 @@ export class ContractUnion extends KishiModel {
         { associationName: "contractAI", targetField: "level3Id" },
       ]
     },
+    level: {
+      type: KishiDataTypes.VIRTUAL,
+      fromView: false,
+      get() {
+        if (intersectionWith(Object.keys(this.dataValues), ["level1Id", "level2Id", "level3Id"]).length < 3)
+          return undefined
+        return this.dataValues["level3Id"] && 3 ||
+          this.dataValues["level2Id"] && 2 ||
+          this.dataValues["level1Id"] && 1 ||
+          0
+      },
+    },
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
     contract: {
@@ -53,8 +66,8 @@ export class ContractUnion extends KishiModel {
       target: "Contract",
       foreignKey: "contractId",
       schemaMap: {
-        "nested": "pure",
-        "full": "pure",
+        "nested": null,
+        "full": null,
       },
     },
     contractAI: {
@@ -62,8 +75,8 @@ export class ContractUnion extends KishiModel {
       target: "ContractAI",
       foreignKey: "contractAIId",
       schemaMap: {
-        "nested": "pure",
-        "full": "pure",
+        "nested": null,
+        "full": null,
       },
     },
     level1: {
@@ -109,18 +122,31 @@ export class ContractUnion extends KishiModel {
       "Contract": "contractId",
       "ContractAI": "contractAIId",
     }
+    const fields = ["clientId", "name", "level1Id", "level2Id", "level3Id", "clientId"]
     for (const Model of [Contract, ContractAI]) {
       const fieldName = fieldMap[Model.name]
       const modelCount = await Model.count()
       const unionCount = await this.count({ where: { type: Model.name } })
       if (modelCount != unionCount) {
-        const fields = ["clientId", "name", "level1Id", "level2Id", "level3Id", "clientId"]
-        const bulkData = (await Model.findAll({ attributes: ["id", ...fields] })).map(row => {
+        let bulkData = (await Model.findAll({ attributes: ["id", ...fields] })).map(row => {
           const { id, clientId, name, level1Id, level2Id, level3Id } = row.dataValues
           return { [fieldName]: id, type: Model.name, clientId, name, level1Id, level2Id, level3Id }
         })
-        await this.bulkCreate(bulkData, { ignoreDuplicates: true })
+        const duplicates = await this.findAll({ attributes: [fieldName, "type"], where: { type: Model.name } })
+        bulkData = bulkData.filter(data => !duplicates.find(duplicate => duplicate.dataValues[fieldName] == data[fieldName]))
+        if (bulkData.length)
+          await this.bulkCreate(bulkData, { ignoreDuplicates: true })
       }
+      Model.afterCreate(async (instance, options) => {
+        let data: any = {
+          type: Model.name,
+          [fieldName]: instance.id,
+        }
+        for (const field of fields) {
+          data[field] = instance.dataValues[field]
+        }
+        await this.create(data, { transaction: options.transaction })
+      })
     }
   }
 }

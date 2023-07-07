@@ -61,6 +61,7 @@ export class ModelRouter {
       const [name, order] = orderBy.split(":")
       findOptions.order = [[name, order]]
     } else {
+      findOptions.order = [["id", "DESC"]]
     }
     const where = req.body?.where
     if (where) {

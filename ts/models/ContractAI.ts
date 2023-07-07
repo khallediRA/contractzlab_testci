@@ -9,7 +9,7 @@ import { optimizeStr, replaceLast, splitByMax } from "../utils/string";
 import DocxLib from "../utils/docx";
 import { OpenAIService, chatCompletion } from "../services/openAPI";
 import { ContractAIForm } from "./ContractAIForm";
-import { cloneDeep } from "lodash";
+import { cloneDeep, intersectionWith } from "lodash";
 import { CSVLib } from "../utils/csv";
 
 const userPromptMaxLength = 8192 * 2
@@ -235,6 +235,18 @@ export class ContractAI extends KishiModel {
     },
     clientId: {
       type: KishiDataTypes.UUID,
+    },
+    level: {
+      type: KishiDataTypes.VIRTUAL,
+      fromView: false,
+      get() {
+        if (intersectionWith(Object.keys(this.dataValues), ["level1Id", "level2Id", "level3Id"]).length < 3)
+          return undefined
+        return this.dataValues["level3Id"] && 3 ||
+          this.dataValues["level2Id"] && 2 ||
+          this.dataValues["level1Id"] && 1 ||
+          0
+      },
     }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {

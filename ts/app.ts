@@ -23,6 +23,7 @@ import { ZoomService } from "./services/zoom";
 import { OSMRouter } from "./routers/osm";
 import { MailService } from "./services/mail";
 import { ReportRouter } from "./routers/report";
+import { DataBinder } from "./services/DataBinder";
 
 
 const { uploadPath } = config;
@@ -45,15 +46,9 @@ dbSync.then(async sequelize => {
   } finally {
     return sequelize
   }
-})
-
-dbSync.then(async sequelize => {
+}).then(async sequelize => {
   try {
-    for (const modelName in models) {
-      const prom = models[modelName].AfterSync?.(sequelize)
-      if (prom)
-        await prom
-    }
+    await DataBinder.Init(models)
   } catch (error) {
     console.error(error);
   } finally {
