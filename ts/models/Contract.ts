@@ -55,11 +55,62 @@ export class Contract extends KishiModel {
         return this.dataValues["fileNames"] || {}
       },
     },
+    level1Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "template",
+        targetField: "level1Id"
+      }
+    },
+    level2Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "template",
+        targetField: "level2Id"
+      }
+    },
+    level3Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "template",
+        targetField: "level3Id"
+      }
+    },
     clientId: {
       type: KishiDataTypes.UUID,
     }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
+    level1: {
+      type: "belongsTo",
+      target: "TypeLevel1",
+      foreignKey: "level1Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
+    level2: {
+      type: "belongsTo",
+      target: "TypeLevel2",
+      foreignKey: "level2Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
+    level3: {
+      type: "belongsTo",
+      target: "TypeLevel3",
+      foreignKey: "level3Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
     template: {
       type: "belongsTo",
       target: "ContractTemplate",
@@ -83,6 +134,9 @@ export class Contract extends KishiModel {
     async beforeCreate(attributes, options) {
       const user = (options as any).user as IUser
       attributes.set("clientId", user?.id)
+    },
+    afterCreate(instance){
+
     },
     async afterFind(instancesOrInstance, options) {
       const paths = Contract.FindOptionsToPaths(options)

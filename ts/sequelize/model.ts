@@ -407,8 +407,11 @@ export class KishiModel extends Model {
       }
       attribute = attribute as KishiModelAttributeColumnOptions
       initDataType(this, attributeName, attribute)
-      if (attribute.binder?.hardBind) {
-        attribute.fromView = false
+      const binders = Array.isArray(attribute.binder) ? attribute.binder! : [attribute.binder!].filter(b => b)
+      for (const binder of binders) {
+        if (binder.hardBind) {
+          attribute.fromView = false
+        }
       }
       this.initialAttributes[attributeName] = attribute;
       (attribute.type as KishiDataType)?.Init?.(this, attribute);
@@ -908,8 +911,9 @@ export class KishiModel extends Model {
     }
     for (const sourceField in this.rawAttributes) {
       const attribute = this.rawAttributes[sourceField] as KishiModelAttributeColumnOptions
-      if (attribute.binder) {
-        const { associationName, targetField } = attribute.binder
+      const binders = Array.isArray(attribute.binder) ? attribute.binder! : [attribute.binder!].filter(b => b)
+      for (const binder of binders) {
+        const { associationName, targetField } = binder
         const association = this.finalAssociations[associationName]
         if (!association)
           throw `Unvalid Association ${this.name}.${associationName}`
@@ -937,7 +941,7 @@ export class KishiModel extends Model {
               if (targetId) {
                 target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
               }
-              if (target || attribute.binder?.hardBind)
+              if (target || binder?.hardBind)
                 await this.update({ [sourceField]: target?.getDataValue(targetField) || null }, { where: { [sourceKey]: targetId } })
             })
           }
@@ -945,7 +949,7 @@ export class KishiModel extends Model {
             const target = await Target.findOne({ attributes: [targetKey, targetField], where: { [targetKey]: targetId } })
             value = target?.getDataValue(targetField) || null
           }
-          if (value || attribute.binder?.hardBind)
+          if (value || binder?.hardBind)
             instance.setDataValue(sourceField, value)
         }
 
@@ -984,7 +988,7 @@ export class KishiModel extends Model {
           }
         })
 
-        if (attribute.binder?.hardBind)
+        if (binder?.hardBind)
           Target.afterBulkDestroy(async (options) => {
             await this.update({ [sourceField]: null }, { where: { [sourceKey]: null }, transaction: options.transaction })
           })

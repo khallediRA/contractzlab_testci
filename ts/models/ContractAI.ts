@@ -209,11 +209,62 @@ export class ContractAI extends KishiModel {
         this.setDataValue("summarySheet", JSON.stringify(data))
       },
     },
+    level1Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "form",
+        targetField: "level1Id"
+      }
+    },
+    level2Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "form",
+        targetField: "level2Id"
+      }
+    },
+    level3Id: {
+      type: KishiDataTypes.INTEGER,
+      binder: {
+        hardBind: true,
+        associationName: "form",
+        targetField: "level3Id"
+      }
+    },
     clientId: {
       type: KishiDataTypes.UUID,
     }
   };
   static initialAssociations: { [key: string]: typesOfKishiAssociationOptions } = {
+    level1: {
+      type: "belongsTo",
+      target: "TypeLevel1",
+      foreignKey: "level1Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
+    level2: {
+      type: "belongsTo",
+      target: "TypeLevel2",
+      foreignKey: "level2Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
+    level3: {
+      type: "belongsTo",
+      target: "TypeLevel3",
+      foreignKey: "level3Id",
+      actionMap: { Create: null, Update: null, Link: null },
+      schemaMap: {
+        "nested": "pure",
+      },
+    },
     form: {
       type: "belongsTo",
       target: "ContractAIForm",
@@ -221,15 +272,6 @@ export class ContractAI extends KishiModel {
       schemaMap: {
         "nested": "pure",
         "full": "full",
-      },
-    },
-    responses: {
-      type: "hasMany",
-      target: "ContractAIResponse",
-      foreignKey: "contractAIId",
-      schemaMap: {
-        "nested": null,
-        "full": "pure",
       },
     },
     client: {
@@ -241,6 +283,7 @@ export class ContractAI extends KishiModel {
         "full": "pure",
       },
     },
+
   };
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async beforeCreate(instance: ContractAI, options) {

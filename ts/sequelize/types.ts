@@ -126,11 +126,11 @@ export interface KishiModelAttributeColumnOptions extends ModelAttributeColumnOp
    * bind this attribute to an association field
    * @example "string","Number","any"
    */
-  binder?: {
+  binder?: TorArray<{
     associationName: string;
     targetField: string;
     hardBind?: boolean;
-  }
+  }>
 }
 /**
  * Model Attributes to define a Model

@@ -49,6 +49,8 @@ import { Document } from "./Document";
 import { ContractTemplate, ContractTemplate_Clause } from "./ContractTemplate";
 import { OpenAIResponseLog } from "./OpenAIResponseLog";
 export { OpenAIResponseLog } from "./OpenAIResponseLog";
+import { ContractUnion } from "./ContractUnion";
+export { ContractUnion } from "./ContractUnion";
 
 export { User } from "./User";
 export { ExternalToken } from "./ExternalToken";
@@ -59,6 +61,7 @@ export const models: {
   [name: string]: typeof KishiModel;
 } = {
   OpenAIResponseLog,
+  ContractUnion,
   ExternalToken,
   User,
   Admin,
