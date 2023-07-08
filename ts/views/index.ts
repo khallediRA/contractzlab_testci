@@ -1,4 +1,5 @@
 export * from "./IOpenAIResponseLog";
+export * from "./IContractUnion";
 export * from "./IExternalToken";
 export * from "./IUser";
 export * from "./IAdmin";
@@ -22,6 +23,7 @@ export * from "./IContractAIResponse";
 export * from "./IEvent";
 export * from "./IEvent_User";
 export * from "./IOpenAIResponseLog";
+export * from "./IContractUnion";
 export * from "./IExternalToken";
 export * from "./IUser";
 export * from "./IAdmin";

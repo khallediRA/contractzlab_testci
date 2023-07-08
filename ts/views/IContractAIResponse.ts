@@ -8,7 +8,7 @@ export type IContractAIResponse = {
 	createdAt?: Date;
 	updatedAt?: Date;
 	contractAIId?: number;
-	contractAI?: Omit<IContractAI, "responses" | "responsesId">;
+	contractAI?: Omit<IContractAI, "ContractAIResponse_as_contractAI" | "ContractAIResponse_as_contractAIId">;
 
 }
 export const keysofIContractAIResponse: (keyof IContractAIResponse)[] = ["id", "externalId", "info", "content", "createdAt", "updatedAt", "contractAIId", "contractAI"]

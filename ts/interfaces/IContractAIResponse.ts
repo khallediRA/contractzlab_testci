@@ -8,6 +8,6 @@ export interface IContractAIResponse {
 	createdAt?: Date;
 	updatedAt?: Date;
 	contractAIId?: number;
-	contractAI?: Omit<IContractAI, "responses" | "responsesId">;
+	contractAI?: Omit<IContractAI, "ContractAIResponse_as_contractAI" | "ContractAIResponse_as_contractAIId">;
 
 }

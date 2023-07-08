@@ -239,6 +239,7 @@ export class ContractAI extends KishiModel {
     level: {
       type: KishiDataTypes.VIRTUAL,
       fromView: false,
+      ts_typeStr: "3 | 2 | 1 | 0",
       get() {
         if (intersectionWith(Object.keys(this.dataValues), ["level1Id", "level2Id", "level3Id"]).length < 3)
           return undefined
