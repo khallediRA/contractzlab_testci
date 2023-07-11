@@ -26,6 +26,13 @@ export class ContractUnion extends KishiModel {
         { associationName: "contractAI", targetField: "name" },
       ]
     },
+    status: {
+      type: KishiDataTypes.STRING,
+      binder: [
+        { associationName: "contract", targetField: "status" },
+        { associationName: "contractAI", targetField: "status" },
+      ]
+    },
     level1Id: {
       type: KishiDataTypes.INTEGER,
       binder: [
@@ -45,6 +52,20 @@ export class ContractUnion extends KishiModel {
       binder: [
         { associationName: "contract", targetField: "level3Id" },
         { associationName: "contractAI", targetField: "level3Id" },
+      ]
+    },
+    updatedAt: {
+      type: KishiDataTypes.DATE,
+      binder: [
+        { associationName: "contract", targetField: "updatedAt" },
+        { associationName: "contractAI", targetField: "updatedAt" },
+      ]
+    },
+    createdAt: {
+      type: KishiDataTypes.DATE,
+      binder: [
+        { associationName: "contract", targetField: "createdAt" },
+        { associationName: "contractAI", targetField: "createdAt" },
       ]
     },
     level: {
@@ -112,6 +133,7 @@ export class ContractUnion extends KishiModel {
     },
   };
   static initialOptions: KishiModelOptions = {
+    timestamps:false,
     indexes: [
       { fields: ["type", "contractId"], unique: true, name: "ContractUnion_contract" },
       { fields: ["type", "contractAIId"], unique: true, name: "ContractUnion_contractAI" },
