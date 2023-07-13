@@ -14,6 +14,7 @@ export interface IContractAI {
 	textFile?: { key: string, url: string };
 	openAIId?: string;
 	summarySheet?: [string, string, string, string][];
+	aiResponsesStatus?: [string, 0 | 1 | 2][];
 	level1Id?: number;
 	level2Id?: number;
 	level3Id?: number;

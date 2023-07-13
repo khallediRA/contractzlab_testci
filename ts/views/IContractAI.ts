@@ -14,6 +14,7 @@ export type IContractAI = {
 	textFile?: { key: string, url: string };
 	openAIId?: string;
 	summarySheet?: [string, string, string, string][];
+	aiResponsesStatus?: [string, 0 | 1 | 2][];
 	level1Id?: number;
 	level2Id?: number;
 	level3Id?: number;
@@ -34,4 +35,4 @@ export type IContractAI = {
 	ContractAIResponse_as_contractAIId?: (number)[];
 
 }
-export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "file", "textFile", "openAIId", "summarySheet", "level1Id", "level2Id", "level3Id", "clientId", "level", "createdAt", "updatedAt", "formId", "display", "level1", "level2", "level3", "form", "client", "ContractUnion_as_contractAI", "ContractUnion_as_contractAIId", "ContractAIResponse_as_contractAI", "ContractAIResponse_as_contractAIId"]
+export const keysofIContractAI: (keyof IContractAI)[] = ["id", "status", "name", "file", "textFile", "openAIId", "summarySheet", "aiResponsesStatus", "level1Id", "level2Id", "level3Id", "clientId", "level", "createdAt", "updatedAt", "formId", "display", "level1", "level2", "level3", "form", "client", "ContractUnion_as_contractAI", "ContractUnion_as_contractAIId", "ContractAIResponse_as_contractAI", "ContractAIResponse_as_contractAIId"]

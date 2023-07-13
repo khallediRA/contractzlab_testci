@@ -53,7 +53,7 @@ export class ContractAI extends KishiModel {
       ?.replace("${form}", promptSurvey)!
     return [systemPrompt, userPrompt]
   }
-  static async processAIMultiCallResponse(row: IContractAI, completions: chatCompletion[]): Promise<void> {
+  static async processAIMultiCallResponse(row: ContractAI & IContractAI, completions: chatCompletion[]): Promise<void> {
     let recordsMap: Record<string, {
       id: string;
       answer: string;
@@ -88,8 +88,12 @@ export class ContractAI extends KishiModel {
     })
     const summarySheet = answers
     row.summarySheet = summarySheet as any
+    const aiResponsesStatus = row.summarySheet!.map(([clause, subClause, question, answer]) => {
+      return [answer, 0]
+    })
+    row.setDataValue("aiResponsesStatus", JSON.stringify(aiResponsesStatus))
   }
-  static async processAIResponse(row: IContractAI, completion: chatCompletion): Promise<void> {
+  static async processAIResponse(row: ContractAI & IContractAI, completion: chatCompletion): Promise<void> {
     const content = completion.choices[0].message.content as string
     const lines = content.split("\n")
     let records: any[] = []
@@ -114,6 +118,10 @@ export class ContractAI extends KishiModel {
     })
     const summarySheet = answers
     row.summarySheet = summarySheet as any
+    const aiResponsesStatus = row.summarySheet!.map(([clause, subClause, question, answer]) => {
+      return [answer, 0]
+    })
+    row.setDataValue("aiResponsesStatus", JSON.stringify(aiResponsesStatus))
   }
   async handleNewFile() {
     let instance = this as ContractAI & IContractAI
@@ -203,10 +211,28 @@ export class ContractAI extends KishiModel {
       get() {
         return JSON.parse(this.getDataValue("summarySheet") || "[]")
       },
-      set(value: string | [string, string][]) {
-        value = value || []
-        const data = Array.isArray(value) ? value : [value]
+      set(value: [string, string][]) {
+        const data = value || []
         this.setDataValue("summarySheet", JSON.stringify(data))
+      },
+    },
+    aiResponsesStatus: {
+      type: new KishiDataTypes.TEXT(),
+      ts_typeStr: "[string, 0 | 1 | 2][]",
+
+      get() {
+        return JSON.parse(this.getDataValue("aiResponsesStatus") || "[]")
+      },
+      set(value: [string, string][]) {
+        let previous = this.get("aiResponsesStatus") as [string, string][]
+        if (!previous)
+          return
+        const data = value || []
+        for (let idx in previous) {
+          if (data[idx][1])
+            previous[idx][1] = data[idx][1]
+        }
+        this.setDataValue("aiResponsesStatus", JSON.stringify(previous))
       },
     },
     level1Id: {
@@ -298,6 +324,7 @@ export class ContractAI extends KishiModel {
     },
 
   };
+
   static initialHooks: Partial<ModelHooks<KishiModel, any>> = {
     async beforeCreate(instance: ContractAI, options) {
       const user = (options as any).user as IUser
@@ -332,5 +359,18 @@ export class ContractAI extends KishiModel {
       //uncomment for new database
       // { fields: ["name", "clientId"], unique: true, name: "ContractAI_name" }
     ],
+  }
+  static async AfterSync() {
+
+    let rows = await ContractAI.findAll({ attributes: ["id", "summarySheet", "aiResponsesStatus"] }) as (ContractAI & IContractAI)[]
+    for (let row of rows) {
+      if (!row.aiResponsesStatus!.length) {
+        const aiResponsesStatus = row.summarySheet!.map(([clause, subClause, question, answer]) => {
+          return [answer, 0]
+        })
+        row.setDataValue("aiResponsesStatus", JSON.stringify(aiResponsesStatus))
+        await row.save()
+      }
+    }
   }
 }

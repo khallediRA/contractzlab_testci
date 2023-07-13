@@ -8,12 +8,13 @@ export type IContractUnion = {
 	type?: 'Contract' | 'ContractAI';
 	clientId?: string;
 	name?: string;
+	status?: string;
 	level1Id?: number;
 	level2Id?: number;
 	level3Id?: number;
-	level?: 3 | 2 | 1 | 0;
-	createdAt?: Date;
 	updatedAt?: Date;
+	createdAt?: Date;
+	level?: 3 | 2 | 1 | 0;
 	contractId?: number;
 	contractAIId?: number;
 	contract?: Omit<IContract, "ContractUnion_as_contract" | "ContractUnion_as_contractId">;
@@ -23,4 +24,4 @@ export type IContractUnion = {
 	level3?: Omit<ITypeLevel3, "ContractUnion_as_level3" | "ContractUnion_as_level3Id">;
 
 }
-export const keysofIContractUnion: (keyof IContractUnion)[] = ["id", "type", "clientId", "name", "level1Id", "level2Id", "level3Id", "level", "createdAt", "updatedAt", "contractId", "contractAIId", "contract", "contractAI", "level1", "level2", "level3"]
+export const keysofIContractUnion: (keyof IContractUnion)[] = ["id", "type", "clientId", "name", "status", "level1Id", "level2Id", "level3Id", "updatedAt", "createdAt", "level", "contractId", "contractAIId", "contract", "contractAI", "level1", "level2", "level3"]
