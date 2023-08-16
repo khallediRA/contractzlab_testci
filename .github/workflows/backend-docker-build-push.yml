@@ -61,6 +61,7 @@ jobs:
         DB_USER: root
         DB_DIALECT: mysql
         DB_PASSWORD: root
+        DB_NAME: test_db
         WEBPUSH_PUBLICKEY: BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4
         WEBPUSH_PRIVATEKEY: pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0
         SERVER_PORT: 4000
