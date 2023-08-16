@@ -3,7 +3,7 @@ name: Docker Build and Push
 on:
   push:
     branches:
-      - dev
+      - main
 
 jobs:
   build:
@@ -56,7 +56,7 @@ jobs:
     - name: Run Tests
       run: npm test
       env:
-        DB_HOST: mysql
+        DB_HOST: 127.0.0.1
         DB_PORT: ${{ job.services.mysql.ports['3306'] }} 
         DB_USER: root
         DB_DIALECT: mysql
