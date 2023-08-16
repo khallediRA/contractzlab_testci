@@ -1,0 +1,101 @@
+name: Docker Build and Push
+
+on:
+  push:
+    branches:
+      - dev
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    services:
+        mysql:
+          image: mysql:8.0
+          env:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test_db
+            MYSQL_USER: user
+            MYSQL_PASSWORD: password
+          ports:
+            - 3306:3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=10
+    
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+
+    - name: Use Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.14.0'
+        cache: 'npm'
+
+    - name: Install Dependencies
+      run: npm ci
+
+    # - name: Create .env.test for GitHub Action tests
+    #   run: |
+    #     echo "UPLOAD_PATH=uploads" >> .env
+    #     echo "LOG_PATH=logs" >> .env
+    #     echo "DB_NAME=test_db" >> .env
+    #     echo "DB_HOST=127.0.0.1" >> .env
+    #     echo "DB_PORT=3306" >> .env
+    #     echo "DB_DIALECT=mysql" >> .env
+    #     echo "DB_USER=root" >> .env
+    #     echo "DB_PASSWORD=root" >> .env
+    #     echo "ES_PREFIX=kishi" >> .env
+    #     echo "ES_HOSTS=http://localhost:9200" >> .env
+    #     echo "WEBPUSH_PUBLICKEY=BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4" >> .env
+    #     echo "WEBPUSH_PRIVATEKEY=pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0" >> .env
+    #     echo "SERVER_PORT=4000" >> .env
+    #     echo "OPENAI_API_KEY=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" >> .env
+
+
+    - name: Run Tests
+      run: npm test
+      env:
+        DB_HOST: mysql
+        DB_PORT: ${{ job.services.mysql.ports['3306'] }} 
+        DB_USER: root
+        DB_DIALECT: mysql
+        DB_PASSWORD: root
+        WEBPUSH_PUBLICKEY: BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4
+        WEBPUSH_PRIVATEKEY: pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0
+        SERVER_PORT: 4000
+
+
+    - name: Delete File After Running Tests
+      run: rm -rf .env
+
+
+    - name: Create .env Specific file
+      run: |
+        echo "UPLOAD_PATH=uploads" >> .env
+        echo "LOG_PATH=logs" >> .env
+        echo "DB_NAME=testdb" >> .env
+        echo `DB_HOST=${{job.services.mysql}}` >> .env
+        echo "DB_PORT=3306" >> .env
+        echo "DB_DIALECT=mysql" >> .env
+        echo "DB_USER=root" >> .env
+        echo "DB_PASSWORD=root" >> .env
+        echo "ES_PREFIX=kishi" >> .env
+        echo "ES_HOSTS=http://localhost:9200" >> .env
+        echo "WEBPUSH_PUBLICKEY=BGXmKrTe414M8xQzsk4OTVjGF75knACBjwzbKS-pL5-3ifayU1Gz52CmEbU1KnrQ6FB9BebBp4rZnm7Fes4y0lE" >> .env
+        echo "WEBPUSH_PRIVATEKEY=wUUG8mhDjUfCUia9EU68C4ZGWejiwAz6HfcaAgBHmvk" >> .env
+        echo "SERVER_PORT=4000" >> .env
+        echo "OPENAI_API_KEY=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" >> .env
+
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v1 
+      with:
+        username: rafik@contractzlab.com
+        password: dckr_pat_KHiGcPILVfMHW8piPwkidYWXggE
+
+
+    - name: Build and push Docker image
+      run: |
+        docker build -t contractzlab/test-backend-ci:${GITHUB_SHA} .
+        docker push contractzlab/test-backend-ci:${GITHUB_SHA}

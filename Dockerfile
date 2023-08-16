@@ -7,7 +7,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 RUN npm install
-
+RUN mkdir logs
 # Copy the rest of the application code to the working directory
 COPY . .
 
