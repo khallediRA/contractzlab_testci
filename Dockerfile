@@ -1,40 +1,45 @@
-FROM node:16 AS build
+# Build Stage
+FROM node:16.3.0-slim AS build
 
-# Create app directory
+# Set working directory
 WORKDIR /usr/src/app
 
-# Install app dependencies
+# Copy package files and install dependencies
 COPY package*.json ./
 
-RUN npm install
-RUN mkdir logs
-# Copy the rest of the application code to the working directory
+
+RUN npm ci
+
+# Copy necessary files for build
 COPY . .
+RUN mkdir logs && npm run build
 
-# Build the TypeScript code into JavaScript code
-RUN npm run build
+# Final Stage
+FROM node:16.3.0-slim
 
-# Final stage
-FROM node:16
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    poppler-utils \
+    libreoffice \
+    libpoppler-cpp-dev \
+    pkg-config \
+    python3-pip \
+    && pip3 install pdftotext \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* 
 
-# Install poppler-utils
-RUN apt-get update && apt-get install -y poppler-utils
+# Create a non-root user
+RUN useradd -m appuser
+USER appuser
 
-# Install LibreOffice
-RUN apt-get update && apt-get install -y libreoffice
-
-# Install pdftotext
-RUN apt-get install -y libpoppler-cpp-dev pkg-config python3-pip
-RUN pip3 install pdftotext
-
-# Copy the Node.js application code from the build stage
-COPY --from=build /usr/src/app /usr/src/app
-
-# Set the working directory to the Node.js application code
+# Set working directory
 WORKDIR /usr/src/app
 
-# Expose port 4001
-EXPOSE 4001 5432
+# Copy necessary files from build stage
+COPY --from=build /usr/src/app /usr/src/app
+
+# Expose necessary ports (5432 might not be necessary inside the container unless it's hosting a DB)
+EXPOSE 4000
 
 # Start the application
 CMD [ "npm", "start" ]

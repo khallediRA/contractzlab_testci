@@ -35,24 +35,6 @@ jobs:
     - name: Install Dependencies
       run: npm ci
 
-    # - name: Create .env.test for GitHub Action tests
-    #   run: |
-    #     echo "UPLOAD_PATH=uploads" >> .env
-    #     echo "LOG_PATH=logs" >> .env
-    #     echo "DB_NAME=test_db" >> .env
-    #     echo "DB_HOST=127.0.0.1" >> .env
-    #     echo "DB_PORT=3306" >> .env
-    #     echo "DB_DIALECT=mysql" >> .env
-    #     echo "DB_USER=root" >> .env
-    #     echo "DB_PASSWORD=root" >> .env
-    #     echo "ES_PREFIX=kishi" >> .env
-    #     echo "ES_HOSTS=http://localhost:9200" >> .env
-    #     echo "WEBPUSH_PUBLICKEY=BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4" >> .env
-    #     echo "WEBPUSH_PRIVATEKEY=pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0" >> .env
-    #     echo "SERVER_PORT=4000" >> .env
-    #     echo "OPENAI_API_KEY=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" >> .env
-
-
     - name: Run Tests
       run: npm test
       env:
@@ -76,7 +58,7 @@ jobs:
         echo "UPLOAD_PATH=uploads" >> .env
         echo "LOG_PATH=logs" >> .env
         echo "DB_NAME=testdb" >> .env
-        echo `DB_HOST=${{job.services.mysql}}` >> .env
+        echo "DB_HOST=localhost" >> .env
         echo "DB_PORT=3306" >> .env
         echo "DB_DIALECT=mysql" >> .env
         echo "DB_USER=root" >> .env
