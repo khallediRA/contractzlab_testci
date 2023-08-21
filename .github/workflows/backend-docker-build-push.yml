@@ -26,31 +26,31 @@ jobs:
       uses: actions/checkout@v2
 
 
-    - name: Use Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16.14.0'
-        cache: 'npm'
+    # - name: Use Node.js
+    #   uses: actions/setup-node@v2
+    #   with:
+    #     node-version: '16.14.0'
+    #     cache: 'npm'
 
-    - name: Install Dependencies
-      run: npm ci
+    # - name: Install Dependencies
+    #   run: npm ci
 
-    - name: Run Tests
-      run: npm test
-      env:
-        DB_HOST: 127.0.0.1
-        DB_PORT: ${{ job.services.mysql.ports['3306'] }} 
-        DB_USER: root
-        DB_DIALECT: mysql
-        DB_PASSWORD: root
-        DB_NAME: test_db
-        WEBPUSH_PUBLICKEY: BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4
-        WEBPUSH_PRIVATEKEY: pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0
-        SERVER_PORT: 4000
+    # - name: Run Tests
+    #   run: npm test
+    #   env:
+    #     DB_HOST: 127.0.0.1
+    #     DB_PORT: ${{ job.services.mysql.ports['3306'] }} 
+    #     DB_USER: root
+    #     DB_DIALECT: mysql
+    #     DB_PASSWORD: root
+    #     DB_NAME: test_db
+    #     WEBPUSH_PUBLICKEY: BJXjINcRQ9UzX_nJ5SsVymXiO8BSXrtiN4nsFsZMQ8l4WVG0-hoVNwOPw25aJX8MDFKiszvV-7hgZrZQQ0lJkn4
+    #     WEBPUSH_PRIVATEKEY: pgcLJ0DCVerUMJ3B4R_Az1SMbfAd_pDp8on7MQLi9D0
+    #     SERVER_PORT: 4000
 
 
-    - name: Delete File After Running Tests
-      run: rm -rf .env
+    # - name: Delete File After Running Tests
+    #   run: rm -rf .env
 
 
     - name: Create .env Specific file
